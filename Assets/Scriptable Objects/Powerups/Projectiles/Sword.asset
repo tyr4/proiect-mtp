@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6f0f73cde8041329791937a214eb801, type: 3}
+  m_Name: Sword
+  m_EditorClassIdentifier: Assembly-CSharp::Sword
+  <DisplayName>k__BackingField: 
+  <Description>k__BackingField: fwefwefweffwefwfwefwefwefwefwefwefwefwefwefwe
+  <Icon>k__BackingField: {fileID: -7132172409892320828, guid: 19090430e8e3380489fa03bce0627bbe, type: 3}
+  <ProjectilePrefab>k__BackingField: {fileID: 0}
+  <Cooldown>k__BackingField:
+    tier1: 0
+    tier2: 0
+    tier3: 0
+  <Damage>k__BackingField:
+    tier1: 0
+    tier2: 0
+    tier3: 0
+  <Speed>k__BackingField:
+    tier1: 0
+    tier2: 0
+    tier3: 0
+  <Count>k__BackingField:
+    tier1: 0
+    tier2: 0
+    tier3: 0
