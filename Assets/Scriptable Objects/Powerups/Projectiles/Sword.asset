@@ -12,23 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6f0f73cde8041329791937a214eb801, type: 3}
   m_Name: Sword
   m_EditorClassIdentifier: Assembly-CSharp::Sword
-  <DisplayName>k__BackingField: 
+  <DisplayName>k__BackingField: Sword
   <Description>k__BackingField: fwefwefweffwefwfwefwefwefwefwefwefwefwefwefwe
   <Icon>k__BackingField: {fileID: -7132172409892320828, guid: 19090430e8e3380489fa03bce0627bbe, type: 3}
   <ProjectilePrefab>k__BackingField: {fileID: 0}
   <Cooldown>k__BackingField:
-    tier1: 0
-    tier2: 0
-    tier3: 0
+    tier1: 3
+    tier2: 2
+    tier3: 1
   <Damage>k__BackingField:
-    tier1: 0
-    tier2: 0
-    tier3: 0
+    tier1: 3
+    tier2: 4
+    tier3: 5
   <Speed>k__BackingField:
-    tier1: 0
-    tier2: 0
-    tier3: 0
+    tier1: 1
+    tier2: 2
+    tier3: 3
   <Count>k__BackingField:
-    tier1: 0
-    tier2: 0
-    tier3: 0
+    tier1: 1
+    tier2: 2
+    tier3: 3

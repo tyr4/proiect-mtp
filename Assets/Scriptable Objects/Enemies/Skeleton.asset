@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac01913b3d0e409db18a850840d93c17, type: 3}
+  m_Name: Skeleton
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyData
+  <DisplayName>k__BackingField: dumb skeleton
+  <Description>k__BackingField: 
+  <Icon>k__BackingField: {fileID: 0}
+  <Prefab>k__BackingField: {fileID: 2649042638931437101, guid: 69b6317549d10d140b5bd19e7eb561d1, type: 3}
+  <Health>k__BackingField: 100
+  <Damage>k__BackingField: 1
+  <MovementSpeed>k__BackingField: 0.7
