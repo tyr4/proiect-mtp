@@ -1,8 +1,19 @@
 ﻿
 [System.Serializable]
-public struct TierData
+public abstract class TierData
 {
-    public float tier1;
-    public float tier2;
-    public float tier3;
+    public int tier1;
+    public int tier2;
+    public int tier3;
+    
+    public float GetValue(int tier)
+    {
+        return tier switch
+        {
+            1 => tier1,
+            2 => tier2,
+            3 => tier3,
+            _ => 0
+        };
+    }
 }

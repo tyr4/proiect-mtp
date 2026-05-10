@@ -1,5 +1,4 @@
-﻿using UnityEditor.Search;
-using UnityEngine;
+﻿using UnityEngine;
 
 [CreateAssetMenu(fileName = "Enemy", menuName = "Enemies/Enemy")]
 public class EnemyData : ScriptableObject

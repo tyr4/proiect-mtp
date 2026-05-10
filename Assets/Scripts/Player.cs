@@ -53,7 +53,7 @@ public class Player : MonoBehaviour
     private void UpdateAnimation(Vector2 input)
     {
         var isWalking = input != Vector2.zero;
-        Debug.Log(isWalking + " " + input + " " + Vector2.zero);
+        // Debug.Log(isWalking + " " + input + " " + Vector2.zero);
         _animator.SetBool(IsWalking, isWalking);
         
         // TODO: logic for damage taken/death

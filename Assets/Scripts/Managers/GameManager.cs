@@ -1,0 +1,15 @@
+﻿using UnityEngine;
+
+public class GameManager : MonoBehaviour
+{
+    private void Awake()
+    {
+        Application.targetFrameRate = 60;
+        QualitySettings.vSyncCount = 0;
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
+    }
+}

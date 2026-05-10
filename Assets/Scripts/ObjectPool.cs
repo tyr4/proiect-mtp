@@ -1,44 +1,42 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectPool : MonoBehaviour
+public class ObjectPool<TKey, TValue> where TValue : Component
 {
-    private Dictionary<EnemyData, Queue<EnemyRuntime>> _pool = new();
+    private Dictionary<TKey, Queue<TValue>> _pool = new();
 
-    public EnemyRuntime Get(EnemyData data)
+    public TValue Get(TKey key, GameObject prefab)
     {
-        EnemyRuntime enemy;
-        GameObject obj;
-        
-        if (!_pool.TryGetValue(data, out var queue))
+        TValue poolObj;
+
+        if (!_pool.TryGetValue(key, out var queue))
         {
-            queue = new Queue<EnemyRuntime>();
-            _pool[data] = queue;
+            queue = new Queue<TValue>();
+            _pool[key] = queue;
         }
 
         if (queue.Count > 0)
         {
-            enemy = queue.Dequeue();
+            poolObj = queue.Dequeue();
         }
         else
         {
-            obj = Instantiate(data.Prefab);
-            enemy = obj.GetComponent<EnemyRuntime>();
+            var newObj = Object.Instantiate(prefab);
+            newObj.SetActive(false);
+            poolObj = newObj.GetComponent<TValue>();
         }
         
-        return enemy;
+        return poolObj;
     }
 
-    public void Return(EnemyRuntime enemy)
+    public void Return(TKey key, TValue value)
     {
-        enemy.gameObject.SetActive(false);
-        
-        if (!_pool.TryGetValue(enemy.Data, out var queue))
+        if (!_pool.TryGetValue(key, out var queue))
         {
-            queue = new Queue<EnemyRuntime>();
-            _pool[enemy.Data] = queue;
+            queue = new Queue<TValue>();
+            _pool[key] = queue;
         }
         
-        _pool[enemy.Data].Enqueue(enemy);
+        _pool[key].Enqueue(value);
     }
 }

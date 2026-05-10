@@ -1,5 +1,7 @@
-﻿public interface IProjectile
+﻿using UnityEngine;
+
+public interface IProjectile
 {
-    public void Tick(float deltaTime);
-    public void Shoot(Player player);
+    public void Shoot(Vector2 playerPos, Vector2 nearestEnemyPos, ProjectileManager projManager, SpatialGrid grid);
+    public void Tick(float dt, Vector2 playerPos, Vector2 nearestEnemyPos, ProjectileManager projManager, SpatialGrid grid);
 }
