@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectPool<TKey, TValue> where TValue : Component
+public class ObjectPool<TKey, TValue>
 {
     private Dictionary<TKey, Queue<TValue>> _pool = new();
 

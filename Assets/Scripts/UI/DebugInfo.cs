@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DebugInfo : MonoBehaviour
 {
+    [SerializeField] private Projectile projectileSO;
     [SerializeField] private TMP_Text fpsCounter;
     [SerializeField] private TMP_Text enemiesAlive;
     
@@ -51,5 +52,11 @@ public class DebugInfo : MonoBehaviour
     {
         _enemyCount++;
         UpdateEnemyText();
+    }
+
+    public void AddWeapon()
+    {
+        var proj = new ProjectileRuntime(projectileSO, 1);
+        ProjectileManager.Instance.Register(proj);
     }
 }

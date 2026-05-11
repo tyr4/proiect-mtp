@@ -27,7 +27,7 @@ public class ProjectileRuntime : IProjectile
 
     public void Shoot(Vector2 playerPos, Vector2 nearestEnemyPos, ProjectileManager projManager, SpatialGrid grid)
     {
-
+        Debug.Log("am intrat in shoot");
     }
 
     public void Tick(float dt, Vector2 playerPos, Vector2 nearestEnemyPos, ProjectileManager projManager, SpatialGrid grid)
@@ -36,7 +36,7 @@ public class ProjectileRuntime : IProjectile
 
         if (_cooldownTimer >= GetCooldown())
         {
-            Shoot(playerPos, nearestEnemyPos, projManager, grid);
+            _projectile.Shoot(playerPos, nearestEnemyPos, projManager, grid);
             _cooldownTimer = 0f;
         }
     }

@@ -1,6 +1,8 @@
 ﻿
+using UnityEngine;
+
 [System.Serializable]
-public abstract class TierData
+public class TierData
 {
     public int tier1;
     public int tier2;

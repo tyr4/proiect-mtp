@@ -8,7 +8,8 @@ public class ProjectileManager : MonoBehaviour
     [SerializeField] private Transform playerTransform;
     
     private List<ProjectileRuntime> _activeProjectiles = new();
-
+    private ObjectPool<Projectile, BulletBehaviour> _objectPool = new();
+    
     public static ProjectileManager Instance;
 
     private void Awake()
@@ -26,6 +27,7 @@ public class ProjectileManager : MonoBehaviour
         {
             var proj =  _activeProjectiles[i];
         
+            // TODO: add to enemymanager a BuildGrid() function
             proj.Tick(dt, playerPos, nearestEnemy, this, enemyManager.Grid);
         }
     }
@@ -42,6 +44,16 @@ public class ProjectileManager : MonoBehaviour
 
     private Vector2 GetNearestEnemyPos(Vector3 playerPos)
     {
-        throw new Exception("not implemented fraiere");
+        return Vector2.zero;
+    }
+
+    public BulletBehaviour RequestPoolObject(Projectile projectile)
+    {
+        return _objectPool.Get(projectile, projectile.ProjectilePrefab);
+    }
+
+    public void ReturnPoolObject(Projectile projectile, BulletBehaviour obj)
+    {
+        _objectPool.Return(projectile, obj);
     }
 }

@@ -10,7 +10,7 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private List<EnemyData> enemyList;
     [SerializeField] private float spawnRadiusFactor;
 
-    private ObjectPool<EnemyData, EnemyRuntime> _objectPool;
+    private ObjectPool<EnemyData, EnemyRuntime> _objectPool = new();
     private Camera _camera;
     private float _cameraHeight;
     private float _cameraWidth;
