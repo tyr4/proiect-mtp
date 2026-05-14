@@ -9,7 +9,10 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private EnemyManager enemyManager;
     [SerializeField] private List<EnemyData> enemyList;
     [SerializeField] private float spawnRadiusFactor;
-
+    [SerializeField] private float waveCooldown = 3f;
+    [SerializeField] private bool disableSpawns;
+    [SerializeField] private Material flashMaterial;
+    
     private ObjectPool<EnemyData, EnemyRuntime> _objectPool = new();
     private Camera _camera;
     private float _cameraHeight;
@@ -17,11 +20,14 @@ public class WaveManager : MonoBehaviour
     private float _cameraRadius;
     private float _spawnRadius;
     
-    private float _cooldown = 0.75f;
     private float _timer = 0;
+
+    public static WaveManager Instance;
 
     private void Awake()
     {
+        Instance = this;
+        
         _camera = Camera.main;
         
         if (_camera == null)
@@ -42,15 +48,16 @@ public class WaveManager : MonoBehaviour
     {
         _timer += Time.deltaTime;
 
-        if (_timer >= _cooldown)
+        if (_timer >= waveCooldown)
         {
+            if (disableSpawns) return;
             SpawnEnemy();
             _timer = 0;
         }
     }
 
     // TODO: more complex spawn logic
-    private void SpawnEnemy()
+    public void SpawnEnemy()
     {
         int choice = Random.Range(0, enemyList.Count);
         var enemyData = enemyList[choice];
@@ -58,7 +65,7 @@ public class WaveManager : MonoBehaviour
         var enemyObj = enemyRuntime.gameObject;
 
         enemyRuntime.cachedTransform.position = GenerateRandomPosition();
-        enemyRuntime.Initialize(enemyData);
+        enemyRuntime.Initialize(enemyData, flashMaterial);
         
         enemyObj.SetActive(true);
         enemyManager.Register(enemyRuntime);
@@ -77,5 +84,12 @@ public class WaveManager : MonoBehaviour
         Vector2 spawnPos = (Vector2)playerTransform.position + dir * _spawnRadius;
 
         return spawnPos;
+    }
+
+    public void ReturnToPool(EnemyData data, EnemyRuntime enemy)
+    {
+        enemy.gameObject.SetActive(false);
+        _objectPool.Return(data, enemy);
+        enemyManager.Unregister(enemy);
     }
 }

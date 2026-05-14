@@ -9,7 +9,9 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private float separationRadius;
 
     private List<EnemyRuntime> _activeEnemies = new();
-    private readonly Vector3 _positionOffset = new Vector3(0, -0.5f, 0);
+    // private readonly Vector3 _positionOffset = new Vector3(0, -0.5f, 0);
+    // private float _gridRebuildCooldown = 0.01f;
+    // private float timer = 0;
 
     public SpatialGrid Grid { get; private set; }
     
@@ -35,26 +37,47 @@ public class EnemyManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        var deltaTime = Time.deltaTime;
-        var playerPos =  playerTransform.position + _positionOffset;
-        Grid.Clear();
+        var deltaTime = Time.fixedDeltaTime;
         
-        // step 1: build the grid
-        for (int i = 0; i < _activeEnemies.Count; i++)
-        {
-            Grid.Add(_activeEnemies[i]);
-            
-        }
-        
+        // step 1: build the grid, runs every _gridRebuildCooldown seconds
+        // GridRebuild(deltaTime);
+
         // step 2: now the enemies will tick and simulate crowd distance properly
         for (int i = 0; i < _activeEnemies.Count; i++)
         {
             var enemy = _activeEnemies[i];
-            var enemyPos = enemy.cachedTransform.position;
-            var direction = playerPos - enemyPos;
-            // var neighbors = _spatialGrid.GetNearby(enemyPos);
             
-            enemy.Tick(deltaTime, direction, null, separationRadius);
+            enemy.Tick(deltaTime, playerTransform, null, separationRadius);
+        }
+    }
+
+    private void GridRebuild()
+    {
+        Grid.Clear();
+
+        for (int i = 0; i < _activeEnemies.Count; i++)
+        {
+            Grid.Add(_activeEnemies[i]);
+        }
+    }
+
+    public EnemyRuntime GetNearestEnemy(Vector3 position)
+    {
+        GridRebuild();
+
+        return Grid.GetNearest(position);
+    }
+    
+    private void OnDrawGizmos()
+    {
+        if (_activeEnemies == null) return;
+
+        foreach (var enemy in _activeEnemies)
+        {
+            
+            // red sphere at actual transform position
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(enemy.cachedTransform.position, 0.15f);
         }
     }
 }

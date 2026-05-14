@@ -36,7 +36,7 @@ public class ObjectPool<TKey, TValue>
             queue = new Queue<TValue>();
             _pool[key] = queue;
         }
-        
+
         _pool[key].Enqueue(value);
     }
 }

@@ -1,47 +1,59 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
 
 public class EnemyRuntime : MonoBehaviour
 {
     public EnemyData Data { get; private set; }
-    public Vector3 cachedPosition;
+    // public Vector3 cachedPosition;
     public Transform cachedTransform;
-
+    
     private float _health;
     private float _damage;
     private float _movementSpeed;
+    
     private Rigidbody2D _rb;
-
-    // MAGIC NUMBERS!!!
-    // apply "weights" to the separation force
+    private SpriteRenderer _sr;
+    private Material _defaultMaterial;
+    private Material _flashMaterial;
+    
     private const float DirectionForce = 10f;
     private const float SeparationForce = 1f;
-
+    private const float FlashMaterialDuration = 0.1f;
+    
     // dont update the direction every fixedupdate call
     private const float PathfindingRefreshRate = 0.2f;
     private float _timer = 0;
+    
+    private Vector3 _direction;
     private Vector3 _finalDirection;
+
+    public Vector2 Velocity => _finalDirection * _movementSpeed;
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
+        _sr = GetComponentInChildren<SpriteRenderer>();
+        _defaultMaterial = _sr.material;
         cachedTransform = transform;
-        cachedPosition = cachedTransform.position;
+        // cachedPosition = cachedTransform.position;
     }
     
-    public void Initialize(EnemyData enemyData)
+    public void Initialize(EnemyData enemyData, Material flashMaterial)
     {
         Data = enemyData;
         _health = Data.Health;
         _damage = Data.Damage;
         _movementSpeed = Data.MovementSpeed;
         
+        _flashMaterial = flashMaterial;
+
         // apply a random speed multiplier
         _movementSpeed *= Random.Range(0.8f, 1.1f);
     }
     
-    public void Tick(float deltaTime, Vector3 direction, List<EnemyRuntime> neighbors, float separationRadius)
+    public void Tick(float deltaTime, Transform playerTransform, List<EnemyRuntime> neighbors, float separationRadius)
     {
         _timer += deltaTime;
         
@@ -71,10 +83,8 @@ public class EnemyRuntime : MonoBehaviour
 
         if (_timer >= PathfindingRefreshRate)
         {
-            _finalDirection = (
-                    direction * DirectionForce + 
-                    separation * SeparationForce
-            ).normalized;
+             _direction = playerTransform.position - cachedTransform.position;
+            _finalDirection = _direction.normalized;
 
             _timer = 0;
         }
@@ -83,16 +93,35 @@ public class EnemyRuntime : MonoBehaviour
         // _cachedTransform.position += finalDirection * (_movementSpeed * deltaTime);
         _rb.linearVelocity = _finalDirection * _movementSpeed;
 
-        if (direction.x != 0)
+        if (_direction.x != 0)
         {
-            cachedTransform.rotation = Quaternion.Euler(0f, direction.x < 0 ? 180f : 0f, 0f);
+            cachedTransform.rotation = Quaternion.Euler(0f, _direction.x < 0 ? 180f : 0f, 0f);
         }
     }
 
-    // TODO: hurt logic here
-    public void UpdateAnimation()
+    public void TakeDamage(float damage)
     {
+        Debug.Log("Before Damage: " + $"{_health:F}, taking {damage} damage");
+        _health -= damage;
+
+        Debug.Log($"now {_health:F} health");
+        if (_health <= 0)
+        {
+            WaveManager.Instance.ReturnToPool(Data, this);
+            return;
+        }
         
+        StartCoroutine(TakeDamageAnimation());
+    }
+
+    // TODO: hurt logic here
+    private IEnumerator TakeDamageAnimation()
+    {
+        _sr.material = _flashMaterial;
+
+        yield return new WaitForSeconds(FlashMaterialDuration);
+        
+        _sr.material = _defaultMaterial;
     }
     
     private void OnDrawGizmos()

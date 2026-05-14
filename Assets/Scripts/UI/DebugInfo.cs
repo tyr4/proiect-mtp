@@ -56,7 +56,7 @@ public class DebugInfo : MonoBehaviour
 
     public void AddWeapon()
     {
-        var proj = new ProjectileRuntime(projectileSO, 1);
+        var proj = new ProjectileRuntimeData(projectileSO, 1);
         ProjectileManager.Instance.Register(proj);
     }
 }

@@ -6,10 +6,10 @@ public class ProjectileManager : MonoBehaviour
 {
     [SerializeField] private EnemyManager enemyManager; // for the grid
     [SerializeField] private Transform playerTransform;
-    
-    private List<ProjectileRuntime> _activeProjectiles = new();
-    private ObjectPool<Projectile, BulletBehaviour> _objectPool = new();
-    
+
+    private List<ProjectileRuntimeData> _activeProjectiles = new();
+    private ObjectPool<Projectile, ProjectileBulletRuntime> _objectPool = new();
+
     public static ProjectileManager Instance;
 
     private void Awake()
@@ -17,43 +17,50 @@ public class ProjectileManager : MonoBehaviour
         Instance = this;
     }
     
-    private void Update()
+    private void FixedUpdate()
     {
-        float dt = Time.deltaTime;
+        float dt = Time.fixedDeltaTime;
         var playerPos =  playerTransform.position;
-        var nearestEnemy = GetNearestEnemyPos(playerPos);
+        var nearestEnemy = GetNearestEnemy(playerPos);
+        
+        if (nearestEnemy is null) return;
+        
+        var nearestEnemyPos = nearestEnemy.cachedTransform.position;
         
         for (int i = 0; i < _activeProjectiles.Count; i++)
         {
             var proj =  _activeProjectiles[i];
         
             // TODO: add to enemymanager a BuildGrid() function
-            proj.Tick(dt, playerPos, nearestEnemy, this, enemyManager.Grid);
+            proj.Tick(dt, playerPos, nearestEnemyPos, nearestEnemy.Velocity, this, enemyManager.Grid);
         }
     }
 
-    public void Register(ProjectileRuntime projectile)
+    public void Register(ProjectileRuntimeData projectile)
     {
         _activeProjectiles.Add(projectile);
     }
 
-    public void Unregister(ProjectileRuntime projectile)
+    public void Unregister(ProjectileRuntimeData projectile)
     {
         _activeProjectiles.Remove(projectile);
     }
 
-    private Vector2 GetNearestEnemyPos(Vector3 playerPos)
+    private EnemyRuntime GetNearestEnemy(Vector3 playerPos)
     {
-        return Vector2.zero;
+        var enemy = enemyManager.GetNearestEnemy(playerPos);
+
+        return enemy;
     }
 
-    public BulletBehaviour RequestPoolObject(Projectile projectile)
+    public ProjectileBulletRuntime RequestPoolObject(Projectile projectile)
     {
         return _objectPool.Get(projectile, projectile.ProjectilePrefab);
     }
 
-    public void ReturnPoolObject(Projectile projectile, BulletBehaviour obj)
+    public void ReturnPoolObject(Projectile projectile, ProjectileBulletRuntime obj)
     {
+        obj.gameObject.SetActive(false);
         _objectPool.Return(projectile, obj);
     }
 }

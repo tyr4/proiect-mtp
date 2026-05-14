@@ -16,6 +16,6 @@ MonoBehaviour:
   <Description>k__BackingField: 
   <Icon>k__BackingField: {fileID: 0}
   <Prefab>k__BackingField: {fileID: 2649042638931437101, guid: 69b6317549d10d140b5bd19e7eb561d1, type: 3}
-  <Health>k__BackingField: 100
+  <Health>k__BackingField: 3
   <Damage>k__BackingField: 1
   <MovementSpeed>k__BackingField: 0.7
