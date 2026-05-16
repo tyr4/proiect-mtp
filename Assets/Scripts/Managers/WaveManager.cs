@@ -11,7 +11,6 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private float spawnRadiusFactor;
     [SerializeField] private float waveCooldown = 3f;
     [SerializeField] private bool disableSpawns;
-    [SerializeField] private Material flashMaterial;
     
     private ObjectPool<EnemyData, EnemyRuntime> _objectPool = new();
     private Camera _camera;
@@ -65,7 +64,7 @@ public class WaveManager : MonoBehaviour
         var enemyObj = enemyRuntime.gameObject;
 
         enemyRuntime.cachedTransform.position = GenerateRandomPosition();
-        enemyRuntime.Initialize(enemyData, flashMaterial);
+        enemyRuntime.Initialize(enemyData);
         
         enemyObj.SetActive(true);
         enemyManager.Register(enemyRuntime);
@@ -88,8 +87,8 @@ public class WaveManager : MonoBehaviour
 
     public void ReturnToPool(EnemyData data, EnemyRuntime enemy)
     {
-        enemy.gameObject.SetActive(false);
+        // enemyManager.Unregister(enemy);
         _objectPool.Return(data, enemy);
-        enemyManager.Unregister(enemy);
+        enemy.gameObject.SetActive(false);
     }
 }

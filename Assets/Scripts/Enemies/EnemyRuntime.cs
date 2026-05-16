@@ -1,10 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using Unity.Cinemachine;
 using UnityEngine;
 
 public class EnemyRuntime : MonoBehaviour
 {
+    [SerializeField] private Material flashMaterial;
+    
     public EnemyData Data { get; private set; }
     // public Vector3 cachedPosition;
     public Transform cachedTransform;
@@ -16,7 +19,7 @@ public class EnemyRuntime : MonoBehaviour
     private Rigidbody2D _rb;
     private SpriteRenderer _sr;
     private Material _defaultMaterial;
-    private Material _flashMaterial;
+    // private Material _flashMaterial;
     
     private const float DirectionForce = 10f;
     private const float SeparationForce = 1f;
@@ -28,6 +31,7 @@ public class EnemyRuntime : MonoBehaviour
     
     private Vector3 _direction;
     private Vector3 _finalDirection;
+    private bool _isDead;
 
     public Vector2 Velocity => _finalDirection * _movementSpeed;
 
@@ -35,22 +39,30 @@ public class EnemyRuntime : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
         _sr = GetComponentInChildren<SpriteRenderer>();
-        _defaultMaterial = _sr.material;
+        _defaultMaterial = new Material(_sr.material);
         cachedTransform = transform;
         // cachedPosition = cachedTransform.position;
     }
     
-    public void Initialize(EnemyData enemyData, Material flashMaterial)
+    public void Initialize(EnemyData enemyData)
     {
         Data = enemyData;
         _health = Data.Health;
         _damage = Data.Damage;
         _movementSpeed = Data.MovementSpeed;
-        
-        _flashMaterial = flashMaterial;
+        _isDead = false;
 
         // apply a random speed multiplier
         _movementSpeed *= Random.Range(0.8f, 1.1f);
+        
+        // kill any ongoing tweens
+        // DOTween.Kill(_sr);
+        // DOTween.Kill(cachedTransform);
+        
+        // reset the alpha back to 1
+        // var currentColor = _sr.color;
+        // currentColor.a = 1f;
+        // _sr.color = currentColor;
     }
     
     public void Tick(float deltaTime, Transform playerTransform, List<EnemyRuntime> neighbors, float separationRadius)
@@ -101,26 +113,75 @@ public class EnemyRuntime : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        Debug.Log("Before Damage: " + $"{_health:F}, taking {damage} damage");
+        if (_isDead) return;
+        
         _health -= damage;
 
-        Debug.Log($"now {_health:F} health");
         if (_health <= 0)
         {
-            WaveManager.Instance.ReturnToPool(Data, this);
+            Kill();
             return;
         }
+
+        TakeDamageAnimation();
+        // if (_flashCoroutine != null)
+        // {
+        //     StopCoroutine(_flashCoroutine);
+        // }
+        //
+        // _flashCoroutine = StartCoroutine(TakeDamageAnimation());
+    }
+
+    private void Kill()
+    {
+        if (_isDead) return;
+        _isDead = true;
         
-        StartCoroutine(TakeDamageAnimation());
+        EnemyManager.Instance.Unregister(this);
+        
+        DieAnimation();
     }
 
     // TODO: hurt logic here
-    private IEnumerator TakeDamageAnimation()
+    private void TakeDamageAnimation()
     {
-        _sr.material = _flashMaterial;
-
-        yield return new WaitForSeconds(FlashMaterialDuration);
+        _sr.DOKill();
         
+        _sr.material = flashMaterial;
+
+        DOVirtual.DelayedCall(0.1f, () =>
+        {
+            if (!_isDead)
+            {
+                _sr.material = _defaultMaterial;
+            }
+        }).SetLink(gameObject);
+    }
+
+    private void DieAnimation()
+    {
+        _sr.material = _defaultMaterial;
+        _sr.DOKill();
+
+        _sr.DOFade(0f, 0.15f)
+            .SetLink(gameObject)
+            .OnComplete(() =>
+            {
+                ResetVisual();
+                WaveManager.Instance.ReturnToPool(Data, this);
+                XPManager.Instance.SpawnXP(cachedTransform.position);
+            });
+        
+        // WaveManager.Instance.ReturnToPool(Data, this);
+        // _sr.DOFade(0f, 0.2f).OnComplete(() => WaveManager.Instance.ReturnToPool(Data, this));
+    }
+
+    private void ResetVisual()
+    {
+        var c = _sr.color;
+        c.a = 1f;
+        _sr.color = c;
+
         _sr.material = _defaultMaterial;
     }
     

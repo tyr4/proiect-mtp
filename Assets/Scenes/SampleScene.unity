@@ -3263,9 +3263,8 @@ MonoBehaviour:
   enemyList:
   - {fileID: 11400000, guid: efddc8ce4954b394f9525af41e20f968, type: 2}
   spawnRadiusFactor: 2
-  waveCooldown: 3
-  disableSpawns: 1
-  flashMaterial: {fileID: 2100000, guid: 26cf8e072da5f1d468d6a1ef08a1a506, type: 2}
+  waveCooldown: 0.2
+  disableSpawns: 0
 --- !u!1 &988104205
 GameObject:
   m_ObjectHideFlags: 0

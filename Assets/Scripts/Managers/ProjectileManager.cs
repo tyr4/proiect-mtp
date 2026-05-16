@@ -23,7 +23,7 @@ public class ProjectileManager : MonoBehaviour
         var playerPos =  playerTransform.position;
         var nearestEnemy = GetNearestEnemy(playerPos);
         
-        if (nearestEnemy is null) return;
+        if (nearestEnemy is null || !nearestEnemy.gameObject.activeInHierarchy) return;
         
         var nearestEnemyPos = nearestEnemy.cachedTransform.position;
         

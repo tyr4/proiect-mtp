@@ -17,9 +17,11 @@ public class EnemyManager : MonoBehaviour
     
     public static event Action<GameObject> OnEnemySpawned;
     public static event Action<GameObject> OnEnemyDied;
+    public static EnemyManager Instance;
 
     private void Awake()
     {
+        Instance = this;
         Grid = new SpatialGrid(gridCellSize);
     }
     

@@ -4,9 +4,9 @@ using UnityEngine;
 [System.Serializable]
 public class TierData
 {
-    public int tier1;
-    public int tier2;
-    public int tier3;
+    public float tier1;
+    public float tier2;
+    public float tier3;
     
     public float GetValue(int tier)
     {

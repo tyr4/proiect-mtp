@@ -161,6 +161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d77a0ab95234f43b2aef87cb43b3b61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyRuntime
+  flashMaterial: {fileID: 2100000, guid: 26cf8e072da5f1d468d6a1ef08a1a506, type: 2}
   cachedTransform: {fileID: 0}
 --- !u!50 &2489358182050396633
 Rigidbody2D:

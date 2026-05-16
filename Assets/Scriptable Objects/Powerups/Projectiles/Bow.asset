@@ -32,9 +32,9 @@ MonoBehaviour:
     tier2: 2
     tier3: 3
   <Speed>k__BackingField:
-    tier1: 1
-    tier2: 2
-    tier3: 3
+    tier1: 1.25
+    tier2: 1.5
+    tier3: 1.75
   <Count>k__BackingField:
     tier1: 1
     tier2: 2
