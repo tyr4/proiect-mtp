@@ -57,7 +57,6 @@ public class ProjectileBulletRuntime : MonoBehaviour
         int enemyID = enemy.GetInstanceID();
         if (_hitEnemies.Contains(enemyID)) return;
         
-        Debug.Log($"Trigger entered: {other.gameObject.name}pierces left ");
         var projTier = _projectile.CurrentTier;
         var damage = _projectile.Damage.GetValue(projTier);
         

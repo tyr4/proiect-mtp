@@ -18,6 +18,9 @@ public class Player : MonoBehaviour
     
     // events
     public static event Action<float, float> OnHealthChanged;
+    public static event Action<float, float> OnXPChanged;
+    public static event Action<int> OnLevelUp;
+    
     
     // runtime global stats
     private PlayerStats _rts;
@@ -25,7 +28,7 @@ public class Player : MonoBehaviour
     // runtime changing stats
     private float _currentHealth;
     
-    private int _currentLevel;
+    private int _currentLevel = 1;
     private float _currentXp;
     private float _nextLevelXp;
     
@@ -42,6 +45,12 @@ public class Player : MonoBehaviour
     private void Start()
     {
         InputManager.Instance.OnPlayerMoveEvent += OnMove;
+
+        _nextLevelXp = GetNextLevelXP();
+        
+        // set ui in place
+        OnXPChanged?.Invoke(_currentXp, _nextLevelXp);
+        OnLevelUp?.Invoke(_currentLevel);
     }
 
     private void OnDestroy()
@@ -93,18 +102,41 @@ public class Player : MonoBehaviour
 
     private void Die()
     {
-        Debug.Log("ai murit vro");
         _currentHealth = _rts.MaxHealth;
     }
 
     public void HandleEnemyCollision(EnemyRuntime enemy)
     {
-        TakeDamage(enemy.Data.Damage);
-        Debug.Log("am luat dmg ouch");
+        // TODO: take enemy._damage as public param here
+        TakeDamage(enemy.Damage);
     }
     
     public void HandleXpPickup(XPDropRuntime xpRuntime)
     {
-        Debug.Log("am primit xp am primit xp");
+        _currentXp += xpRuntime.Data.Value;
+        OnXPChanged?.Invoke(_currentXp, _nextLevelXp);
+        
+        if (_currentXp >= _nextLevelXp)
+        {
+            LevelUp();
+        }
+    }
+
+    
+    private void LevelUp()
+    {
+        _currentLevel++;
+        _currentXp = 0;
+        
+        _nextLevelXp = GetNextLevelXP();
+        
+        Debug.Log(_nextLevelXp);
+        OnXPChanged?.Invoke(_currentXp, _nextLevelXp);
+        OnLevelUp?.Invoke(_currentLevel);
+    }
+
+    private float GetNextLevelXP()
+    {
+        return XPManager.Instance.GetXPForNextLevel(_currentLevel);
     }
 }

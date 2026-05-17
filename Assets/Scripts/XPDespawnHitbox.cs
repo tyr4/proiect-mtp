@@ -13,8 +13,10 @@ public class XPDespawnHitbox : MonoBehaviour
     {
         if (!other.TryGetComponent<XPDropRuntime>(out var xpRuntime)) return;
     
+        Debug.Log($"am intrat {xpRuntime.transform.position}, {_player.transform.position}");
         _player.HandleXpPickup(xpRuntime);
-        
+
         xpRuntime.Despawn();
+        xpRuntime.Collider.enabled = false;
     }
 }

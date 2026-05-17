@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class EnemyRuntime : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class EnemyRuntime : MonoBehaviour
     public Transform cachedTransform;
     
     private float _health;
-    private float _damage;
+    public float Damage;
     private float _movementSpeed;
     
     private Rigidbody2D _rb;
@@ -48,7 +49,7 @@ public class EnemyRuntime : MonoBehaviour
     {
         Data = enemyData;
         _health = Data.Health;
-        _damage = Data.Damage;
+        Damage = Data.Damage;
         _movementSpeed = Data.MovementSpeed;
         _isDead = false;
 

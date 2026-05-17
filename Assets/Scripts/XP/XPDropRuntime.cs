@@ -1,29 +1,41 @@
 ﻿using System;
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class XPDropRuntime : MonoBehaviour
 {
-    private XPDrop _data;
+    public XPDrop Data;
     private Transform _cachedTransform;
     private SpriteRenderer _sr;
+    
+    public BoxCollider2D Collider;
 
     private const float DirectionCooldown = 0.15f;
     private float _directionTimer;
 
     private Vector3 _direction;
+    private bool _isAttracted;
+
+    private void Awake()
+    {
+        _sr =  GetComponent<SpriteRenderer>();
+        Collider = GetComponent<BoxCollider2D>();
+    }
     
     public void Initialize(XPDrop data)
     {
-        _data = data;
+        Data = data;
         _cachedTransform = transform;
-        _sr =  GetComponent<SpriteRenderer>();
+        Collider.enabled = true;
+        _isAttracted = false;
     }
     
-    public void OnTriggerEnter2D(Collider2D other)
-    {
-        if (!other.TryGetComponent<Player>(out var player)) return;
-    }
+    // public void OnTriggerEnter2D(Collider2D other)
+    // {
+    //     if (!other.TryGetComponent<Player>(out var player)) return;
+    // }
 
     public void Tick(float dt, Transform playerTransform)
     {
@@ -31,26 +43,40 @@ public class XPDropRuntime : MonoBehaviour
 
         if (_directionTimer >= DirectionCooldown)
         {
-            _direction = (playerTransform.position - _cachedTransform.position).normalized;
+            var playerPos = playerTransform.position;
+            var cachedPos = _cachedTransform.position;
+            
+            // _cachedTransform.DOKill();
+            
+            _direction = (playerPos - cachedPos).normalized;
+            // var distance = Vector3.Distance(cachedPos, playerPos);
+            // var duration = distance / Data.MoveSpeed;
+            //
+            // _cachedTransform.DOMove(playerPos, duration);
+            
             _directionTimer = 0f;
+            
         }
 
-        _cachedTransform.position += _direction * (_data.MoveSpeed * dt);
+        _cachedTransform.position += _direction * (Data.MoveSpeed * dt);
     }
 
     public void Attract()
     {
+        if (_isAttracted) return;
+        
+        _isAttracted = true;
         XPManager.Instance.RegisterAttracted(this);
     }
 
     public void Despawn()
     {
         _sr.DOKill();
+        XPManager.Instance.UnregisterAttracted(this);
         
         _sr.DOFade(0f, 0.2f).OnComplete(() =>
         {
-            XPManager.Instance.UnregisterAttracted(this);
-            XPManager.Instance.ReturnToPool(_data, this);
+            XPManager.Instance.ReturnToPool(Data, this);
             ResetVisual();
         });
     }

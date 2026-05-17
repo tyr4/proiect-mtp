@@ -46,9 +46,9 @@ public class XPManager : MonoBehaviour
         _objPool.Return(xpDrop, xpRuntime);
     }
 
-    public void GetXpForNextLevel(int currentLevel)
+    public float GetXPForNextLevel(int currentLevel)
     {
-        
+        return currentLevel * 25;
     }
 
     public void RegisterAttracted(XPDropRuntime xpRuntime)

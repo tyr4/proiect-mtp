@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29024a59179e44d09840084f28341b67, type: 3}
   m_Name: XP Drop Tier 2
   m_EditorClassIdentifier: Assembly-CSharp::XPDrop
-  <Sprite>k__BackingField: {fileID: -1028975530299846245, guid: cd6a3b8d2b095474f9095dbaa2701a56, type: 3}
-  <Prefab>k__BackingField: {fileID: 7120441916839446462, guid: ec4434db90381cb4ca7747ffcf0c1a7b, type: 3}
-  <Value>k__BackingField: 5
-  <MoveSpeed>k__BackingField: 5
+  <Sprite>k__BackingField: {fileID: 6150263641630564314, guid: cd6a3b8d2b095474f9095dbaa2701a56, type: 3}
+  <Prefab>k__BackingField: {fileID: 7120441916839446462, guid: e1328e229816ab64a964aac933acfcdb, type: 3}
+  <Value>k__BackingField: 10
+  <MoveSpeed>k__BackingField: 1.1
