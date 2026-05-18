@@ -15,4 +15,4 @@ MonoBehaviour:
   <Sprite>k__BackingField: {fileID: 6150263641630564314, guid: cd6a3b8d2b095474f9095dbaa2701a56, type: 3}
   <Prefab>k__BackingField: {fileID: 7120441916839446462, guid: e1328e229816ab64a964aac933acfcdb, type: 3}
   <Value>k__BackingField: 10
-  <MoveSpeed>k__BackingField: 1.1
+  <MoveSpeed>k__BackingField: 1.55

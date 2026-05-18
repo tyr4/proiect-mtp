@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6f0f73cde8041329791937a214eb801, type: 3}
-  m_Name: Bow
+  m_Name: Bow 1
   m_EditorClassIdentifier: Assembly-CSharp::Sword
   <DisplayName>k__BackingField: Bow
   <Description>k__BackingField: dumb bow

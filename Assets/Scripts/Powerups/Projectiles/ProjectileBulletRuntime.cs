@@ -22,7 +22,7 @@ public class ProjectileBulletRuntime : MonoBehaviour
     
     public void Launch(ProjectileRuntimeData projRuntimeData, Vector2 velocity, float damage, float lifetime)
     {
-        _projectile = projRuntimeData.Projectile;
+        _projectile = (Projectile)projRuntimeData.ownedPowerup.Base;
         _projRuntimeData = projRuntimeData;
         _projRuntimeData.ResetPierces();
         

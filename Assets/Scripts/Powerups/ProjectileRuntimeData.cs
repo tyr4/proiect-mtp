@@ -2,31 +2,24 @@
 
 public class ProjectileRuntimeData : IProjectile
 {
-    public Projectile Projectile;
-    private int _currentTier;
+    public OwnedPowerup ownedPowerup;
     private float _cooldownTimer;
+    private Projectile _projectile;
     private float _piercesLeft;
 
-    public ProjectileRuntimeData(Projectile projectile, int currentTier)
+    public ProjectileRuntimeData(OwnedPowerup powerup)
     {
-        Projectile = projectile;
-        _currentTier = currentTier;
+        ownedPowerup = powerup;
+        _projectile = (Projectile)powerup.Base;
         _cooldownTimer = 0f;
         _piercesLeft = GetPiercesLeft();
     }
     
-    public float GetDamage() => Projectile.Damage.GetValue(_currentTier);
-    public float GetCooldown() => Projectile.Cooldown.GetValue(_currentTier);
-    public float GetSpeed() => Projectile.Speed.GetValue(_currentTier);
-    public float GetCount() => Projectile.Count.GetValue(_currentTier);
-    public float GetPiercesLeft() => Projectile.PiercesLeft.GetValue(_currentTier);
-
-    public void UpgradeTier(int newTier)
-    {
-        if (newTier is < 1 or > 3) return;
-        
-        _currentTier = newTier;
-    }
+    public float GetDamage() => _projectile.Damage.GetValue(ownedPowerup.CurrentTier);
+    public float GetCooldown() => _projectile.Cooldown.GetValue(ownedPowerup.CurrentTier);
+    public float GetSpeed() => _projectile.Speed.GetValue(ownedPowerup.CurrentTier);
+    public float GetCount() => _projectile.Count.GetValue(ownedPowerup.CurrentTier);
+    public float GetPiercesLeft() => _projectile.PiercesLeft.GetValue(ownedPowerup.CurrentTier);
 
     public void Shoot(Vector2 playerPos, Vector2 nearestEnemyPos, ProjectileManager projManager, SpatialGrid grid)
     {
@@ -39,21 +32,21 @@ public class ProjectileRuntimeData : IProjectile
 
         if (_cooldownTimer >= GetCooldown())
         {
-            Projectile.Shoot(this, playerPos, nearestEnemyPos, nearestEnemyVelocity, projManager, grid);
+            _projectile.Shoot(this, playerPos, nearestEnemyPos, nearestEnemyVelocity, projManager, grid);
             _cooldownTimer = 0f;
         }
     }
 
     public void DecrementPiercesLeft()
     {
-        if (Projectile.AlwaysPierce) return;
+        if (_projectile.AlwaysPierce) return;
         
         _piercesLeft -= 1;
     }
 
     public bool CanPierce()
     {
-        return _piercesLeft >= 0 ||  Projectile.AlwaysPierce; 
+        return _piercesLeft >= 0 ||  _projectile.AlwaysPierce; 
     }
 
     public void ResetPierces()

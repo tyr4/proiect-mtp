@@ -22,13 +22,21 @@ public class XPDropRuntime : MonoBehaviour
     {
         _sr =  GetComponent<SpriteRenderer>();
         Collider = GetComponent<BoxCollider2D>();
+        _cachedTransform = transform;
     }
     
     public void Initialize(XPDrop data)
     {
         Data = data;
-        _cachedTransform = transform;
+        _direction = Vector3.zero;
+        
         Collider.enabled = true;
+        
+        if (_isAttracted)
+        {
+            XPManager.Instance.UnregisterAttracted(this);
+        }
+        
         _isAttracted = false;
     }
     
@@ -67,6 +75,7 @@ public class XPDropRuntime : MonoBehaviour
         
         _isAttracted = true;
         XPManager.Instance.RegisterAttracted(this);
+        _directionTimer = DirectionCooldown;
     }
 
     public void Despawn()

@@ -36,6 +36,15 @@ public class ProjectileManager : MonoBehaviour
         }
     }
 
+    public void Register(Projectile proj)
+    {
+        var owned = PowerupManager.Instance.Find(proj);
+        var projRuntime = new ProjectileRuntimeData(owned);
+        
+        Debug.Log($"added {projRuntime} from {owned.Base}");
+        _activeProjectiles.Add(projRuntime);
+    }
+    
     public void Register(ProjectileRuntimeData projectile)
     {
         _activeProjectiles.Add(projectile);
@@ -45,7 +54,7 @@ public class ProjectileManager : MonoBehaviour
     {
         _activeProjectiles.Remove(projectile);
     }
-
+    
     private EnemyRuntime GetNearestEnemy(Vector3 playerPos)
     {
         var enemy = enemyManager.GetNearestEnemy(playerPos);

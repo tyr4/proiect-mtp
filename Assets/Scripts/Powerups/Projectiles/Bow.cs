@@ -8,7 +8,7 @@ public class Bow : Projectile
     
     public override void Shoot(ProjectileRuntimeData projRuntimeData, Vector2 playerPos, Vector2 nearestEnemyPos, Vector2 nearestEnemyVelocity, ProjectileManager projManager, SpatialGrid grid)
     {
-        var tier = this.CurrentTier;
+        var tier = projRuntimeData.ownedPowerup.CurrentTier;
         var projectileSpeed = Speed.GetValue(tier);
 
         var travelTime = (nearestEnemyPos - playerPos).magnitude / projectileSpeed;
