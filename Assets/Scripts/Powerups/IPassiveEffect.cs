@@ -1,4 +1,6 @@
-﻿public interface IPassiveEffect
+﻿using UnityEngine;
+
+public interface IPassiveEffect
 {
-    public void Tick(float deltaTime);
+    public void Initialize(PassiveEffectRuntimeData data);
 }

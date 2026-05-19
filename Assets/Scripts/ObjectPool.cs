@@ -1,17 +1,17 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectPool<TKey, TValue>
+public class ObjectPool<TKey>
 {
-    private Dictionary<TKey, Queue<TValue>> _pool = new();
+    private Dictionary<TKey, Queue<GameObject>> _pool = new();
 
-    public TValue Get(TKey key, GameObject prefab)
+    public GameObject Get(TKey key, GameObject prefab)
     {
-        TValue poolObj;
+        GameObject poolObj;
 
         if (!_pool.TryGetValue(key, out var queue))
         {
-            queue = new Queue<TValue>();
+            queue = new Queue<GameObject>();
             _pool[key] = queue;
         }
 
@@ -23,17 +23,17 @@ public class ObjectPool<TKey, TValue>
         {
             var newObj = Object.Instantiate(prefab);
             newObj.SetActive(false);
-            poolObj = newObj.GetComponent<TValue>();
+            poolObj = newObj;
         }
         
         return poolObj;
     }
 
-    public void Return(TKey key, TValue value)
+    public void Return(TKey key, GameObject value)
     {
         if (!_pool.TryGetValue(key, out var queue))
         {
-            queue = new Queue<TValue>();
+            queue = new Queue<GameObject>();
             _pool[key] = queue;
         }
 

@@ -8,7 +8,7 @@ public class ProjectileManager : MonoBehaviour
     [SerializeField] private Transform playerTransform;
 
     private List<ProjectileRuntimeData> _activeProjectiles = new();
-    private ObjectPool<Projectile, ProjectileBulletRuntime> _objectPool = new();
+    private ObjectPool<Projectile> _objectPool = new();
 
     public static ProjectileManager Instance;
 
@@ -62,12 +62,12 @@ public class ProjectileManager : MonoBehaviour
         return enemy;
     }
 
-    public ProjectileBulletRuntime RequestPoolObject(Projectile projectile)
+    public GameObject RequestPoolObject(Projectile projectile)
     {
         return _objectPool.Get(projectile, projectile.ProjectilePrefab);
     }
 
-    public void ReturnPoolObject(Projectile projectile, ProjectileBulletRuntime obj)
+    public void ReturnPoolObject(Projectile projectile, GameObject obj)
     {
         obj.gameObject.SetActive(false);
         _objectPool.Return(projectile, obj);

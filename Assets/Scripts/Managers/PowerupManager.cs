@@ -50,10 +50,8 @@ public class PowerupManager : MonoBehaviour
 
             return;
         }
-
-        if (owned.Base is IHasTiers)
-            owned.CurrentTier++;
         
+        owned.CurrentTier++;
         powerup.OnSelect();
     }
 
@@ -93,7 +91,7 @@ public class PowerupManager : MonoBehaviour
         {
             var tier = GetPlayerPowerupTier(p);
 
-            return !(Contains(_playerPowerups, p) && tier >= 3);
+            return !(Contains(_playerPowerups, p) && (tier >= 3 && p is not OneTimeBuff));
         }).ToList();
         
         for (int i = 0; i < 3; i++)
@@ -111,8 +109,6 @@ public class PowerupManager : MonoBehaviour
     
     private int GetPlayerPowerupTier(Powerup powerup)
     {
-        if (powerup is not IHasTiers || _playerPowerups.Count == 0) return 0;
-        
         var found = _playerPowerups.Find(p => p.Base == powerup);
 
         return found?.CurrentTier ?? 0;
@@ -129,6 +125,8 @@ public class PowerupManager : MonoBehaviour
     // about the lists
     public OwnedPowerup FindPlayerPowerup(Powerup powerup)
     {
+        // this is the only time it can return null if the powerup first goes through
+        // UpdatePlayerPowerups()
         if (_playerPowerups.Count == 0) return null;
         
         return _playerPowerups.Find(p => p.Base == powerup);

@@ -15,6 +15,7 @@ public class Bow : Projectile
         var predictedPos = nearestEnemyPos + nearestEnemyVelocity * travelTime;
         
         var obj = projManager.RequestPoolObject(this);
+        var objRuntime = obj.GetComponent<BowRuntime>();
         var objTransform = obj.transform;
         
         var direction = (predictedPos - playerPos).normalized;
@@ -22,6 +23,6 @@ public class Bow : Projectile
         
         objTransform.position = playerPos + PositionOffset;
         objTransform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + AngleOffset);
-        obj.Launch(projRuntimeData, velocity, this.Damage.GetValue(tier), 5f);
+        objRuntime.Launch(projRuntimeData, velocity, this.Damage.GetValue(tier), 5f);
     }
 }

@@ -15,10 +15,8 @@ MonoBehaviour:
   <DisplayName>k__BackingField: ceva rosu
   <Description>k__BackingField: terraria ahh
   <Icon>k__BackingField: {fileID: -2281458042351831758, guid: b67530a6b9d183f46a6cf00b39fc3300, type: 3}
-  <PowerupType>k__BackingField: 0
   <ProjectilePrefab>k__BackingField: {fileID: 5843329760596979151, guid: ddc3ccc0f9a80a54d9b479b7898dea69, type: 3}
   <ProjectileSprite>k__BackingField: {fileID: -6212091817297008591, guid: 57fcf14da4e07d9448fb331b09079db2, type: 3}
-  <Type>k__BackingField: 0
   <AlwaysPierce>k__BackingField: 1
   <PiercesLeft>k__BackingField:
     tier1: 1
@@ -29,7 +27,7 @@ MonoBehaviour:
     tier2: 0.5
     tier3: 0.25
   <Damage>k__BackingField:
-    tier1: 0.5
+    tier1: 3
     tier2: 1
     tier3: 2
   <Speed>k__BackingField:
@@ -40,6 +38,5 @@ MonoBehaviour:
     tier1: 1
     tier2: 2
     tier3: 3
-  <CurrentTier>k__BackingField: 1
   <PositionOffset>k__BackingField: {x: 0, y: 0}
   <AngleOffset>k__BackingField: 0

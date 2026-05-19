@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7729f2795505473e90c6af5e809270f2, type: 3}
   m_Name: Extra XP Range
   m_EditorClassIdentifier: Assembly-CSharp::ExtraXPRadiusBuff
-  <DisplayName>k__BackingField: 
-  <Description>k__BackingField: 
-  <Icon>k__BackingField: {fileID: 0}
-  <PowerupType>k__BackingField: 0
-  <valueType>k__BackingField: 0
-  <Value>k__BackingField: 0
+  <DisplayName>k__BackingField: Magnetism
+  <Description>k__BackingField: Gain {value} XP Pickup Range
+  <Icon>k__BackingField: {fileID: 5093978120288518676, guid: ec89d3c6a569b114a8e5e7a01eb34512, type: 3}
+  <valueType>k__BackingField: 1
+  <Value>k__BackingField: 1.5

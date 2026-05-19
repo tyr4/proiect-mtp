@@ -6,7 +6,7 @@ public class XPManager : MonoBehaviour
     [SerializeField] private Transform playerTransform;
     [SerializeField] private List<XPDrop> xpDropList;
 
-    private ObjectPool<XPDrop, XPDropRuntime> _objPool = new();
+    private ObjectPool<XPDrop> _objPool = new();
     private List<XPDropRuntime> _attractedDrops = new();
     
     public static XPManager Instance;
@@ -32,8 +32,8 @@ public class XPManager : MonoBehaviour
     { 
         int choice = Random.Range(0, xpDropList.Count);
         var xpData = xpDropList[choice];
-        var xpRuntime = _objPool.Get(xpData, xpData.Prefab);
-        var xpObj = xpRuntime.gameObject;
+        var xpObj = _objPool.Get(xpData, xpData.Prefab);
+        var xpRuntime = xpObj.GetComponent<XPDropRuntime>();
 
         xpRuntime.Initialize(xpData);
         xpObj.transform.position = position;
@@ -43,7 +43,7 @@ public class XPManager : MonoBehaviour
     public void ReturnToPool(XPDrop xpDrop, XPDropRuntime xpRuntime)
     {
         xpRuntime.gameObject.SetActive(false);
-        _objPool.Return(xpDrop, xpRuntime);
+        _objPool.Return(xpDrop, xpRuntime.gameObject);
     }
 
     public float GetXPForNextLevel(int currentLevel)

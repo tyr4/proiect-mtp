@@ -8,6 +8,9 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private PlayerStats playerStats;
     [SerializeField] private CircleCollider2D xpMagnetCollider;
+    [SerializeField] private Transform passiveEffectsContainer;
+
+    public Transform PassiveEffectsContainer => passiveEffectsContainer;
     
     private Rigidbody2D _rb;
     private Animator _animator;

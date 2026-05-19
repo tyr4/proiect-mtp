@@ -12,7 +12,7 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private float waveCooldown = 3f;
     [SerializeField] private bool disableSpawns;
     
-    private ObjectPool<EnemyData, EnemyRuntime> _objectPool = new();
+    private ObjectPool<EnemyData> _objectPool = new();
     private Camera _camera;
     private float _cameraHeight;
     private float _cameraWidth;
@@ -60,8 +60,8 @@ public class WaveManager : MonoBehaviour
     {
         int choice = Random.Range(0, enemyList.Count);
         var enemyData = enemyList[choice];
-        var enemyRuntime = _objectPool.Get(enemyData, enemyData.Prefab);
-        var enemyObj = enemyRuntime.gameObject;
+        var enemyObj = _objectPool.Get(enemyData, enemyData.Prefab);
+        var enemyRuntime = enemyObj.GetComponent<EnemyRuntime>();
 
         enemyRuntime.cachedTransform.position = GenerateRandomPosition();
         enemyRuntime.Initialize(enemyData);
@@ -88,7 +88,7 @@ public class WaveManager : MonoBehaviour
     public void ReturnToPool(EnemyData data, EnemyRuntime enemy)
     {
         // enemyManager.Unregister(enemy);
-        _objectPool.Return(data, enemy);
+        _objectPool.Return(data, enemy.gameObject);
         enemy.gameObject.SetActive(false);
     }
 }

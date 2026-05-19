@@ -65,7 +65,7 @@ public class PowerupSelectUI : MonoBehaviour
 
     private void SetPanelData(OwnedPowerup powerup, PowerupPanelContainerUI panel)
     {
-        panel.Populate(powerup.Base, powerup.CurrentTier);
+        panel.Populate(powerup);
     }
 
     public IEnumerator ClosePanel()

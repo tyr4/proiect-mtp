@@ -26,15 +26,15 @@ public class PowerupPanelContainerUI : MonoBehaviour
         _selectedPowerup = selectedPowerup;
     }
     
-    public void Populate(Powerup powerup, int tier)
+    public void Populate(OwnedPowerup powerup)
     {
-        Initialzie(powerup);
+        Initialzie(powerup.Base);
         
-        icon.sprite = powerup.Icon;
-        displayName.text = powerup.DisplayName;
-        description.text = powerup.GetDescription();
+        icon.sprite = powerup.Base.Icon;
+        displayName.text = powerup.Base.DisplayName;
+        description.text = powerup.Base.GetDescription();
 
-        displayName.text += $" (Tier {tier + 1})";
+        displayName.text += $" (Tier {powerup.CurrentTier + 1})";
     }
 
     public void OnClick()

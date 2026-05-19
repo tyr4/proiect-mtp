@@ -316,6 +316,7 @@ Transform:
   - {fileID: 1231212573}
   - {fileID: 1378532222}
   - {fileID: 1548110865}
+  - {fileID: 1550874546}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &53738221
@@ -331,6 +332,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
   playerStats: {fileID: 11400000, guid: 0a93297340b6bab4189d76c90aa3e22d, type: 2}
+  xpMagnetCollider: {fileID: 1031697397}
+  passiveEffectsContainer: {fileID: 1550874546}
 --- !u!95 &53738222
 Animator:
   serializedVersion: 7
@@ -1256,6 +1259,51 @@ MonoBehaviour:
   playerTransform: {fileID: 53738220}
   gridCellSize: 2
   separationRadius: 0.05
+--- !u!1 &615202718
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 615202719}
+  - component: {fileID: 615202720}
+  m_Layer: 0
+  m_Name: Passive Effect Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &615202719
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 615202718}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2107991001}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &615202720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 615202718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c743c21646bb40fca69363c09b8d75be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PassiveEffectManager
+  playerTransform: {fileID: 53738220}
 --- !u!1 &690620293
 GameObject:
   m_ObjectHideFlags: 0
@@ -4560,7 +4608,7 @@ GameObject:
   - component: {fileID: 1088337460}
   - component: {fileID: 1088337461}
   m_Layer: 0
-  m_Name: PowerupManager
+  m_Name: Powerup Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -58587,6 +58635,37 @@ Transform:
   - {fileID: 484924949}
   m_Father: {fileID: 53738220}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1550874545
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1550874546}
+  m_Layer: 10
+  m_Name: Passive Effects
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1550874546
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1550874545}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 53738220}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1609199219
 GameObject:
   m_ObjectHideFlags: 0
@@ -59850,6 +59929,7 @@ Transform:
   - {fileID: 1117700971}
   - {fileID: 1895430433}
   - {fileID: 1088337460}
+  - {fileID: 615202719}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &4641685470522408963
