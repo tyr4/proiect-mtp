@@ -443,7 +443,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7793357977473979251, guid: 0baebe7a88759574a90a4a2d22b447cc, type: 3}
       propertyPath: m_Name
-      value: Buff 3
+      value: Buff 1 (2)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1500,8 +1500,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Lv. 12
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 1efce7f492603224ea92b32923c95f32, type: 2}
-  m_sharedMaterial: {fileID: -8676692758141517779, guid: 1efce7f492603224ea92b32923c95f32, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a56f029100ce9c54e9c8667c26339fc2, type: 2}
+  m_sharedMaterial: {fileID: 8554331919063371881, guid: a56f029100ce9c54e9c8667c26339fc2, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -58903,10 +58903,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
-  m_UiScaleMode: 1
+  m_UiScaleMode: 0
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 3840, y: 2160}
+  m_ReferenceResolution: {x: 800, y: 600}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -59047,7 +59047,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7793357977473979251, guid: 0baebe7a88759574a90a4a2d22b447cc, type: 3}
       propertyPath: m_Name
-      value: Buff 2
+      value: Buff 1 (1)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -59300,8 +59300,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 01:23
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 1efce7f492603224ea92b32923c95f32, type: 2}
-  m_sharedMaterial: {fileID: -8676692758141517779, guid: 1efce7f492603224ea92b32923c95f32, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a56f029100ce9c54e9c8667c26339fc2, type: 2}
+  m_sharedMaterial: {fileID: 8554331919063371881, guid: a56f029100ce9c54e9c8667c26339fc2, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -59653,10 +59653,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
-  m_UiScaleMode: 1
+  m_UiScaleMode: 0
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 3840, y: 2160}
+  m_ReferenceResolution: {x: 800, y: 600}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3

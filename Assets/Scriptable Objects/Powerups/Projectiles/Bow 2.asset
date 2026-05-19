@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6f0f73cde8041329791937a214eb801, type: 3}
   m_Name: Bow 2
   m_EditorClassIdentifier: Assembly-CSharp::Sword
-  <DisplayName>k__BackingField: Bow
-  <Description>k__BackingField: dumb bow
-  <Icon>k__BackingField: {fileID: 2450708202969876798, guid: 430a0c8816056434cb9a2f19ecd7c830, type: 3}
+  <DisplayName>k__BackingField: ballista
+  <Description>k__BackingField: very nice imo
+  <Icon>k__BackingField: {fileID: -3478625549920914563, guid: d2f1861b3518ae248abfb2d6cc9c1566, type: 3}
   <PowerupType>k__BackingField: 0
   <ProjectilePrefab>k__BackingField: {fileID: 5843329760596979151, guid: ddc3ccc0f9a80a54d9b479b7898dea69, type: 3}
-  <ProjectileSprite>k__BackingField: {fileID: 5931842347579807508, guid: 880929ea8b90d984f84380f689c99e28, type: 3}
+  <ProjectileSprite>k__BackingField: {fileID: 7316176786736914008, guid: da9de1043881fbc43912c71c6c084275, type: 3}
   <Type>k__BackingField: 0
   <AlwaysPierce>k__BackingField: 0
   <PiercesLeft>k__BackingField:
@@ -25,11 +25,11 @@ MonoBehaviour:
     tier2: 0
     tier3: 0
   <Cooldown>k__BackingField:
-    tier1: 3
+    tier1: 1
     tier2: 2
     tier3: 1
   <Damage>k__BackingField:
-    tier1: 1
+    tier1: 4
     tier2: 2
     tier3: 3
   <Speed>k__BackingField:

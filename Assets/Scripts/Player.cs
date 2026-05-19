@@ -7,6 +7,7 @@ using UnityEngine.Serialization;
 public class Player : MonoBehaviour
 {
     [SerializeField] private PlayerStats playerStats;
+    [SerializeField] private CircleCollider2D xpMagnetCollider;
     
     private Rigidbody2D _rb;
     private Animator _animator;
@@ -21,8 +22,6 @@ public class Player : MonoBehaviour
     public static event Action<float, float> OnXPChanged;
     public static event Action<int> OnLevelUp;
     
-    
-    // runtime global stats
     private PlayerStats _rts;
     
     // runtime changing stats
@@ -31,9 +30,13 @@ public class Player : MonoBehaviour
     private int _currentLevel = 1;
     private float _currentXp;
     private float _nextLevelXp;
+
+    public static Player Instance;
     
     private void Awake()
     {
+        Instance = this;
+        
         _rts = Instantiate(playerStats);
         _rb = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
@@ -47,6 +50,9 @@ public class Player : MonoBehaviour
         InputManager.Instance.OnPlayerMoveEvent += OnMove;
 
         _nextLevelXp = GetNextLevelXP();
+        
+        // TODO: add weapon depending on player start, rn its just the default bow
+        PowerupManager.Instance.AssignDefaultPowerup();
         
         // set ui in place
         OnXPChanged?.Invoke(_currentXp, _nextLevelXp);
@@ -121,7 +127,6 @@ public class Player : MonoBehaviour
             LevelUp();
         }
     }
-
     
     private void LevelUp()
     {
@@ -138,5 +143,52 @@ public class Player : MonoBehaviour
     private float GetNextLevelXP()
     {
         return XPManager.Instance.GetXPForNextLevel(_currentLevel);
+    }
+
+    public void ModifyMaxHealth(float value, OneTimeBuff.ValueType valueType)
+    {
+        switch (valueType)
+        {
+            case OneTimeBuff.ValueType.Additive:
+                _rts.MaxHealth += value;
+                _currentHealth += value;
+                break;
+            
+            case OneTimeBuff.ValueType.Multiplicative:
+                _rts.MaxHealth *= value;
+                _currentHealth *= value;
+                break;
+            
+            case OneTimeBuff.ValueType.Percentage:
+                var val = value / 100f;
+                
+                _rts.MaxHealth += _rts.MaxHealth * val;
+                _currentHealth += _currentHealth * val;
+                break;
+        }
+        
+        Debug.Log($"acum am {_rts.MaxHealth} sefu");
+        OnHealthChanged?.Invoke(_currentHealth, _rts.MaxHealth);
+    }
+    
+    public void ModifyXPRadius(float value, OneTimeBuff.ValueType valueType)
+    {
+        switch (valueType)
+        {
+            case OneTimeBuff.ValueType.Additive:
+                xpMagnetCollider.radius += value;
+                break;
+            
+            case OneTimeBuff.ValueType.Multiplicative:
+                xpMagnetCollider.radius *= value;
+
+                break;
+            
+            case OneTimeBuff.ValueType.Percentage:
+                var val = value / 100f;
+
+                xpMagnetCollider.radius += xpMagnetCollider.radius * val;
+                break;
+        }
     }
 }

@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PowerupContainer
   Powerups:
   - {fileID: 11400000, guid: c6375cdd0d446564dbead66ec2ee1950, type: 2}
-  - {fileID: 11400000, guid: 1f81a3883fa4e8c43bc532ae532795d3, type: 2}
-  - {fileID: 11400000, guid: d879559cb87d57d4da74ed2f82ccdc61, type: 2}
+  - {fileID: 11400000, guid: b8e4ac16baa54554fb2b1ae484cc2153, type: 2}
+  - {fileID: 11400000, guid: 51b604e15baf7c24f99b57aa00085464, type: 2}

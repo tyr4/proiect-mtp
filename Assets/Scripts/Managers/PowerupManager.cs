@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Sirenix.Utilities;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Serialization;
@@ -44,20 +44,25 @@ public class PowerupManager : MonoBehaviour
         if (owned == null)
         {
             _playerPowerups.Add(new OwnedPowerup(powerup, 1));
+
             AssignPowerup(powerup);
-            
+            powerup.OnSelect();
+
             return;
         }
 
         if (owned.Base is IHasTiers)
             owned.CurrentTier++;
+        
+        powerup.OnSelect();
     }
 
     // assign the powerup to the correct manager
     private void AssignPowerup(Powerup powerup)
     {
         powerup.OnAssign();
-        // if (powerup is Projectile proj)
+        
+         // if (powerup is Projectile proj)
         // {
         //     ProjectileManager.Instance.Register(proj);
         // }
@@ -106,7 +111,7 @@ public class PowerupManager : MonoBehaviour
     
     private int GetPlayerPowerupTier(Powerup powerup)
     {
-        if (powerup is not IHasTiers || _playerPowerups.IsNullOrEmpty()) return 0;
+        if (powerup is not IHasTiers || _playerPowerups.Count == 0) return 0;
         
         var found = _playerPowerups.Find(p => p.Base == powerup);
 
@@ -115,15 +120,32 @@ public class PowerupManager : MonoBehaviour
 
     private bool Contains(List<OwnedPowerup> list, Powerup powerup)
     {
-        if (list.IsNullOrEmpty()) return false;
+        if (list.Count == 0) return false;
         
         return list.Find(p => p.Base == powerup) != null;
     }
     
-    public OwnedPowerup Find(Powerup powerup)
+    // these 2 functions have to be separate because of external callers not knowing
+    // about the lists
+    public OwnedPowerup FindPlayerPowerup(Powerup powerup)
     {
-        if (_playerPowerups.IsNullOrEmpty()) return null;
+        if (_playerPowerups.Count == 0) return null;
         
         return _playerPowerups.Find(p => p.Base == powerup);
+    }
+    
+    private Powerup FindAllPowerup<T>() where T : Powerup
+    {
+        if (allPowerups.Powerups.Count == 0) return null;
+        
+        return allPowerups.Powerups.Find(p => p is T);
+    }
+    
+    // TODO: pass some player type enum?
+    public void AssignDefaultPowerup()
+    {
+        var powerup = FindAllPowerup<Bow>();
+        
+        UpdatePlayerPowerups(powerup);
     }
 }

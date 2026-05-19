@@ -32,12 +32,9 @@ public class PowerupPanelContainerUI : MonoBehaviour
         
         icon.sprite = powerup.Icon;
         displayName.text = powerup.DisplayName;
-        description.text = powerup.Description;
+        description.text = powerup.GetDescription();
 
-        if (powerup is IHasTiers && tier != 0)
-        {
-            displayName.text += $" Tier {tier + 1}";
-        }
+        displayName.text += $" (Tier {tier + 1})";
     }
 
     public void OnClick()

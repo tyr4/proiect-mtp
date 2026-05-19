@@ -16,4 +16,10 @@ public abstract class Powerup : ScriptableObject
     [field: SerializeField] public PowerupTypeEnum PowerupType { get; private set; }
     
     public virtual void OnAssign() {}
+    public virtual void OnSelect() {}
+
+    public virtual string GetDescription()
+    {
+        return Description;
+    }
 }

@@ -38,7 +38,7 @@ public class ProjectileManager : MonoBehaviour
 
     public void Register(Projectile proj)
     {
-        var owned = PowerupManager.Instance.Find(proj);
+        var owned = PowerupManager.Instance.FindPlayerPowerup(proj);
         var projRuntime = new ProjectileRuntimeData(owned);
         
         Debug.Log($"added {projRuntime} from {owned.Base}");

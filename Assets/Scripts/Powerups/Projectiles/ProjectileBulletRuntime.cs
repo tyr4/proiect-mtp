@@ -8,7 +8,6 @@ public class ProjectileBulletRuntime : MonoBehaviour
     private Transform _cachedTransform;
     
     private Vector2 _velocity;
-    private float _damage;
     private float _lifetime;
     private Projectile _projectile;
     private ProjectileRuntimeData _projRuntimeData;
@@ -29,7 +28,6 @@ public class ProjectileBulletRuntime : MonoBehaviour
         _sr.sprite = _projectile.ProjectileSprite;
         
         _velocity = velocity;
-        _damage = damage;
         _lifetime = lifetime;
         
         gameObject.SetActive(true);
@@ -56,9 +54,8 @@ public class ProjectileBulletRuntime : MonoBehaviour
         if (!other.gameObject.TryGetComponent<EnemyRuntime>(out var enemy)) return;
         int enemyID = enemy.GetInstanceID();
         if (_hitEnemies.Contains(enemyID)) return;
-        
-        var projTier = _projectile.CurrentTier;
-        var damage = _projectile.Damage.GetValue(projTier);
+
+        var damage = _projRuntimeData.GetDamage();
         
         enemy.TakeDamage(damage);
         _hitEnemies.Add(enemyID);

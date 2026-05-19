@@ -12,30 +12,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6f0f73cde8041329791937a214eb801, type: 3}
   m_Name: Bow 1
   m_EditorClassIdentifier: Assembly-CSharp::Sword
-  <DisplayName>k__BackingField: Bow
-  <Description>k__BackingField: dumb bow
-  <Icon>k__BackingField: {fileID: 2450708202969876798, guid: 430a0c8816056434cb9a2f19ecd7c830, type: 3}
+  <DisplayName>k__BackingField: ceva rosu
+  <Description>k__BackingField: terraria ahh
+  <Icon>k__BackingField: {fileID: -2281458042351831758, guid: b67530a6b9d183f46a6cf00b39fc3300, type: 3}
   <PowerupType>k__BackingField: 0
   <ProjectilePrefab>k__BackingField: {fileID: 5843329760596979151, guid: ddc3ccc0f9a80a54d9b479b7898dea69, type: 3}
-  <ProjectileSprite>k__BackingField: {fileID: 5931842347579807508, guid: 880929ea8b90d984f84380f689c99e28, type: 3}
+  <ProjectileSprite>k__BackingField: {fileID: -6212091817297008591, guid: 57fcf14da4e07d9448fb331b09079db2, type: 3}
   <Type>k__BackingField: 0
-  <AlwaysPierce>k__BackingField: 0
+  <AlwaysPierce>k__BackingField: 1
   <PiercesLeft>k__BackingField:
     tier1: 1
     tier2: 0
     tier3: 0
   <Cooldown>k__BackingField:
-    tier1: 3
-    tier2: 2
-    tier3: 1
-  <Damage>k__BackingField:
     tier1: 1
-    tier2: 2
-    tier3: 3
+    tier2: 0.5
+    tier3: 0.25
+  <Damage>k__BackingField:
+    tier1: 0.5
+    tier2: 1
+    tier3: 2
   <Speed>k__BackingField:
-    tier1: 1.25
-    tier2: 1.5
-    tier3: 1.75
+    tier1: 2
+    tier2: 3
+    tier3: 3.5
   <Count>k__BackingField:
     tier1: 1
     tier2: 2
