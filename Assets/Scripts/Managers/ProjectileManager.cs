@@ -32,22 +32,21 @@ public class ProjectileManager : MonoBehaviour
             var proj =  _activeProjectiles[i];
         
             // TODO: add to enemymanager a BuildGrid() function
-            proj.Tick(dt, playerPos, nearestEnemyPos, nearestEnemy.Velocity, this, enemyManager.Grid);
+            proj.Tick(dt, playerPos, nearestEnemyPos, nearestEnemy.Velocity, this);
         }
     }
 
     public void Register(Projectile proj)
     {
         var owned = PowerupManager.Instance.FindPlayerPowerup(proj);
-        var projRuntime = new ProjectileRuntimeData(owned);
+
+        var spawnerInstance = Instantiate(proj.Spawner);
+        var spawner = spawnerInstance as IProjectileBehaviour;
+        
+        var projRuntime = new ProjectileRuntimeData(owned, spawner);
         
         Debug.Log($"added {projRuntime} from {owned.Base}");
         _activeProjectiles.Add(projRuntime);
-    }
-    
-    public void Register(ProjectileRuntimeData projectile)
-    {
-        _activeProjectiles.Add(projectile);
     }
 
     public void Unregister(ProjectileRuntimeData projectile)

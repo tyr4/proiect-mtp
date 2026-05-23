@@ -3,6 +3,7 @@
 [System.Serializable]
 public class Projectile : Powerup, IHasTiers
 {
+    [field: SerializeField] public MonoBehaviour Spawner { get; private set; }
     [field: SerializeField] public GameObject ProjectilePrefab { get; private set; }
     [field: SerializeField] public Sprite ProjectileSprite { get; private set; }
     [field: SerializeField] public bool AlwaysPierce { get; private set; }

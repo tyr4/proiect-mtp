@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5510257166872539564}
   - component: {fileID: 3489325797106886404}
-  - component: {fileID: 5526751540401446549}
   - component: {fileID: 8198708174908904569}
+  - component: {fileID: 7647965393425681290}
   m_Layer: 9
   m_Name: Bow Projectile
   m_TagString: Untagged
@@ -93,18 +93,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &5526751540401446549
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5843329760596979151}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b2c266dfbb049ad81ca78ffb9a7ea16, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BulletBehaviour
 --- !u!61 &8198708174908904569
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -151,3 +139,15 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 2.7685766, y: 0.82}
   m_EdgeRadius: 0
+--- !u!114 &7647965393425681290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5843329760596979151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a00e805542e4436b84808c77cba3ffe3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BowRuntimeProjectile
