@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BowRuntime : MonoBehaviour
+public class BowRuntime : MonoBehaviour, IProjectileBehaviour
 {
     private SpriteRenderer _sr;
     private Transform _cachedTransform;
@@ -18,17 +18,26 @@ public class BowRuntime : MonoBehaviour
         _cachedTransform = transform;
     }
     
-    public void Launch(ProjectileRuntimeData projRuntimeData, Vector2 velocity, float damage, float lifetime)
+    public void Shoot(ProjectileRuntimeData data, Vector2 playerPos, Vector2 nearestEnemyPos, Vector2 nearestEnemyVelocity)
     {
-        _projectile = (Projectile)projRuntimeData.ownedPowerup.Base;
-        _projRuntimeData = projRuntimeData;
+        var bow = (Bow)data.ownedPowerup.Base;
+        var projectileSpeed = data.GetSpeed();
+
+        var travelTime = (nearestEnemyPos - playerPos).magnitude / projectileSpeed;
+        var predictedPos = nearestEnemyPos + nearestEnemyVelocity * travelTime;
+
+        var direction = (predictedPos - playerPos).normalized;
+    
+        _projRuntimeData = data;
         _projRuntimeData.Initialize();
-        
-        _sr.sprite = _projectile.ProjectileSprite;
-        
-        _velocity = velocity;
-        _lifetime = lifetime;
-        
+        _velocity = direction * projectileSpeed;
+        _lifetime = 5f;
+
+        _cachedTransform.position = playerPos + bow.PositionOffset;
+        _cachedTransform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + bow.AngleOffset);
+    
+        _sr.sprite = bow.ProjectileSprite;
+    
         gameObject.SetActive(true);
     }
 

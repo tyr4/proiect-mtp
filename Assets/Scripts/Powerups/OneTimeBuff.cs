@@ -15,7 +15,7 @@ public class OneTimeBuff : Powerup
 
     public virtual void ApplyBuff() { }
 
-    public override void OnSelect()
+    public override void OnSelect(OwnedPowerup owned)
     {
         ApplyBuff();
     }

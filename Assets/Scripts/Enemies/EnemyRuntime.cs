@@ -1,16 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using DG.Tweening;
-using Unity.Cinemachine;
+﻿using DG.Tweening;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class EnemyRuntime : MonoBehaviour
 {
     [SerializeField] private Material flashMaterial;
     
-    public EnemyData Data { get; private set; }
-    // public Vector3 cachedPosition;
+    public Enemy Data { get; private set; }
+    private IEnemyBehaviour _behaviour;
     public Transform cachedTransform;
     
     private float _health;
@@ -20,15 +16,10 @@ public class EnemyRuntime : MonoBehaviour
     private Rigidbody2D _rb;
     private SpriteRenderer _sr;
     private Material _defaultMaterial;
-    // private Material _flashMaterial;
-    
-    private const float DirectionForce = 10f;
-    private const float SeparationForce = 1f;
-    private const float FlashMaterialDuration = 0.1f;
     
     // dont update the direction every fixedupdate call
     private const float PathfindingRefreshRate = 0.2f;
-    private float _timer = 0;
+    private float _timer;
     
     private Vector3 _direction;
     private Vector3 _finalDirection;
@@ -40,14 +31,14 @@ public class EnemyRuntime : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
         _sr = GetComponentInChildren<SpriteRenderer>();
-        _defaultMaterial = new Material(_sr.material);
+        _defaultMaterial = _sr.material;
         cachedTransform = transform;
         // cachedPosition = cachedTransform.position;
     }
     
-    public void Initialize(EnemyData enemyData)
+    public void Initialize(Enemy enemy)
     {
-        Data = enemyData;
+        Data = enemy;
         _health = Data.Health;
         Damage = Data.Damage;
         _movementSpeed = Data.MovementSpeed;
@@ -55,44 +46,15 @@ public class EnemyRuntime : MonoBehaviour
 
         // apply a random speed multiplier
         _movementSpeed *= Random.Range(0.8f, 1.1f);
-        
-        // kill any ongoing tweens
-        // DOTween.Kill(_sr);
-        // DOTween.Kill(cachedTransform);
-        
-        // reset the alpha back to 1
-        // var currentColor = _sr.color;
-        // currentColor.a = 1f;
-        // _sr.color = currentColor;
+
+        _behaviour = GetComponent<IEnemyBehaviour>();
+        _behaviour?.Initialize(this, enemy);
     }
     
-    public void Tick(float deltaTime, Transform playerTransform, List<EnemyRuntime> neighbors, float separationRadius)
+    public void Tick(float deltaTime, Transform playerTransform)
     {
+        // basic pathfinding global for all enemies
         _timer += deltaTime;
-        
-        Vector3 separation = Vector3.zero;
-        
-        // step 1: cache positions
-        // apply the swarm effect
-        // basically, distance close-by enemies from themselves a bit
-        float separationRadiusSqr =
-            separationRadius * separationRadius;
-
-        // foreach (var other in neighbors)
-        // {
-        //     if (ReferenceEquals(other, this))
-        //         continue;
-        //
-        //     Vector3 diff =
-        //         cachedPosition - other.cachedPosition;
-        //
-        //     float sqrDist = diff.sqrMagnitude;
-        //
-        //     if (sqrDist < separationRadiusSqr)
-        //     {
-        //         separation += diff / (sqrDist + 0.001f);
-        //     }
-        // }
 
         if (_timer >= PathfindingRefreshRate)
         {
@@ -101,15 +63,16 @@ public class EnemyRuntime : MonoBehaviour
 
             _timer = 0;
         }
-
-        // move the enemy
-        // _cachedTransform.position += finalDirection * (_movementSpeed * deltaTime);
+        
         _rb.linearVelocity = _finalDirection * _movementSpeed;
 
         if (_direction.x != 0)
         {
             cachedTransform.rotation = Quaternion.Euler(0f, _direction.x < 0 ? 180f : 0f, 0f);
         }
+        
+        // execute custom logic
+        _behaviour.Tick(deltaTime);
     }
 
     public void TakeDamage(float damage)
@@ -125,12 +88,6 @@ public class EnemyRuntime : MonoBehaviour
         }
 
         TakeDamageAnimation();
-        // if (_flashCoroutine != null)
-        // {
-        //     StopCoroutine(_flashCoroutine);
-        // }
-        //
-        // _flashCoroutine = StartCoroutine(TakeDamageAnimation());
     }
 
     private void Kill()

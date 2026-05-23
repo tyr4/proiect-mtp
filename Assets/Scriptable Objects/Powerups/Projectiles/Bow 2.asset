@@ -15,10 +15,8 @@ MonoBehaviour:
   <DisplayName>k__BackingField: ballista
   <Description>k__BackingField: very nice imo
   <Icon>k__BackingField: {fileID: -3478625549920914563, guid: d2f1861b3518ae248abfb2d6cc9c1566, type: 3}
-  <PowerupType>k__BackingField: 0
   <ProjectilePrefab>k__BackingField: {fileID: 5843329760596979151, guid: ddc3ccc0f9a80a54d9b479b7898dea69, type: 3}
   <ProjectileSprite>k__BackingField: {fileID: 7316176786736914008, guid: da9de1043881fbc43912c71c6c084275, type: 3}
-  <Type>k__BackingField: 0
   <AlwaysPierce>k__BackingField: 0
   <PiercesLeft>k__BackingField:
     tier1: 1
@@ -27,7 +25,7 @@ MonoBehaviour:
   <Cooldown>k__BackingField:
     tier1: 1
     tier2: 2
-    tier3: 1
+    tier3: 0.3
   <Damage>k__BackingField:
     tier1: 4
     tier2: 2
@@ -35,11 +33,10 @@ MonoBehaviour:
   <Speed>k__BackingField:
     tier1: 1.25
     tier2: 1.5
-    tier3: 1.75
+    tier3: 1
   <Count>k__BackingField:
     tier1: 1
     tier2: 2
     tier3: 3
-  <CurrentTier>k__BackingField: 1
   <PositionOffset>k__BackingField: {x: 0, y: 0}
   <AngleOffset>k__BackingField: 0

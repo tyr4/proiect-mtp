@@ -11,14 +11,6 @@ public class Projectile : Powerup, IHasTiers
     [field: SerializeField] public TierData Damage { get; private set; }
     [field: SerializeField] public TierData Speed { get; private set; }
     [field: SerializeField] public TierData Count { get; private set; }
-    
-    public virtual void Shoot(
-        ProjectileRuntimeData projRuntimeData,
-        Vector2 playerPos, 
-        Vector2 nearestEnemyPos, 
-        Vector2 nearestEnemyVelocity,
-        ProjectileManager projManager, 
-        SpatialGrid grid) { }
 
     public override void OnAssign()
     {

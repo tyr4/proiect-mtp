@@ -8,7 +8,7 @@ public abstract class Powerup : ScriptableObject
     [field: SerializeField] public Sprite Icon { get; private set; }
     
     public virtual void OnAssign() {}
-    public virtual void OnSelect() {}
+    public virtual void OnSelect(OwnedPowerup owned) {}
 
     public virtual string GetDescription()
     {

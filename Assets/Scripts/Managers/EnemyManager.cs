@@ -8,7 +8,9 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private float gridCellSize;
     [SerializeField] private float separationRadius;
 
-    private List<EnemyRuntime> _activeEnemies = new();
+    private HashSet<EnemyRuntime> _activeEnemies = new();
+    private List<EnemyRuntime> _pendingDeletes = new();
+    
     // private readonly Vector3 _positionOffset = new Vector3(0, -0.5f, 0);
     // private float _gridRebuildCooldown = 0.01f;
     // private float timer = 0;
@@ -33,40 +35,42 @@ public class EnemyManager : MonoBehaviour
 
     public void Unregister(EnemyRuntime enemy)
     {
-        _activeEnemies.Remove(enemy);
+        _pendingDeletes.Add(enemy);
         OnEnemyDied?.Invoke(enemy.gameObject);
     }
 
     private void FixedUpdate()
     {
-        var deltaTime = Time.fixedDeltaTime;
-        
-        // step 1: build the grid, runs every _gridRebuildCooldown seconds
-        // GridRebuild(deltaTime);
-
-        // step 2: now the enemies will tick and simulate crowd distance properly
-        for (int i = 0; i < _activeEnemies.Count; i++)
+        // clear dead enemies from the poll
+        foreach (var e in _pendingDeletes)
         {
-            var enemy = _activeEnemies[i];
-            
-            enemy.Tick(deltaTime, playerTransform, null, separationRadius);
+            _activeEnemies.Remove(e);
+        }
+        _pendingDeletes.Clear();
+
+        
+        var deltaTime = Time.fixedDeltaTime;
+
+        foreach (var enemy in _activeEnemies)
+        {
+            enemy.Tick(deltaTime, playerTransform);
         }
     }
 
     private void GridRebuild()
     {
         Grid.Clear();
-
-        for (int i = 0; i < _activeEnemies.Count; i++)
+    
+        foreach (var enemy in _activeEnemies)
         {
-            Grid.Add(_activeEnemies[i]);
+            Grid.Add(enemy);
         }
     }
-
+    
     public EnemyRuntime GetNearestEnemy(Vector3 position)
     {
         GridRebuild();
-
+    
         return Grid.GetNearest(position);
     }
     

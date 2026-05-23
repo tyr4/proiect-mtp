@@ -4,11 +4,13 @@ using UnityEngine;
 public class ProjectileRuntimeData : IProjectile
 {
     public OwnedPowerup ownedPowerup;
-    private float _cooldownTimer;
     private Projectile _projectile;
+    
     private float _piercesLeft;
     private HashSet<int> _hitEnemies = new();
 
+    private float _cooldownTimer;
+    
     public ProjectileRuntimeData(OwnedPowerup powerup)
     {
         ownedPowerup = powerup;
@@ -34,7 +36,13 @@ public class ProjectileRuntimeData : IProjectile
 
         if (_cooldownTimer >= GetCooldown())
         {
-            _projectile.Shoot(this, playerPos, nearestEnemyPos, nearestEnemyVelocity, projManager, grid);
+            var obj = projManager.RequestPoolObject(_projectile);
+
+            if (obj.TryGetComponent<IProjectileBehaviour>(out var behaviour))
+            {
+                behaviour.Shoot(this, playerPos, nearestEnemyPos, nearestEnemyVelocity);
+            }
+            
             _cooldownTimer = 0f;
         }
     }

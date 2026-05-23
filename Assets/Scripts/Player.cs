@@ -194,4 +194,24 @@ public class Player : MonoBehaviour
                 break;
         }
     }
+    
+    public void ModifyMovementSpeed(float value, OneTimeBuff.ValueType valueType)
+    {
+        switch (valueType)
+        {
+            case OneTimeBuff.ValueType.Additive:
+                _rts.MovementSpeed += value;
+                break;
+            
+            case OneTimeBuff.ValueType.Multiplicative:
+                _rts.MovementSpeed *= value;
+                break;
+            
+            case OneTimeBuff.ValueType.Percentage:
+                var val = value / 100f;
+
+                _rts.MovementSpeed += _rts.MovementSpeed * val;
+                break;
+        }
+    }
 }

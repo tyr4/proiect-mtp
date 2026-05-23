@@ -32,7 +32,10 @@ public class PowerupSelectUI : MonoBehaviour
     {
         _selfGroup = GetComponent<CanvasGroup>();
         _allPowerups = PowerupManager.Instance.GetAllPowerups();
+        
         _selfGroup.alpha = 0;
+        _selfGroup.interactable = false;
+        _selfGroup.blocksRaycasts = false;
     }
     
     private void OnEnable()
@@ -59,8 +62,15 @@ public class PowerupSelectUI : MonoBehaviour
         SetPanelData(_choices[2], panel3Container);
 
         yield return LerpTimescale(1, 0).WaitForCompletion();
+
+        _selfGroup.interactable = false;
+        _selfGroup.blocksRaycasts = false;
         
-        LerpPanelAlpha(_selfGroup, 0, 1);
+        yield return LerpPanelAlpha(_selfGroup, 0, 1).WaitForCompletion();
+        
+        _selfGroup.interactable = true;
+        _selfGroup.blocksRaycasts = true;
+
     }
 
     private void SetPanelData(OwnedPowerup powerup, PowerupPanelContainerUI panel)
@@ -70,7 +80,10 @@ public class PowerupSelectUI : MonoBehaviour
 
     public IEnumerator ClosePanel()
     {
-        LerpPanelAlpha(_selfGroup, 1, 0);
+        _selfGroup.interactable = false;
+        _selfGroup.blocksRaycasts = false;
+        
+        yield return LerpPanelAlpha(_selfGroup, 1, 0).WaitForCompletion();
         
         yield return LerpTimescale(0, 1).WaitForCompletion();
     }

@@ -81,7 +81,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -5
   m_MaskInteraction: 0
   m_Sprite: {fileID: 6150263641630564314, guid: cd6a3b8d2b095474f9095dbaa2701a56, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -105,6 +105,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d60aeeafbca6469483741148ac52f690, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::XPDropRuntime
+  Data: {fileID: 0}
+  Collider: {fileID: 0}
 --- !u!61 &8552368885821576998
 BoxCollider2D:
   m_ObjectHideFlags: 0

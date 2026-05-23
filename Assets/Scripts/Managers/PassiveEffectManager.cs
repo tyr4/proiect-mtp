@@ -18,6 +18,11 @@ public class PassiveEffectManager : MonoBehaviour
         var owned = PowerupManager.Instance.FindPlayerPowerup(effect);
         var effectRuntime = new PassiveEffectRuntimeData(owned);
         
-        effect.Initialize(effectRuntime);
+        _activeEffects.Add(effectRuntime);
+    }
+
+    public PassiveEffectRuntimeData FindRuntimeData(OwnedPowerup owned)
+    {
+        return _activeEffects.Find(p => p.ownedPowerup == owned);
     }
 }

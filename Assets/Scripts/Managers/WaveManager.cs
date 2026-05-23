@@ -7,12 +7,12 @@ public class WaveManager : MonoBehaviour
 {
     [SerializeField] private Transform playerTransform;
     [SerializeField] private EnemyManager enemyManager;
-    [SerializeField] private List<EnemyData> enemyList;
+    [SerializeField] private EnemyContainer enemyContainer;
     [SerializeField] private float spawnRadiusFactor;
     [SerializeField] private float waveCooldown = 3f;
     [SerializeField] private bool disableSpawns;
     
-    private ObjectPool<EnemyData> _objectPool = new();
+    private ObjectPool<Enemy> _objectPool = new();
     private Camera _camera;
     private float _cameraHeight;
     private float _cameraWidth;
@@ -58,16 +58,16 @@ public class WaveManager : MonoBehaviour
     // TODO: more complex spawn logic
     public void SpawnEnemy()
     {
-        int choice = Random.Range(0, enemyList.Count);
-        var enemyData = enemyList[choice];
-        var enemyObj = _objectPool.Get(enemyData, enemyData.Prefab);
-        var enemyRuntime = enemyObj.GetComponent<EnemyRuntime>();
+        int choice = Random.Range(0, enemyContainer.Enemies.Count);
+        var enemy = enemyContainer.Enemies[choice];
+        var enemyObj = _objectPool.Get(enemy, enemy.Prefab);
+        var enemyData = enemyObj.GetComponent<EnemyRuntime>();
 
-        enemyRuntime.cachedTransform.position = GenerateRandomPosition();
-        enemyRuntime.Initialize(enemyData);
+        enemyData.Initialize(enemy);
+        enemyData.cachedTransform.position = GenerateRandomPosition();
         
         enemyObj.SetActive(true);
-        enemyManager.Register(enemyRuntime);
+        enemyManager.Register(enemyData);
     }
 
     private Vector2 GenerateRandomPosition()
@@ -85,7 +85,7 @@ public class WaveManager : MonoBehaviour
         return spawnPos;
     }
 
-    public void ReturnToPool(EnemyData data, EnemyRuntime enemy)
+    public void ReturnToPool(Enemy data, EnemyRuntime enemy)
     {
         // enemyManager.Unregister(enemy);
         _objectPool.Return(data, enemy.gameObject);

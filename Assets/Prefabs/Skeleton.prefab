@@ -124,6 +124,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6461235773823828601}
   - component: {fileID: 5868706967877237806}
+  - component: {fileID: 477301883881443630}
   - component: {fileID: 2489358182050396633}
   - component: {fileID: 662351656571780988}
   m_Layer: 7
@@ -163,6 +164,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyRuntime
   flashMaterial: {fileID: 2100000, guid: 26cf8e072da5f1d468d6a1ef08a1a506, type: 2}
   cachedTransform: {fileID: 0}
+  Damage: 0
+--- !u!114 &477301883881443630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2649042638931437101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f4de6b79b1c4ea18d9deebd1fde0924, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SkeletonRuntime
 --- !u!50 &2489358182050396633
 Rigidbody2D:
   serializedVersion: 5

@@ -40,26 +40,27 @@ public class PowerupManager : MonoBehaviour
     public void UpdatePlayerPowerups(Powerup powerup)
     {
         var owned = _playerPowerups.Find(p => p.Base == powerup);
-
+        
         if (owned == null)
         {
-            _playerPowerups.Add(new OwnedPowerup(powerup, 1));
+            var newPowerup = new OwnedPowerup(powerup, 1);
+            _playerPowerups.Add(newPowerup);
 
             AssignPowerup(powerup);
-            powerup.OnSelect();
-
+            powerup.OnSelect(newPowerup);
+            
             return;
         }
         
         owned.CurrentTier++;
-        powerup.OnSelect();
+        powerup.OnSelect(owned);
     }
 
     // assign the powerup to the correct manager
     private void AssignPowerup(Powerup powerup)
     {
         powerup.OnAssign();
-        
+            
          // if (powerup is Projectile proj)
         // {
         //     ProjectileManager.Instance.Register(proj);

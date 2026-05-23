@@ -33,3 +33,12 @@ MonoBehaviour:
     tier1: 1
     tier2: 1
     tier3: 1
+  <Radius>k__BackingField: 0.25
+  <RotationFactor>k__BackingField:
+    tier1: -130
+    tier2: -160
+    tier3: -200
+  <ProjectileCount>k__BackingField:
+    tier1: 1
+    tier2: 3
+    tier3: 5
