@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: Enemy Container
   m_EditorClassIdentifier: Assembly-CSharp::EnemyContainer
   Enemies:
+  - {fileID: 11400000, guid: 0a270a905a90f5f4799e569fa6a085d1, type: 2}
   - {fileID: 11400000, guid: efddc8ce4954b394f9525af41e20f968, type: 2}

@@ -6,8 +6,10 @@ public class EnemyRuntime : MonoBehaviour
     [SerializeField] private Material flashMaterial;
     
     public Enemy Data { get; private set; }
-    private IEnemyBehaviour _behaviour;
     public Transform cachedTransform;
+    
+    private IEnemyBehaviour _behaviour;
+    private ShootingEnemyRuntime _shootingRuntime;
     
     private float _health;
     public float Damage;
@@ -23,8 +25,10 @@ public class EnemyRuntime : MonoBehaviour
     
     private Vector3 _direction;
     private Vector3 _finalDirection;
+    
     private bool _isDead;
-
+    private bool _canMove = true;
+    
     public Vector2 Velocity => _finalDirection * _movementSpeed;
 
     private void Awake()
@@ -36,7 +40,7 @@ public class EnemyRuntime : MonoBehaviour
         // cachedPosition = cachedTransform.position;
     }
     
-    public void Initialize(Enemy enemy)
+    public void Initialize(Enemy enemy, IEnemyProjectileBehaviour spawner = null)
     {
         Data = enemy;
         _health = Data.Health;
@@ -49,6 +53,12 @@ public class EnemyRuntime : MonoBehaviour
 
         _behaviour = GetComponent<IEnemyBehaviour>();
         _behaviour?.Initialize(this, enemy);
+
+        _shootingRuntime = GetComponent<ShootingEnemyRuntime>();
+        if (enemy is ShootingEnemy shootingEnemy)
+        {
+            _shootingRuntime?.Initialize(this, shootingEnemy, spawner);
+        }
     }
     
     public void Tick(float deltaTime, Transform playerTransform)
@@ -58,9 +68,16 @@ public class EnemyRuntime : MonoBehaviour
 
         if (_timer >= PathfindingRefreshRate)
         {
-             _direction = playerTransform.position - cachedTransform.position;
-            _finalDirection = _direction.normalized;
-
+            if (_canMove)
+            {
+                _direction = playerTransform.position - cachedTransform.position;
+                _finalDirection = _direction.normalized;
+            }
+            else
+            {
+                _finalDirection = Vector3.zero;
+            }
+            
             _timer = 0;
         }
         
@@ -68,11 +85,12 @@ public class EnemyRuntime : MonoBehaviour
 
         if (_direction.x != 0)
         {
-            cachedTransform.rotation = Quaternion.Euler(0f, _direction.x < 0 ? 180f : 0f, 0f);
+            cachedTransform.localScale = new Vector3(_direction.x < 0 ? -1f : 1f, 1f, 1f);
         }
         
         // execute custom logic
-        _behaviour.Tick(deltaTime);
+        _behaviour?.Tick(deltaTime);
+        _shootingRuntime?.Tick(deltaTime, playerTransform);
     }
 
     public void TakeDamage(float damage)
@@ -141,6 +159,16 @@ public class EnemyRuntime : MonoBehaviour
         _sr.color = c;
 
         _sr.material = _defaultMaterial;
+    }
+
+    public void DisableMovement()
+    {
+        _canMove = false;
+    }
+
+    public void EnableMovement()
+    {
+        _canMove = true;
     }
     
     private void OnDrawGizmos()

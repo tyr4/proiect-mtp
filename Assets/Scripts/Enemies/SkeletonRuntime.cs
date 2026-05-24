@@ -6,7 +6,7 @@ public class SkeletonRuntime : MonoBehaviour, IEnemyBehaviour
     private Enemy _enemy;
 
     private float _timer;
-    // private float _cooldown = 3f;
+    private float _cooldown = 3f;
     
     public void Initialize(EnemyRuntime data, Enemy enemy)
     {
@@ -16,12 +16,12 @@ public class SkeletonRuntime : MonoBehaviour, IEnemyBehaviour
 
     public void Tick(float dt)
     {
-        // _timer += dt;
-        //
-        // if (_timer >= _cooldown)
-        // {
-        //     Debug.Log("am intrat din enemy");
-        //     _timer = 0;
-        // }
+        _timer += dt;
+        
+        if (_timer >= _cooldown)
+        {
+            // Debug.Log("am intrat din enemy");
+            _timer = 0;
+        }
     }
 }

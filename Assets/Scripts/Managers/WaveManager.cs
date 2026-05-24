@@ -63,7 +63,13 @@ public class WaveManager : MonoBehaviour
         var enemyObj = _objectPool.Get(enemy, enemy.Prefab);
         var enemyData = enemyObj.GetComponent<EnemyRuntime>();
 
-        enemyData.Initialize(enemy);
+        IEnemyProjectileBehaviour spawner = null;
+        if (enemy is ShootingEnemy shootingEnemy)
+        {
+            spawner = enemyObj.GetComponent<IEnemyProjectileBehaviour>();
+        }
+        
+        enemyData.Initialize(enemy, spawner);
         enemyData.cachedTransform.position = GenerateRandomPosition();
         
         enemyObj.SetActive(true);

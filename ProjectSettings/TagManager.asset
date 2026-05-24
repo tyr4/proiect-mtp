@@ -13,10 +13,10 @@ TagManager:
   - UI
   - XPDrop
   - Enemies
-  - 
+  - EnemyProjectile
   - Projectile
   - Player
-  - 
+  - EnemyProjectileHitbox
   - 
   - 
   - 

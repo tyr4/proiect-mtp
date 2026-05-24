@@ -16,9 +16,9 @@ public class Player : MonoBehaviour
     private Animator _animator;
     private SpriteRenderer _sr;
     
-    static readonly int IsWalking = Animator.StringToHash("isWalking");
-    static readonly int HasTakenDamage = Animator.StringToHash("hasTakenDamage");
-    static readonly int HasDied = Animator.StringToHash("hasDied");
+    private static readonly int IsWalking = Animator.StringToHash("isWalking");
+    private static readonly int HasTakenDamage = Animator.StringToHash("hasTakenDamage");
+    private static readonly int HasDied = Animator.StringToHash("hasDied");
     
     // events
     public static event Action<float, float> OnHealthChanged;
@@ -97,7 +97,7 @@ public class Player : MonoBehaviour
         // TODO: logic for damage taken/death
     }
 
-    private void TakeDamage(float value)
+    public void TakeDamage(float value)
     {
         _currentHealth -= value;
         
