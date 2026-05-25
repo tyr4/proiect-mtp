@@ -67,6 +67,7 @@ public class ShootingEnemyRuntime : MonoBehaviour
         _animator.SetBool(IsWalking, false);
         yield return null;
         
+        // wait for the shoot animation to complete
         yield return new WaitUntil(() => 
         {
             var info = _animator.GetCurrentAnimatorStateInfo(0);

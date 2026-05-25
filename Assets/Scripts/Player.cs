@@ -9,12 +9,12 @@ public class Player : MonoBehaviour
     [SerializeField] private PlayerStats playerStats;
     [SerializeField] private CircleCollider2D xpMagnetCollider;
     [SerializeField] private Transform passiveEffectsContainer;
-
+    [SerializeField] private Transform visualsTransform;
+    
     public Transform PassiveEffectsContainer => passiveEffectsContainer;
     
     private Rigidbody2D _rb;
     private Animator _animator;
-    private SpriteRenderer _sr;
     
     private static readonly int IsWalking = Animator.StringToHash("isWalking");
     private static readonly int HasTakenDamage = Animator.StringToHash("hasTakenDamage");
@@ -42,8 +42,7 @@ public class Player : MonoBehaviour
         
         _rts = Instantiate(playerStats);
         _rb = GetComponent<Rigidbody2D>();
-        _animator = GetComponent<Animator>();
-        _sr = GetComponent<SpriteRenderer>();
+        _animator = GetComponentInChildren<Animator>();
         
         _currentHealth = playerStats.MaxHealth;
     }
@@ -82,8 +81,8 @@ public class Player : MonoBehaviour
         }
         
         if (input.x != 0)
-        {
-            _sr.flipX = input.x < 0;
+        { 
+            visualsTransform.localScale = new Vector3(input.x < 0 ? -1f : 1f, 1f, 1f);
             // transform.rotation = Quaternion.Euler(0f, input.x < 0 ? 180f : 0f, 0f);
         }
     }

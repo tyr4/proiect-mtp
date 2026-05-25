@@ -35,7 +35,7 @@ public class BowRuntime : MonoBehaviour, IProjectileBehaviour
 
             if (obj.TryGetComponent<BowRuntimeProjectile>(out var proj))
             {
-                proj.Launch(data.Clone(), newDirection * projectileSpeed, playerPos, finalAngle, bow);
+                proj.Launch(data, newDirection * projectileSpeed, playerPos, finalAngle, bow);
             }
         }
     }

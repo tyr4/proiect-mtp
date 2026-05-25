@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = "Enemy", menuName = "Enemies/Bow Skeleton")]
+[CreateAssetMenu(fileName = "Bow Skeleton", menuName = "Enemies/Bow Skeleton")]
 public class BowSkeleton : ShootingEnemy
 {
 

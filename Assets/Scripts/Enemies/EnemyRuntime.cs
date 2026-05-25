@@ -1,4 +1,6 @@
-﻿using DG.Tweening;
+﻿using System.Collections;
+using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public class EnemyRuntime : MonoBehaviour
@@ -18,6 +20,7 @@ public class EnemyRuntime : MonoBehaviour
     private Rigidbody2D _rb;
     private SpriteRenderer _sr;
     private Material _defaultMaterial;
+    private Animator _animator;
     
     // dont update the direction every fixedupdate call
     private const float PathfindingRefreshRate = 0.2f;
@@ -30,14 +33,20 @@ public class EnemyRuntime : MonoBehaviour
     private bool _canMove = true;
     
     public Vector2 Velocity => _finalDirection * _movementSpeed;
+    
+    private static readonly int HasDied = Animator.StringToHash("hasDied");
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
         _sr = GetComponentInChildren<SpriteRenderer>();
+        _animator = GetComponentInChildren<Animator>();
+        
+        _behaviour = GetComponent<IEnemyBehaviour>();
+        _shootingRuntime = GetComponent<ShootingEnemyRuntime>();
+        
         _defaultMaterial = _sr.material;
         cachedTransform = transform;
-        // cachedPosition = cachedTransform.position;
     }
     
     public void Initialize(Enemy enemy, IEnemyProjectileBehaviour spawner = null)
@@ -46,15 +55,16 @@ public class EnemyRuntime : MonoBehaviour
         _health = Data.Health;
         Damage = Data.Damage;
         _movementSpeed = Data.MovementSpeed;
+        
         _isDead = false;
-
+        _rb.simulated = true;
+        EnableMovement();
+        
         // apply a random speed multiplier
         _movementSpeed *= Random.Range(0.8f, 1.1f);
 
-        _behaviour = GetComponent<IEnemyBehaviour>();
         _behaviour?.Initialize(this, enemy);
 
-        _shootingRuntime = GetComponent<ShootingEnemyRuntime>();
         if (enemy is ShootingEnemy shootingEnemy)
         {
             _shootingRuntime?.Initialize(this, shootingEnemy, spawner);
@@ -112,10 +122,11 @@ public class EnemyRuntime : MonoBehaviour
     {
         if (_isDead) return;
         _isDead = true;
+        DisableMovement();
         
         EnemyManager.Instance.Unregister(this);
         
-        DieAnimation();
+        StartCoroutine(DieAnimation());
     }
 
     // TODO: hurt logic here
@@ -134,11 +145,24 @@ public class EnemyRuntime : MonoBehaviour
         }).SetLink(gameObject);
     }
 
-    private void DieAnimation()
+    private IEnumerator DieAnimation()
     {
         _sr.material = _defaultMaterial;
-        _sr.DOKill();
+        _rb.simulated = false;
+        
+        _animator.SetTrigger(HasDied);
+        yield return null;
+        
+        // wait for the death animation to complete
+        yield return new WaitUntil(() => 
+        {
+            var info = _animator.GetCurrentAnimatorStateInfo(0);
+            // Debug.Log($"state: {info.fullPathHash}, normalizedTime: {info.normalizedTime}, isTransition: {_animator.IsInTransition(0)}");
+            return _animator is null ||
+                   (info.normalizedTime >= 1f && !_animator.IsInTransition(0));
+        });
 
+        _sr.DOKill();
         _sr.DOFade(0f, 0.15f)
             .SetLink(gameObject)
             .OnComplete(() =>
@@ -164,11 +188,14 @@ public class EnemyRuntime : MonoBehaviour
     public void DisableMovement()
     {
         _canMove = false;
+        _rb.linearVelocity = Vector3.zero;
+        _rb.bodyType = RigidbodyType2D.Kinematic;
     }
 
     public void EnableMovement()
     {
         _canMove = true;
+        _rb.bodyType = RigidbodyType2D.Dynamic;
     }
     
     private void OnDrawGizmos()

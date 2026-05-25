@@ -5,7 +5,7 @@ public class ObjectPool<TKey>
 {
     private Dictionary<TKey, Queue<GameObject>> _pool = new();
 
-    public GameObject Get(TKey key, GameObject prefab)
+    public GameObject Get(TKey key, GameObject prefab, Transform parent = null)
     {
         GameObject poolObj;
 
@@ -21,7 +21,7 @@ public class ObjectPool<TKey>
         }
         else
         {
-            var newObj = Object.Instantiate(prefab);
+            var newObj = Object.Instantiate(prefab, parent);
             newObj.SetActive(false);
             poolObj = newObj;
         }

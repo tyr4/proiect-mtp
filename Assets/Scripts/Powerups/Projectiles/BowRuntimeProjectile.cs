@@ -7,8 +7,9 @@ public class BowRuntimeProjectile : MonoBehaviour
     
     private Vector2 _velocity;
     private float _lifetime;
-    private Projectile _projectile;
+    
     private ProjectileRuntimeData _projRuntimeData;
+    private ProjectileHitState _hitState;
     
     private void Awake()
     {
@@ -19,8 +20,8 @@ public class BowRuntimeProjectile : MonoBehaviour
     public void Launch(ProjectileRuntimeData runtimeData, Vector2 velocity, Vector2 spawnPos, float angleDeg, Bow bow)
     {
         _projRuntimeData = runtimeData;
-        _projRuntimeData.Initialize();
-
+        _hitState = _projRuntimeData.GenerateHitState(_hitState);
+        
         _velocity = velocity;
         _lifetime = 5f;
 
@@ -36,9 +37,9 @@ public class BowRuntimeProjectile : MonoBehaviour
         // check if the enemy can be hit, mostly avoiding multiple trigger enters
         if (!other.gameObject.TryGetComponent<EnemyRuntime>(out var enemy)) return;
 
-        if (_projRuntimeData.CanDealDamage())
+        if (_hitState.CanDealDamage())
         {
-            _projRuntimeData.DealDamage(enemy);
+            _hitState.DealDamage(enemy);
             return;
         }
         

@@ -6,7 +6,8 @@ public class ProjectileManager : MonoBehaviour
 {
     [SerializeField] private EnemyManager enemyManager; // for the grid
     [SerializeField] private Transform playerTransform;
-
+    [SerializeField] private Transform parentContainer;
+    
     private List<ProjectileRuntimeData> _activeProjectiles = new();
     private ObjectPool<Projectile> _objectPool = new();
 
@@ -45,7 +46,7 @@ public class ProjectileManager : MonoBehaviour
         
         var projRuntime = new ProjectileRuntimeData(owned, spawner);
         
-        Debug.Log($"added {projRuntime} from {owned.Base}");
+        // Debug.Log($"added {projRuntime} from {owned.Base}");
         _activeProjectiles.Add(projRuntime);
     }
 
@@ -63,6 +64,11 @@ public class ProjectileManager : MonoBehaviour
 
     public GameObject RequestPoolObject(Projectile projectile)
     {
+        if (projectile is IAttachedToPlayer)
+        {
+            return _objectPool.Get(projectile, projectile.ProjectilePrefab, parentContainer);
+        }
+        
         return _objectPool.Get(projectile, projectile.ProjectilePrefab);
     }
 

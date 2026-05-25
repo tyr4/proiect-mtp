@@ -47,7 +47,6 @@ public class EnemyManager : MonoBehaviour
             _activeEnemies.Remove(e);
         }
         _pendingDeletes.Clear();
-
         
         var deltaTime = Time.fixedDeltaTime;
 
@@ -72,6 +71,11 @@ public class EnemyManager : MonoBehaviour
         GridRebuild();
     
         return Grid.GetNearest(position);
+    }
+
+    public int GetActiveEnemiesCount()
+    {
+        return _activeEnemies.Count;
     }
     
     private void OnDrawGizmos()

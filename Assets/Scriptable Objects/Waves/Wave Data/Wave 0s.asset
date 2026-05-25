@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 347afa00c56c42889f6b0586943d2970, type: 3}
+  m_Name: Wave 0s
+  m_EditorClassIdentifier: Assembly-CSharp::WaveData
+  startTime: 0
+  amount: 5
+  spawnInterval: 5
+  spawnAllAtOnce: 0
+  defaultEnemy: {fileID: 11400000, guid: efddc8ce4954b394f9525af41e20f968, type: 2}
+  boss: {fileID: 0}
+  specialEnemies: []

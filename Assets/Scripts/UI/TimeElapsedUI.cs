@@ -7,33 +7,22 @@ public class TimeElapsedUI : MonoBehaviour
 {
     [SerializeField] private TMP_Text timeText;
 
-    private int _totalSeconds = 0;
-    private float _timer;
-    // private StringBuilder _newText = new StringBuilder();
-
-    private void Awake()
+    private void OnEnable()
     {
-        BuildText(_totalSeconds);
+        WaveManager.OnSecondIncrease += BuildText;
     }
 
-    private void Update()
+    private void OnDisable()
     {
-        float dt = Time.deltaTime;
-        _timer += dt;
-
-        if (_timer >= 1f)
-        {
-            _totalSeconds++;
-            _timer -= 1f;
-            
-            BuildText(_totalSeconds);
-        }
+        WaveManager.OnSecondIncrease -= BuildText;
     }
     
-    private void BuildText(int seconds)
+    private void BuildText(float seconds)
     {
-        int minutes = seconds / 60;
-        int second = seconds % 60;
+        var rounded = Mathf.RoundToInt(seconds);
+        
+        int minutes = rounded / 60;
+        int second = rounded % 60;
         
         timeText.text = $"{minutes:D2}:{second:D2}";
     }

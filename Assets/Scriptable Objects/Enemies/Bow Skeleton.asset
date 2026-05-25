@@ -18,12 +18,12 @@ MonoBehaviour:
   <Prefab>k__BackingField: {fileID: 2649042638931437101, guid: 8de51756e5b93944da1e27fe11a663cf, type: 3}
   <Health>k__BackingField: 10
   <Damage>k__BackingField: 2
-  <MovementSpeed>k__BackingField: 0.3
+  <MovementSpeed>k__BackingField: 0.15
   <ProjectilePrefab>k__BackingField: {fileID: 8532957269870032119, guid: 6f88a22152ad3cd4cad9c66bfd4d9503, type: 3}
   <ProjectileSprite>k__BackingField: {fileID: 7316176786736914008, guid: da9de1043881fbc43912c71c6c084275, type: 3}
   <ArcSpread>k__BackingField: 35
-  <Cooldown>k__BackingField: 3
-  <Count>k__BackingField: 3
+  <Cooldown>k__BackingField: 5
+  <Count>k__BackingField: 2
   <ProjDamage>k__BackingField: 1
   <ProjSpeed>k__BackingField: 1.3
   <Lifetime>k__BackingField: 6

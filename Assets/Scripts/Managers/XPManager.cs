@@ -48,7 +48,7 @@ public class XPManager : MonoBehaviour
 
     public float GetXPForNextLevel(int currentLevel)
     {
-        return currentLevel * 25;
+        return Mathf.RoundToInt(50 * Mathf.Pow(1.35f, currentLevel - 1));
     }
 
     public void RegisterAttracted(XPDropRuntime xpRuntime)

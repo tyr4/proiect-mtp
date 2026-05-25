@@ -15,6 +15,11 @@ public class ContainersAutoRefresh : AssetPostprocessor
     {
         "Assets/Scriptable Objects/Enemies"
     };
+    
+    private static readonly string[] WaveDataFolders = new[]
+    {
+        "Assets/Scriptable Objects/Waves/Wave Data"
+    };
 
     private static void OnPostprocessAllAssets(
         string[] importedAssets, string[] deletedAssets,
@@ -48,6 +53,21 @@ public class ContainersAutoRefresh : AssetPostprocessor
                     EnemyFolders,
                     "t:Enemy",
                     (c, list) => c.Enemies = list
+                ));
+        
+        RefreshAll<WaveDataContainer>(
+            assetFilter: "t:WaveDataContainer",
+            importedAssets: importedAssets,
+            deletedAssets: deletedAssets,
+            changePredicate: path =>
+                path.Contains("Waves/Wave Data/") &&
+                !path.Contains("Wave Data Container"),
+            refreshAction: container =>
+                RefreshContainer<WaveDataContainer, WaveData>(
+                    container,
+                    WaveDataFolders,
+                    "t:WaveData",
+                    (c, list) => c.waves = list
                 ));
     }
 
