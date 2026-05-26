@@ -7,6 +7,11 @@ public class TimeElapsedUI : MonoBehaviour
 {
     [SerializeField] private TMP_Text timeText;
 
+    private void Awake()
+    {
+        BuildText(0);
+    }
+    
     private void OnEnable()
     {
         WaveManager.OnSecondIncrease += BuildText;

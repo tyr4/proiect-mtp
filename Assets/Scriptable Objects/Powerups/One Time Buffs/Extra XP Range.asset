@@ -16,4 +16,4 @@ MonoBehaviour:
   <Description>k__BackingField: Gain {value} XP Pickup Range
   <Icon>k__BackingField: {fileID: 5093978120288518676, guid: ec89d3c6a569b114a8e5e7a01eb34512, type: 3}
   <valueType>k__BackingField: 1
-  <Value>k__BackingField: 1.5
+  <Value>k__BackingField: 1.25

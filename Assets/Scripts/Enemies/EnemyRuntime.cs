@@ -49,11 +49,11 @@ public class EnemyRuntime : MonoBehaviour
         cachedTransform = transform;
     }
     
-    public void Initialize(Enemy enemy, IEnemyProjectileBehaviour spawner = null)
+    public void Initialize(Enemy enemy, float spawnTime, IEnemyProjectileBehaviour spawner = null)
     {
         Data = enemy;
-        _health = Data.Health;
-        Damage = Data.Damage;
+        _health = Data.Health * GetHealthScalingFactor(spawnTime);
+        Damage = Data.Damage * GetDamageScalingFactor(spawnTime);
         _movementSpeed = Data.MovementSpeed;
         
         _isDead = false;
@@ -69,6 +69,16 @@ public class EnemyRuntime : MonoBehaviour
         {
             _shootingRuntime?.Initialize(this, shootingEnemy, spawner);
         }
+    }
+
+    private float GetHealthScalingFactor(float spawnTime)
+    {
+        return Mathf.Max(1, spawnTime / 300);
+    }
+
+    private float GetDamageScalingFactor(float spawnTime)
+    {
+        return Mathf.Max(1, spawnTime / 300);
     }
     
     public void Tick(float deltaTime, Transform playerTransform)

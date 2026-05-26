@@ -17,6 +17,9 @@ public class PowerupManager : MonoBehaviour
     
     private Powerup _randomPowerup;
 
+    public static event Action<OwnedPowerup> OnPowerupAdded;
+    public static event Action<OwnedPowerup> OnPowerupUpdated;
+
     private void Awake()
     {
         Instance = this;
@@ -49,11 +52,15 @@ public class PowerupManager : MonoBehaviour
             AssignPowerup(powerup);
             powerup.OnSelect(newPowerup);
             
+            OnPowerupAdded?.Invoke(newPowerup);
+            
             return;
         }
         
         owned.CurrentTier++;
         powerup.OnSelect(owned);
+        
+        OnPowerupUpdated?.Invoke(owned);
     }
 
     // assign the powerup to the correct manager

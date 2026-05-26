@@ -18,12 +18,12 @@ MonoBehaviour:
   <EffectPrefab>k__BackingField: {fileID: 5086039738023044954, guid: 9c89a57a749c5a3449f2b6e8ae0403e3, type: 3}
   <EffectSprite>k__BackingField: {fileID: 5931842347579807508, guid: 880929ea8b90d984f84380f689c99e28, type: 3}
   <TickRate>k__BackingField:
-    tier1: 0.2
+    tier1: 1
     tier2: 1
     tier3: 1
   <Damage>k__BackingField:
     tier1: 1
-    tier2: 1
+    tier2: 2
     tier3: 3
   <Speed>k__BackingField:
     tier1: 1

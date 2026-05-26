@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Wave 0s
   m_EditorClassIdentifier: Assembly-CSharp::WaveData
   startTime: 0
-  amount: 5
-  spawnInterval: 5
+  amount: 3
+  spawnInterval: 2
   spawnAllAtOnce: 0
   defaultEnemy: {fileID: 11400000, guid: efddc8ce4954b394f9525af41e20f968, type: 2}
   boss: {fileID: 0}

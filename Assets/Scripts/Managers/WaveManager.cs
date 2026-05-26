@@ -18,7 +18,9 @@ public class WaveManager : MonoBehaviour
     private ObjectPool<Enemy> _objectPool = new();
     private List<WaveData> _waves = new();
     private List<GameObject> _enemiesThisWave = new();
+    
     private WaveData _currentWave;
+    private WaveData _nextWave;
     
     private int _currentWaveIndex = 0;
     private bool IsLastWave => _currentWaveIndex >= _waves.Count - 1;
@@ -44,6 +46,7 @@ public class WaveManager : MonoBehaviour
         _waves.Sort((a, b) => a.startTime.CompareTo(b.startTime));
         
         _currentWave = _waves[0];
+        _nextWave = _waves[1];
         
         _camera = Camera.main;
         
@@ -59,8 +62,6 @@ public class WaveManager : MonoBehaviour
         _cameraRadius = Mathf.Sqrt(_cameraWidth * _cameraWidth + _cameraHeight * _cameraHeight);
 
         _spawnRadius = _cameraRadius + spawnRadiusFactor;
-        
-        OnSecondIncrease?.Invoke(_globalTimer);
     }
     
     private void Update()
@@ -79,7 +80,7 @@ public class WaveManager : MonoBehaviour
         }
 
         // update the wave data if needed
-        if (_globalTimer >= _currentWave.startTime && !IsLastWave)
+        if (_globalTimer >= _nextWave.startTime && !IsLastWave)
         {
             AdvanceWave();
         }
@@ -127,7 +128,7 @@ public class WaveManager : MonoBehaviour
             spawner = enemyObj.GetComponent<IEnemyProjectileBehaviour>();
         }
         
-        enemyData.Initialize(enemy, spawner);
+        enemyData.Initialize(enemy, _globalTimer, spawner);
         enemyData.cachedTransform.position = GenerateRandomPosition();
         
         enemyObj.SetActive(!data.spawnAllAtOnce);
@@ -183,5 +184,9 @@ public class WaveManager : MonoBehaviour
 
         _currentWaveIndex++;
         _currentWave = _waves[_currentWaveIndex];
+        
+        _nextWave = _waves[Mathf.Min(_currentWaveIndex + 1, _waves.Count - 1)];
+        
+        Debug.Log($"advanced wave to {_currentWave}");
     }
 }

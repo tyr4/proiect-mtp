@@ -15,5 +15,5 @@ MonoBehaviour:
   <DisplayName>k__BackingField: Vitality
   <Description>k__BackingField: Gain {value} HP
   <Icon>k__BackingField: {fileID: -7097123367695304140, guid: 907594d834bfad740bd391dbff63938f, type: 3}
-  <valueType>k__BackingField: 2
-  <Value>k__BackingField: 20
+  <valueType>k__BackingField: 0
+  <Value>k__BackingField: 10

@@ -34,9 +34,9 @@ MonoBehaviour:
   <Speed>k__BackingField:
     tier1: 1.25
     tier2: 1.5
-    tier3: 1
+    tier3: 1.6
   <Count>k__BackingField:
     tier1: 1
     tier2: 2
-    tier3: 12
+    tier3: 4
   <ArcSpreadDegrees>k__BackingField: 45
