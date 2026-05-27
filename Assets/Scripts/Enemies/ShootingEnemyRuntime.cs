@@ -12,7 +12,8 @@ public class ShootingEnemyRuntime : MonoBehaviour
     private Transform _cachedTransform;
     private float _timer;
     private bool _isShooting;
-
+    private bool _storedAttack;
+    
     private Animator _animator;
     private static readonly int IsWalking = Animator.StringToHash("isWalking");
     
@@ -44,8 +45,17 @@ public class ShootingEnemyRuntime : MonoBehaviour
         
         _timer += dt;
 
-        if (_timer >= _shootingEnemy.Cooldown)
+        if (_timer >= _shootingEnemy.Cooldown || _storedAttack)
         {
+            var distance = (playerPos.position - transform.position).sqrMagnitude;
+            if (distance > _shootingEnemy.ShootingRange * _shootingEnemy.ShootingRange)
+            {
+                _storedAttack = true;
+                _timer = 0;
+                
+                return;
+            }
+            
             _objects.Clear();
 
             for (int i = 0; i < _shootingEnemy.Count; i++)
@@ -55,6 +65,7 @@ public class ShootingEnemyRuntime : MonoBehaviour
             }
 
             StartCoroutine(ShootWithAnimation(playerPos));
+            _storedAttack = false;
             _timer = 0;
         }
     }

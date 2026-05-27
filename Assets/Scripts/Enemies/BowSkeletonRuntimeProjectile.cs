@@ -62,11 +62,11 @@ public class BowSkeletonRuntimeProjectile : MonoBehaviour
         }
     }
     
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.matrix = Matrix4x4.TRS(_cachedTransform.position, _cachedTransform.rotation, Vector3.one);
-        Gizmos.DrawWireCube(Vector3.zero, _boxSize);
-        Gizmos.matrix = Matrix4x4.identity; // reset so other gizmos aren't affected
-    }
+    // private void OnDrawGizmos()
+    // {
+    //     Gizmos.color = Color.red;
+    //     Gizmos.matrix = Matrix4x4.TRS(_cachedTransform.position, _cachedTransform.rotation, Vector3.one);
+    //     Gizmos.DrawWireCube(Vector3.zero, _boxSize);
+    //     Gizmos.matrix = Matrix4x4.identity; // reset so other gizmos aren't affected
+    // }
 }

@@ -10,11 +10,13 @@ public class Player : MonoBehaviour
     [SerializeField] private CircleCollider2D xpMagnetCollider;
     [SerializeField] private Transform passiveEffectsContainer;
     [SerializeField] private Transform visualsTransform;
+    [SerializeField] private ParticleSystem walkingParticles;
     
     public Transform PassiveEffectsContainer => passiveEffectsContainer;
     
     private Rigidbody2D _rb;
     private Animator _animator;
+    private Transform _walkingParticlesTransform;
     
     private static readonly int IsWalking = Animator.StringToHash("isWalking");
     private static readonly int HasTakenDamage = Animator.StringToHash("hasTakenDamage");
@@ -43,6 +45,7 @@ public class Player : MonoBehaviour
         _rts = Instantiate(playerStats);
         _rb = GetComponent<Rigidbody2D>();
         _animator = GetComponentInChildren<Animator>();
+        _walkingParticlesTransform = walkingParticles.gameObject.transform;
         
         _currentHealth = playerStats.MaxHealth;
     }
@@ -76,14 +79,21 @@ public class Player : MonoBehaviour
         Vector2 input = InputManager.Instance.MoveInput;
         _rb.linearVelocity = input * _rts.MovementSpeed;
 
-        if (!input.Equals(Vector2.zero))
+        // particle system
+        if (input.Equals(Vector2.zero))
         {
+            walkingParticles.Stop();
+        }
+        else
+        {
+            if (walkingParticles.isStopped) walkingParticles.Play();
         }
         
+        // player and particles scale flipping
         if (input.x != 0)
         { 
-            visualsTransform.localScale = new Vector3(input.x < 0 ? -1f : 1f, 1f, 1f);
-            // transform.rotation = Quaternion.Euler(0f, input.x < 0 ? 180f : 0f, 0f);
+            DirectionCorrectScale(visualsTransform, input, false);
+            DirectionCorrectScale(_walkingParticlesTransform, input, true);
         }
     }
 
@@ -94,6 +104,17 @@ public class Player : MonoBehaviour
         _animator.SetBool(IsWalking, isWalking);
         
         // TODO: logic for damage taken/death
+    }
+
+    private void DirectionCorrectScale(Transform parent, Vector2 input, bool flipY)
+    {
+        var scale = parent.localScale;
+        
+        var newScale = new Vector3(input.x < 0 ? -Mathf.Abs(scale.x) : Mathf.Abs(scale.x), 
+                                   flipY && input.x < 0 ? -Mathf.Abs(scale.y) : Mathf.Abs(scale.y), 
+                                   scale.z);
+        
+        parent.localScale = newScale;
     }
 
     public void TakeDamage(float value)

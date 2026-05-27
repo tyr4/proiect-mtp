@@ -28,7 +28,11 @@ public class EnemyRuntime : MonoBehaviour
     
     private Vector3 _direction;
     private Vector3 _finalDirection;
-    
+
+    private const float DespawnDistance = 8f;
+    private float _despawnDistanceSquared;
+    private float _distance;
+
     private bool _isDead;
     private bool _canMove = true;
     
@@ -47,6 +51,8 @@ public class EnemyRuntime : MonoBehaviour
         
         _defaultMaterial = _sr.material;
         cachedTransform = transform;
+
+        _despawnDistanceSquared = DespawnDistance * DespawnDistance;
     }
     
     public void Initialize(Enemy enemy, float spawnTime, IEnemyProjectileBehaviour spawner = null)
@@ -58,6 +64,8 @@ public class EnemyRuntime : MonoBehaviour
         
         _isDead = false;
         _rb.simulated = true;
+
+        _distance = 0;
         EnableMovement();
         
         // apply a random speed multiplier
@@ -92,6 +100,9 @@ public class EnemyRuntime : MonoBehaviour
             {
                 _direction = playerTransform.position - cachedTransform.position;
                 _finalDirection = _direction.normalized;
+
+                _distance = _direction.sqrMagnitude;
+                DespawnIfOutOfRange();
             }
             else
             {
@@ -121,14 +132,14 @@ public class EnemyRuntime : MonoBehaviour
 
         if (_health <= 0)
         {
-            Kill();
+            Kill(true);
             return;
         }
 
         TakeDamageAnimation();
     }
 
-    private void Kill()
+    private void Kill(bool spawnXP)
     {
         if (_isDead) return;
         _isDead = true;
@@ -136,7 +147,7 @@ public class EnemyRuntime : MonoBehaviour
         
         EnemyManager.Instance.Unregister(this);
         
-        StartCoroutine(DieAnimation());
+        StartCoroutine(DieAnimation(spawnXP));
     }
 
     // TODO: hurt logic here
@@ -155,7 +166,7 @@ public class EnemyRuntime : MonoBehaviour
         }).SetLink(gameObject);
     }
 
-    private IEnumerator DieAnimation()
+    private IEnumerator DieAnimation(bool spawnXP)
     {
         _sr.material = _defaultMaterial;
         _rb.simulated = false;
@@ -179,7 +190,7 @@ public class EnemyRuntime : MonoBehaviour
             {
                 ResetVisual();
                 WaveManager.Instance.ReturnToPool(Data, this);
-                XPManager.Instance.SpawnXP(cachedTransform.position);
+                if (spawnXP) XPManager.Instance.SpawnXP(cachedTransform.position);
             });
         
         // WaveManager.Instance.ReturnToPool(Data, this);
@@ -206,6 +217,13 @@ public class EnemyRuntime : MonoBehaviour
     {
         _canMove = true;
         _rb.bodyType = RigidbodyType2D.Dynamic;
+    }
+
+    private void DespawnIfOutOfRange()
+    {
+        if (_distance < _despawnDistanceSquared) return;
+
+        Kill(false);
     }
     
     private void OnDrawGizmos()

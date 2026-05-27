@@ -9,6 +9,7 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private float separationRadius;
 
     private HashSet<EnemyRuntime> _activeEnemies = new();
+    private Dictionary<Enemy, int> _enemyCounts = new();  // this is for the wavemanager
     private List<EnemyRuntime> _pendingDeletes = new();
     
     // private readonly Vector3 _positionOffset = new Vector3(0, -0.5f, 0);
@@ -30,12 +31,20 @@ public class EnemyManager : MonoBehaviour
     public void Register(EnemyRuntime enemy)
     {
         _activeEnemies.Add(enemy);
+
+        if (_enemyCounts.ContainsKey(enemy.Data))
+            _enemyCounts[enemy.Data]++;
+        
+        else _enemyCounts[enemy.Data]= 1;
+        
         OnEnemySpawned?.Invoke(enemy.gameObject);
     }
 
     public void Unregister(EnemyRuntime enemy)
     {
         _pendingDeletes.Add(enemy);
+        _enemyCounts[enemy.Data]--;
+        
         OnEnemyDied?.Invoke(enemy.gameObject);
     }
 
@@ -76,6 +85,11 @@ public class EnemyManager : MonoBehaviour
     public int GetActiveEnemiesCount()
     {
         return _activeEnemies.Count;
+    }
+
+    public int GetActiveEnemiesCountByType(Enemy enemy)
+    {
+        return _enemyCounts.GetValueOrDefault(enemy, 0);
     }
     
     private void OnDrawGizmos()

@@ -17,7 +17,7 @@ MonoBehaviour:
   <Icon>k__BackingField: {fileID: 2450708202969876798, guid: 430a0c8816056434cb9a2f19ecd7c830, type: 3}
   <Spawner>k__BackingField: {fileID: 4721126877615018554, guid: d7f9cc8031c42ea4eb1f860e94311e3f, type: 3}
   <ProjectilePrefab>k__BackingField: {fileID: 5843329760596979151, guid: ddc3ccc0f9a80a54d9b479b7898dea69, type: 3}
-  <ProjectileSprite>k__BackingField: {fileID: 5931842347579807508, guid: 880929ea8b90d984f84380f689c99e28, type: 3}
+  <ProjectileSprite>k__BackingField: {fileID: 2367449957533476818, guid: fc9753aadf03b174eb96484031589801, type: 3}
   <AlwaysPierce>k__BackingField: 0
   <PiercesLeft>k__BackingField:
     tier1: 1

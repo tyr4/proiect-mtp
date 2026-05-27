@@ -145,6 +145,9 @@ public class WaveManager : MonoBehaviour
 
         foreach (var entry in enemyList)
         {
+            if (enemyManager.GetActiveEnemiesCountByType(entry.enemy) >= entry.maxCount)
+                continue;
+            
             cumulative += entry.spawnChance;
             
             if (random <= cumulative)
