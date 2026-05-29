@@ -1,4 +1,5 @@
 ﻿using System;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -25,8 +26,9 @@ public class DamageNumber : MonoBehaviour
 
         _tmp.text = $"{value}";
         _tmp.alpha = 1;
-        
         _timer = 0;
+        
+        _tmp.DOFade(0f, lifetime).SetLink(gameObject);
     }
 
     private void Update()
@@ -34,10 +36,7 @@ public class DamageNumber : MonoBehaviour
         _timer += Time.deltaTime;
         
         _cachedTransform.position += Vector3.up * (floatSpeed * Time.deltaTime);
-
-        float alpha = Mathf.Lerp(1f, 0f, _timer / lifetime);
-        _tmp.alpha = alpha;
-
+        
         if (_timer >= lifetime)
         {
             ReturnToPool();
