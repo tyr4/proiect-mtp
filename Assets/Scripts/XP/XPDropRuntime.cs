@@ -12,23 +12,34 @@ public class XPDropRuntime : MonoBehaviour
     
     public BoxCollider2D Collider;
 
-    private const float DirectionCooldown = 0.15f;
+    private const float DirectionCooldown = 0.25f;
     private float _directionTimer;
-
+    private float _despawnRangeSquared;
+    
     private Vector3 _direction;
     private bool _isAttracted;
 
+    private float _runtimeValue;
+    
     private void Awake()
     {
         _sr =  GetComponent<SpriteRenderer>();
         Collider = GetComponent<BoxCollider2D>();
         _cachedTransform = transform;
+        
     }
-    
-    public void Initialize(XPDrop data)
+
+    private void Start()
+    {
+        var despawnRange = XPManager.Instance.DespawnRange;
+        _despawnRangeSquared = despawnRange * despawnRange;
+    }
+
+    public void Initialize(XPDrop data, float valueBoost)
     {
         Data = data;
         _direction = Vector3.zero;
+        _runtimeValue = data.Value + valueBoost;
         
         Collider.enabled = true;
         
@@ -88,6 +99,21 @@ public class XPDropRuntime : MonoBehaviour
             XPManager.Instance.ReturnToPool(Data, this);
             ResetVisual();
         });
+    }
+
+    public float GetXPValue()
+    {
+        return _runtimeValue;
+    }
+
+    public bool DespawnIfNecessary(Transform playerTransform)
+    {
+        var distance = (playerTransform.position - _cachedTransform.position).sqrMagnitude;
+
+        if (!(distance > _despawnRangeSquared)) return false;
+        
+        Despawn();
+        return true;
     }
 
     private void ResetVisual()

@@ -142,7 +142,7 @@ public class Player : MonoBehaviour
     
     public void HandleXpPickup(XPDropRuntime xpRuntime)
     {
-        _currentXp += xpRuntime.Data.Value;
+        _currentXp += xpRuntime.GetXPValue();
         OnXPChanged?.Invoke(_currentXp, _nextLevelXp);
         
         if (_currentXp >= _nextLevelXp)

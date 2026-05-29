@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class EnemyRuntime : MonoBehaviour
 {
@@ -39,6 +41,7 @@ public class EnemyRuntime : MonoBehaviour
     public Vector2 Velocity => _finalDirection * _movementSpeed;
     
     private static readonly int HasDied = Animator.StringToHash("hasDied");
+    public static event Action<Transform, float> OnDamageTaken;
 
     private void Awake()
     {
@@ -129,6 +132,7 @@ public class EnemyRuntime : MonoBehaviour
         if (_isDead) return;
         
         _health -= damage;
+        OnDamageTaken?.Invoke(cachedTransform, damage);
 
         if (_health <= 0)
         {
@@ -150,7 +154,6 @@ public class EnemyRuntime : MonoBehaviour
         StartCoroutine(DieAnimation(spawnXP));
     }
 
-    // TODO: hurt logic here
     private void TakeDamageAnimation()
     {
         _sr.DOKill();
