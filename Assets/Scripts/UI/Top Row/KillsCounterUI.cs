@@ -22,7 +22,7 @@ public class KillsCounterUI : MonoBehaviour
         EnemyManager.OnEnemyDied -= BuildText;
     }
     
-    private void BuildText(GameObject _)
+    private void BuildText(Transform _)
     {
         _counter++;
         

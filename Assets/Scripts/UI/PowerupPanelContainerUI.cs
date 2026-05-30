@@ -9,7 +9,6 @@ public class PowerupPanelContainerUI : MonoBehaviour
     [SerializeField] private Image icon;
     [SerializeField] private TMP_Text displayName;
     [SerializeField] private TMP_Text description;
-    [SerializeField] private Button confirmButton;
     
     private Powerup _selectedPowerup;
     private PowerupSelectUI _parentPanel;
@@ -21,14 +20,14 @@ public class PowerupPanelContainerUI : MonoBehaviour
         _parentPanel = GetComponentInParent<PowerupSelectUI>();
     }
 
-    private void Initialzie(Powerup selectedPowerup)
+    private void Initialize(Powerup selectedPowerup)
     {
         _selectedPowerup = selectedPowerup;
     }
     
     public void Populate(OwnedPowerup powerup)
     {
-        Initialzie(powerup.Base);
+        Initialize(powerup.Base);
         
         icon.sprite = powerup.Base.Icon;
         displayName.text = powerup.Base.DisplayName;

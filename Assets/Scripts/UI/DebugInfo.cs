@@ -42,13 +42,13 @@ public class DebugInfo : MonoBehaviour
         enemiesAlive.text = $"Enemies alive: {_enemyCount}";
     }
     
-    private void OnEnemyDied(GameObject obj)
+    private void OnEnemyDied(Transform obj)
     {
         _enemyCount--;
         UpdateEnemyText();
     }
-
-    private void OnEnemySpawned(GameObject obj)
+    
+    private void OnEnemySpawned(Transform obj)
     {
         _enemyCount++;
         UpdateEnemyText();
@@ -59,5 +59,12 @@ public class DebugInfo : MonoBehaviour
         var proj = Instantiate(projectileSO);
         
         PowerupManager.Instance.UpdatePlayerPowerups(proj);
+    }
+    
+    public void JumpTo30Minutes()
+    {
+        Debug.Log("am intrat 30 minutes");
+        WaveManager.Instance.SetTime(1800);
+        Debug.Log("am terminat 30 minutes");
     }
 }

@@ -18,8 +18,8 @@ public class EnemyManager : MonoBehaviour
 
     public SpatialGrid Grid { get; private set; }
     
-    public static event Action<GameObject> OnEnemySpawned;
-    public static event Action<GameObject> OnEnemyDied;
+    public static event Action<Transform> OnEnemySpawned;
+    public static event Action<Transform> OnEnemyDied;
     public static EnemyManager Instance;
 
     private void Awake()
@@ -37,7 +37,7 @@ public class EnemyManager : MonoBehaviour
         
         else _enemyCounts[enemy.Data]= 1;
         
-        OnEnemySpawned?.Invoke(enemy.gameObject);
+        OnEnemySpawned?.Invoke(enemy.cachedTransform);
     }
 
     public void Unregister(EnemyRuntime enemy)
@@ -45,7 +45,7 @@ public class EnemyManager : MonoBehaviour
         _pendingDeletes.Add(enemy);
         _enemyCounts[enemy.Data]--;
         
-        OnEnemyDied?.Invoke(enemy.gameObject);
+        OnEnemyDied?.Invoke(enemy.cachedTransform);
     }
 
     private void FixedUpdate()

@@ -55,18 +55,20 @@ public class PowerupSelectUI : MonoBehaviour
 
     private IEnumerator PopupPanelCoroutine()
     {
+        yield return UIState.WaitUntilUnlocked(); 
+     
         _choices = PowerupManager.Instance.GeneratePowerupChoices();
         
         SetPanelData(_choices[0], panel1Container);
         SetPanelData(_choices[1], panel2Container);
         SetPanelData(_choices[2], panel3Container);
 
-        yield return LerpTimescale(1, 0).WaitForCompletion();
+        yield return Animations.LerpTimescale(1, 0, timescaleDuration).WaitForCompletion();
 
         _selfGroup.interactable = false;
         _selfGroup.blocksRaycasts = false;
         
-        yield return LerpPanelAlpha(_selfGroup, 0, 1).WaitForCompletion();
+        yield return Animations.LerpPanelAlpha(_selfGroup, 0, 1, panelDuration).WaitForCompletion();
         
         _selfGroup.interactable = true;
         _selfGroup.blocksRaycasts = true;
@@ -80,39 +82,13 @@ public class PowerupSelectUI : MonoBehaviour
 
     public IEnumerator ClosePanel()
     {
+        
         _selfGroup.interactable = false;
         _selfGroup.blocksRaycasts = false;
         
-        yield return LerpPanelAlpha(_selfGroup, 1, 0).WaitForCompletion();
+        yield return Animations.LerpPanelAlpha(_selfGroup, 1, 0, panelDuration).WaitForCompletion();
+        yield return Animations.LerpTimescale(0, 1, timescaleDuration).WaitForCompletion();
         
-        yield return LerpTimescale(0, 1).WaitForCompletion();
-    }
-
-    private Tween LerpValue(DOGetter<float> getter, DOSetter<float> setter, float startValue, float endValue, float endDuration)
-    {
-        setter(startValue);
-        
-        return DOTween.To(
-            getter,
-            setter,
-            endValue,
-            endDuration
-        ).SetUpdate(true);
-    }
-
-    private Tween LerpTimescale(int start, int end)
-    {
-        return LerpValue(
-            () => Time.timeScale, 
-            x => Time.timeScale = x,
-            start, end, timescaleDuration);
-    }
-
-    private Tween LerpPanelAlpha(CanvasGroup panel, int start, int end)
-    {
-        return LerpValue(
-            () => panel.alpha, 
-            x => panel.alpha = x,
-            start, end, panelDuration);
+        UIState.Unlock();
     }
 }

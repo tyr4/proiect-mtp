@@ -192,4 +192,10 @@ public class WaveManager : MonoBehaviour
         
         Debug.Log($"advanced wave to {_currentWave}");
     }
+
+    public void SetTime(float value)
+    {
+        _globalTimer = value;
+        Debug.Log($"set time to {_globalTimer}");
+    }
 }
