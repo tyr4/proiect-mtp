@@ -10,6 +10,6 @@ public class WaveData : ScriptableObject
     public bool spawnAllAtOnce;
     
     public Enemy defaultEnemy;
-    public Enemy boss;
+    public Boss boss;
     public List<EnemyWaveData> specialEnemies;
 }

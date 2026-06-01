@@ -6,7 +6,6 @@ using UnityEngine.Serialization;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private PlayerStats playerStats;
     [SerializeField] private CircleCollider2D xpMagnetCollider;
     [SerializeField] private Transform passiveEffectsContainer;
     [SerializeField] private Transform visualsTransform;
@@ -27,6 +26,7 @@ public class Player : MonoBehaviour
     public static event Action<float, float> OnXPChanged;
     public static event Action<int> OnLevelUp;
     
+    private StartingPlayerData _startingPlayerData;
     private PlayerStats _rts;
     
     // runtime changing stats
@@ -42,12 +42,9 @@ public class Player : MonoBehaviour
     {
         Instance = this;
         
-        _rts = Instantiate(playerStats);
         _rb = GetComponent<Rigidbody2D>();
         _animator = GetComponentInChildren<Animator>();
         _walkingParticlesTransform = walkingParticles.gameObject.transform;
-        
-        _currentHealth = playerStats.MaxHealth;
     }
 
     private void Start()
@@ -56,12 +53,17 @@ public class Player : MonoBehaviour
 
         _nextLevelXp = GetNextLevelXP();
         
-        // TODO: add weapon depending on player start, rn its just the default bow
-        PowerupManager.Instance.AssignDefaultPowerup();
+        GameManager.Instance.SetPlayerData(this);
+        _startingPlayerData = GameManager.Instance.GetStartingData();
+        
+        _rts = _startingPlayerData.playerStats.Clone();
+        _currentHealth = _rts.maxHealth;
         
         // set ui in place
         OnXPChanged?.Invoke(_currentXp, _nextLevelXp);
         OnLevelUp?.Invoke(_currentLevel);
+        
+        AudioEvents.RequestMusic(AudioManager.Sounds.gameplay);
     }
 
     private void OnDestroy()
@@ -77,7 +79,7 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         Vector2 input = InputManager.Instance.MoveInput;
-        _rb.linearVelocity = input * _rts.MovementSpeed;
+        _rb.linearVelocity = input * _rts.movementSpeed;
 
         // particle system
         if (input.Equals(Vector2.zero))
@@ -106,7 +108,12 @@ public class Player : MonoBehaviour
         // TODO: logic for damage taken/death
     }
 
-    private void DirectionCorrectScale(Transform parent, Vector2 input, bool flipY)
+    public void SetAnimationController(RuntimeAnimatorController controller)
+    {
+        _animator.runtimeAnimatorController = controller;
+    }
+
+    private void DirectionCorrectScale(Transform parent, Vector2 input, bool flipY = false)
     {
         var scale = parent.localScale;
         
@@ -125,24 +132,26 @@ public class Player : MonoBehaviour
         {
             Die();
         }
-        
-        OnHealthChanged?.Invoke(_currentHealth, _rts.MaxHealth);
+
+        AudioEvents.RequestSFX(AudioManager.Sounds.playerHurt);
+        OnHealthChanged?.Invoke(_currentHealth, _rts.maxHealth);
     }
 
     private void Die()
     {
-        _currentHealth = _rts.MaxHealth;
+        _currentHealth = _rts.maxHealth;
     }
 
     public void HandleEnemyCollision(EnemyRuntime enemy)
     {
-        // TODO: take enemy._damage as public param here
         TakeDamage(enemy.Damage);
     }
     
     public void HandleXpPickup(XPDropRuntime xpRuntime)
     {
         _currentXp += xpRuntime.GetXPValue();
+        
+        AudioEvents.RequestSFX(AudioManager.Sounds.xpPickup);
         OnXPChanged?.Invoke(_currentXp, _nextLevelXp);
         
         if (_currentXp >= _nextLevelXp)
@@ -173,25 +182,25 @@ public class Player : MonoBehaviour
         switch (valueType)
         {
             case OneTimeBuff.ValueType.Additive:
-                _rts.MaxHealth += value;
+                _rts.maxHealth += value;
                 _currentHealth += value;
                 break;
             
             case OneTimeBuff.ValueType.Multiplicative:
-                _rts.MaxHealth *= value;
+                _rts.maxHealth *= value;
                 _currentHealth *= value;
                 break;
             
             case OneTimeBuff.ValueType.Percentage:
                 var val = value / 100f;
                 
-                _rts.MaxHealth += _rts.MaxHealth * val;
+                _rts.maxHealth += _rts.maxHealth * val;
                 _currentHealth += _currentHealth * val;
                 break;
         }
         
-        Debug.Log($"acum am {_rts.MaxHealth} sefu");
-        OnHealthChanged?.Invoke(_currentHealth, _rts.MaxHealth);
+        Debug.Log($"acum am {_rts.maxHealth} sefu");
+        OnHealthChanged?.Invoke(_currentHealth, _rts.maxHealth);
     }
     
     public void ModifyXPRadius(float value, OneTimeBuff.ValueType valueType)
@@ -220,17 +229,17 @@ public class Player : MonoBehaviour
         switch (valueType)
         {
             case OneTimeBuff.ValueType.Additive:
-                _rts.MovementSpeed += value;
+                _rts.movementSpeed += value;
                 break;
             
             case OneTimeBuff.ValueType.Multiplicative:
-                _rts.MovementSpeed *= value;
+                _rts.movementSpeed *= value;
                 break;
             
             case OneTimeBuff.ValueType.Percentage:
                 var val = value / 100f;
 
-                _rts.MovementSpeed += _rts.MovementSpeed * val;
+                _rts.movementSpeed += _rts.movementSpeed * val;
                 break;
         }
     }

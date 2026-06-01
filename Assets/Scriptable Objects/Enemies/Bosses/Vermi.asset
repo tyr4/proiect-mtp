@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97c17878bab94d88ab658c6ce9a91c74, type: 3}
+  m_Name: Vermi
+  m_EditorClassIdentifier: Assembly-CSharp::Vermi
+  <DisplayName>k__BackingField: vermi
+  <Description>k__BackingField: lion
+  <Icon>k__BackingField: {fileID: 0}
+  <Prefab>k__BackingField: {fileID: 2649042638931437101, guid: de78a29386be26445b22b3b358e3fdba, type: 3}
+  <Health>k__BackingField: 500
+  <Damage>k__BackingField: 3
+  <MovementSpeed>k__BackingField: 0.2
+  <BossMusic>k__BackingField: {fileID: 0}
+  <SpawnAttackCooldown>k__BackingField: 15
+  <ProjectileAttackCooldown>k__BackingField: 10
+  <SpawnEnemy>k__BackingField: {fileID: 11400000, guid: 7a6075c44acd10d4cb1ff9563de1a361, type: 2}
+  <SpawnAmount>k__BackingField: 5
+  <ProjectilePrefab>k__BackingField: {fileID: 4432432407485936402, guid: c1b6c0fdb17fc1042a56c8a90798a685, type: 3}
+  <ProjectileAmount>k__BackingField: 2
+  <ProjectileSpeed>k__BackingField: 3

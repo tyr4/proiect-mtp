@@ -13,7 +13,7 @@ public class ContainersAutoRefresh : AssetPostprocessor
     
     private static readonly string[] EnemyFolders = new[]
     {
-        "Assets/Scriptable Objects/Enemies"
+        "Assets/Scriptable Objects/Enemies/Base Enemies"
     };
     
     private static readonly string[] WaveDataFolders = new[]

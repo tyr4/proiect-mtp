@@ -17,5 +17,5 @@ MonoBehaviour:
   spawnInterval: 2
   spawnAllAtOnce: 0
   defaultEnemy: {fileID: 11400000, guid: efddc8ce4954b394f9525af41e20f968, type: 2}
-  boss: {fileID: 0}
+  boss: {fileID: 11400000, guid: e3f629bbad60436499380a4fb949372c, type: 2}
   specialEnemies: []

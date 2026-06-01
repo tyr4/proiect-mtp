@@ -3,9 +3,11 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] private StartingPlayerData dataIfNull;
+    
     public static GameManager Instance;
-
-    private Powerup _startPowerup;
+    
+    private StartingPlayerData _startingData;
     
     private void Awake()
     {
@@ -22,6 +24,16 @@ public class GameManager : MonoBehaviour
         QualitySettings.vSyncCount = 0;
     }
 
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
     public void LoadStartMenuScene()
     {
         SceneManager.LoadScene(sceneBuildIndex: 0);
@@ -32,18 +44,38 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(sceneBuildIndex: 1);
     }
 
-    public void SetStartPowerup(Powerup powerup)
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        _startPowerup = powerup;
+        UIState.Unlock();
     }
 
-    public Powerup GetStartPowerup()
+    public void SetStartData(StartingPlayerData powerup)
     {
-        return _startPowerup;
+        _startingData = powerup;
+    }
+
+    public StartingPlayerData GetStartingData()
+    {
+        if (_startingData == null) return dataIfNull;
+        
+        return _startingData;
     }
 
     public void Quit()
     {
         Application.Quit();
+    }
+
+    public void SetPlayerData(Player player)
+    {
+        if (_startingData == null)
+        {
+            player.SetAnimationController(dataIfNull.animationController);
+            PowerupManager.Instance.UpdatePlayerPowerups(dataIfNull.powerup);
+            return;
+        }
+        
+        player.SetAnimationController(_startingData.animationController);
+        PowerupManager.Instance.UpdatePlayerPowerups(_startingData.powerup);
     }
 }

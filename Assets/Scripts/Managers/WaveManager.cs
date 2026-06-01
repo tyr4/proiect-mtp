@@ -24,6 +24,7 @@ public class WaveManager : MonoBehaviour
     
     private int _currentWaveIndex = 0;
     private bool IsLastWave => _currentWaveIndex >= _waves.Count - 1;
+    private bool _bossSpawnedThisWave;
     
     private Camera _camera;
     private float _cameraHeight;
@@ -99,6 +100,13 @@ public class WaveManager : MonoBehaviour
     {
         if (EnemyManager.Instance.GetActiveEnemiesCount() >= maxEnemiesAlive) return;
         
+        // spawn boss if it exists
+        if (_currentWave.boss && !_bossSpawnedThisWave)
+        {
+            SpawnBoss(_currentWave.boss);
+        }
+        
+        // spawn the rest of the enemies
         _enemiesThisWave.Clear();
         
         for (int i = 0; i < _currentWave.amount; i++)
@@ -137,6 +145,42 @@ public class WaveManager : MonoBehaviour
         return enemyObj;
     }
 
+    public EnemyRuntime SpawnEnemy(Enemy enemy)
+    {
+        var enemyObj = _objectPool.Get(enemy, enemy.Prefab);
+        var enemyData = enemyObj.GetComponent<EnemyRuntime>();
+
+        IEnemyProjectileBehaviour spawner = null;
+        if (enemy is ShootingEnemy shootingEnemy)
+        {
+            spawner = enemyObj.GetComponent<IEnemyProjectileBehaviour>();
+        }
+        
+        enemyData.Initialize(enemy, _globalTimer, spawner);
+        enemyData.cachedTransform.position = GenerateRandomPosition();
+        
+        enemyObj.SetActive(true);
+        enemyManager.Register(enemyData);
+
+        return enemyData;
+    }
+
+    private GameObject SpawnBoss(Boss boss)
+    {
+        var bossObj = _objectPool.Get(boss, boss.Prefab);
+        var bossData = bossObj.GetComponent<EnemyRuntime>();
+        
+        bossData.Initialize(boss, _globalTimer);
+        bossData.cachedTransform.position = GenerateRandomPosition();
+        
+        bossObj.SetActive(true);
+        enemyManager.Register(bossData);
+
+        _bossSpawnedThisWave = true;
+
+        return bossObj;
+    }
+
     private Enemy GetRandomEnemy(WaveData data)
     {
         var enemyList = data.specialEnemies;
@@ -159,7 +203,7 @@ public class WaveManager : MonoBehaviour
         return data.defaultEnemy;
     }
 
-    private Vector2 GenerateRandomPosition()
+    public Vector2 GenerateRandomPosition()
     {
         Vector2 dir = Random.insideUnitCircle;
         
@@ -189,6 +233,8 @@ public class WaveManager : MonoBehaviour
         _currentWave = _waves[_currentWaveIndex];
         
         _nextWave = _waves[Mathf.Min(_currentWaveIndex + 1, _waves.Count - 1)];
+
+        _bossSpawnedThisWave = false;
         
         Debug.Log($"advanced wave to {_currentWave}");
     }

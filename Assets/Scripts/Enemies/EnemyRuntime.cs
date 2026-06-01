@@ -22,7 +22,7 @@ public class EnemyRuntime : MonoBehaviour
     private Rigidbody2D _rb;
     private SpriteRenderer _sr;
     private Material _defaultMaterial;
-    private Animator _animator;
+    protected Animator animator;
     
     // dont update the direction every fixedupdate call
     private const float PathfindingRefreshRate = 0.2f;
@@ -32,8 +32,8 @@ public class EnemyRuntime : MonoBehaviour
     private Vector3 _finalDirection;
 
     private const float DespawnDistance = 8f;
-    private float _despawnDistanceSquared;
-    private float _distance;
+    protected float DespawnDistanceSquared;
+    protected float Distance;
 
     private bool _isDead;
     private bool _canMove = true;
@@ -43,11 +43,11 @@ public class EnemyRuntime : MonoBehaviour
     private static readonly int HasDied = Animator.StringToHash("hasDied");
     public static event Action<Transform, float> OnDamageTaken;
 
-    private void Awake()
+    public void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
         _sr = GetComponentInChildren<SpriteRenderer>();
-        _animator = GetComponentInChildren<Animator>();
+        animator = GetComponentInChildren<Animator>();
         
         _behaviour = GetComponent<IEnemyBehaviour>();
         _shootingRuntime = GetComponent<ShootingEnemyRuntime>();
@@ -55,7 +55,7 @@ public class EnemyRuntime : MonoBehaviour
         _defaultMaterial = _sr.material;
         cachedTransform = transform;
 
-        _despawnDistanceSquared = DespawnDistance * DespawnDistance;
+        DespawnDistanceSquared = DespawnDistance * DespawnDistance;
     }
     
     public void Initialize(Enemy enemy, float spawnTime, IEnemyProjectileBehaviour spawner = null)
@@ -68,7 +68,7 @@ public class EnemyRuntime : MonoBehaviour
         _isDead = false;
         _rb.simulated = true;
 
-        _distance = 0;
+        Distance = 0;
         EnableMovement();
         
         // apply a random speed multiplier
@@ -104,7 +104,7 @@ public class EnemyRuntime : MonoBehaviour
                 _direction = playerTransform.position - cachedTransform.position;
                 _finalDirection = _direction.normalized;
 
-                _distance = _direction.sqrMagnitude;
+                Distance = _direction.sqrMagnitude;
                 DespawnIfOutOfRange();
             }
             else
@@ -119,12 +119,23 @@ public class EnemyRuntime : MonoBehaviour
 
         if (_direction.x != 0)
         {
-            cachedTransform.localScale = new Vector3(_direction.x < 0 ? -1f : 1f, 1f, 1f);
+            DirectionCorrectScale(cachedTransform, _direction);
         }
         
         // execute custom logic
         _behaviour?.Tick(deltaTime);
         _shootingRuntime?.Tick(deltaTime, playerTransform);
+    }
+    
+    private void DirectionCorrectScale(Transform parent, Vector2 input, bool flipY = false)
+    {
+        var scale = parent.localScale;
+        
+        var newScale = new Vector3(input.x < 0 ? -Mathf.Abs(scale.x) : Mathf.Abs(scale.x), 
+            flipY && input.x < 0 ? -Mathf.Abs(scale.y) : Mathf.Abs(scale.y), 
+            scale.z);
+        
+        parent.localScale = newScale;
     }
 
     public void TakeDamage(float damage)
@@ -137,6 +148,8 @@ public class EnemyRuntime : MonoBehaviour
         if (_health <= 0)
         {
             Kill(true);
+            // AudioEvents.RequestSFX(AudioManager.Sounds.enemyDead);
+            
             return;
         }
 
@@ -174,16 +187,16 @@ public class EnemyRuntime : MonoBehaviour
         _sr.material = _defaultMaterial;
         _rb.simulated = false;
         
-        _animator.SetTrigger(HasDied);
+        animator.SetTrigger(HasDied);
         yield return null;
         
         // wait for the death animation to complete
         yield return new WaitUntil(() => 
         {
-            var info = _animator.GetCurrentAnimatorStateInfo(0);
+            var info = animator.GetCurrentAnimatorStateInfo(0);
             // Debug.Log($"state: {info.fullPathHash}, normalizedTime: {info.normalizedTime}, isTransition: {_animator.IsInTransition(0)}");
-            return _animator is null ||
-                   (info.normalizedTime >= 1f && !_animator.IsInTransition(0));
+            return animator is null ||
+                   (info.normalizedTime >= 1f && !animator.IsInTransition(0));
         });
 
         _sr.DOKill();
@@ -222,9 +235,9 @@ public class EnemyRuntime : MonoBehaviour
         _rb.bodyType = RigidbodyType2D.Dynamic;
     }
 
-    private void DespawnIfOutOfRange()
+    protected virtual void DespawnIfOutOfRange()
     {
-        if (_distance < _despawnDistanceSquared) return;
+        if (Distance < DespawnDistanceSquared) return;
 
         Kill(false);
     }

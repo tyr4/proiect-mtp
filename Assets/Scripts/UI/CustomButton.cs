@@ -144,6 +144,7 @@ public class CustomButton : MonoBehaviour,
         
         RefreshVisual();
         ExecuteClickFunctions();
+        AudioEvents.RequestSFX(AudioManager.Sounds.buttonClick);
 
         if (buttonType == ButtonType.Button)
         {        

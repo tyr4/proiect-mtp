@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b73239fdfa1460e8ba1b1916fa39e1c, type: 3}
+  m_Name: Swordsman
+  m_EditorClassIdentifier: Assembly-CSharp::StartingPlayerData
+  displayName: Swordsman
+  playerStats:
+    maxHealth: 20
+    movementSpeed: 1
+  sprite: {fileID: -1398481107835275646, guid: 2c41a119216d92a4486ac3b66880ec04, type: 3}
+  animationController: {fileID: 9100000, guid: bc3b4ff0d2533ed498c1fed771f0472b, type: 2}
+  powerup: {fileID: 11400000, guid: e5fc1519f3dbb824c85f0f83fb686cf9, type: 2}

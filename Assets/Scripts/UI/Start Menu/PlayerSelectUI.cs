@@ -1,14 +1,19 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using DG.Tweening;
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PlayerSelectUI : MonoBehaviour
 {
     [SerializeField] private CustomButton startButton;
+    
     [SerializeField] private float animationDuration = 0.3f;
 
     private CanvasGroup _canvasGroup;
+    private bool _isOpen;
+
+    public static event Action OnStartButtonDisabled;
 
     private void Awake()
     {
@@ -22,11 +27,16 @@ public class PlayerSelectUI : MonoBehaviour
     private void Start()
     {
         startButton.DisableButton();
-    }
+        OnStartButtonDisabled?.Invoke();
 
-    public void ShowMenu()
+        startButton.AddEventListeners(_ => GameManager.Instance.LoadMainLoopScene());
+    }
+    
+    public void OnClick()
     {
-        StartCoroutine(ShowMenuCoroutine());
+        if (!_isOpen)
+            StartCoroutine(ShowMenuCoroutine());
+        else HideMenu();
     }
 
     private IEnumerator ShowMenuCoroutine()
@@ -39,6 +49,7 @@ public class PlayerSelectUI : MonoBehaviour
         _canvasGroup.blocksRaycasts = true;
         
         UIState.Unlock();
+        _isOpen = true;
     }
 
     public void HideMenu()
@@ -47,6 +58,7 @@ public class PlayerSelectUI : MonoBehaviour
         
         _canvasGroup.interactable = false;
         _canvasGroup.blocksRaycasts = false;
+        _isOpen = false;
     }
 
     public void OnPowerupSelected(CustomButton toggle)
@@ -61,5 +73,6 @@ public class PlayerSelectUI : MonoBehaviour
         }
         
         startButton.DisableButton();
+        OnStartButtonDisabled?.Invoke();
     }
 }

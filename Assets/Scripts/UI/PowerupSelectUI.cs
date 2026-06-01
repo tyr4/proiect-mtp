@@ -51,6 +51,8 @@ public class PowerupSelectUI : MonoBehaviour
     private void PopupPanel(int _)
     {
         StartCoroutine(PopupPanelCoroutine());
+        
+        AudioEvents.RequestSFX(AudioManager.Sounds.playerLevelUp);
     }
 
     private IEnumerator PopupPanelCoroutine()

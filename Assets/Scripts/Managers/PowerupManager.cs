@@ -146,12 +146,4 @@ public class PowerupManager : MonoBehaviour
         
         return allPowerups.Powerups.Find(p => p is T);
     }
-    
-    // TODO: pass some player type enum?
-    public void AssignDefaultPowerup()
-    {
-        var powerup = GameManager.Instance.GetStartPowerup();
-        
-        UpdatePlayerPowerups(powerup);
-    }
 }

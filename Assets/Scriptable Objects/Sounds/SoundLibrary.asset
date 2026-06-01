@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55de293f7ab84332863ad896b32c391b, type: 3}
+  m_Name: SoundLibrary
+  m_EditorClassIdentifier: Assembly-CSharp::SoundLibrary
+  buttonClick: {fileID: 8300000, guid: 69f679f7f7b967143946a1fec74a857b, type: 3}
+  buttonHover: {fileID: 0}
+  playerHurt: {fileID: 8300000, guid: b6af004497b9d2645b499b9831e972b5, type: 3}
+  playerDeath: {fileID: 0}
+  playerLevelUp: {fileID: 8300000, guid: b43054320886c044785a14d4a5bd312d, type: 3}
+  mainMenu: {fileID: 8300000, guid: 41fa789d0b286d8438983cd387d0e4ea, type: 3}
+  gameplay: {fileID: 8300000, guid: bd2afce8c92c29448b4da51153b4c725, type: 3}
+  enemyDead: {fileID: 8300000, guid: e491dfb18d137b8458c9ff729aa50a46, type: 3}
+  xpPickup: {fileID: 8300000, guid: 2fe3673146a813d48a072937dc75e0ad, type: 3}
