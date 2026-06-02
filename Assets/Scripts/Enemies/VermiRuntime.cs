@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Security.Cryptography;
+using DG.Tweening;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -12,8 +11,11 @@ public class VermiRuntime : EnemyRuntime, IEnemyBehaviour
         ProjectileAttack,
         SpawnAttack
     }
+
+    [SerializeField] private Transform playerTransform;
     
     private Vermi _vermi;
+    private Transform _cachedTransform;
     
     private float _useAbilityTimer;
     private float _globalAbilityCooldown = 5f;
@@ -22,11 +24,18 @@ public class VermiRuntime : EnemyRuntime, IEnemyBehaviour
     private float _spawnAttackTimer;
 
     private List<AbilityType> _available = new();
+    private List<GameObject> _projObjects = new();
+    
     private bool _isUsingAbility;
     
     private static readonly int IsWalking = Animator.StringToHash("isWalking");
     private static readonly int IsAttacking = Animator.StringToHash("isAttacking");
 
+    private new void Awake()
+    {
+        _cachedTransform = transform;
+    }
+    
     public void Initialize(EnemyRuntime data, Enemy enemy)
     {
         _vermi = (Vermi)enemy;
@@ -97,7 +106,7 @@ public class VermiRuntime : EnemyRuntime, IEnemyBehaviour
         Debug.Log("Using SpawnAttack");
         DisableMovement();
         
-        animator.SetBool(IsAttacking, true);
+        animator.SetTrigger(IsAttacking);
         animator.SetBool(IsWalking, false);
         yield return null;
         
@@ -110,11 +119,23 @@ public class VermiRuntime : EnemyRuntime, IEnemyBehaviour
                    (info.normalizedTime >= 1f && !animator.IsInTransition(0));
         });
 
-        animator.SetBool(IsAttacking, false);
         animator.SetBool(IsWalking, true);
         _isUsingAbility = false;
         
         EnableMovement();
+        
+        // actual spawn logic
+        // _projObjects.Clear();
+        //
+        // for (int i = 0; i < _projObjects.Count; i++)
+        // {
+        //     /* TODO: SWITCH THIS TO SHOOTING ENEMY MANAGER, MAKE VERMI INHERIT FROM SHOOTINGENEMYRUNTIME 
+        //      AND MAKE SHOOTINGENEMYRUNTIME INHERIT FROM ENEMYRUNTIME
+        //     */
+        //     // this now pools from the (players) proj manager :sob:
+        //     var obj = ProjectileManager.Instance.RequestPoolObject(_vermi.Projectile);
+        //     _projObjects.Add(obj);
+        // }
     }
 
     private IEnumerator ProjectileAttackCoroutine()
@@ -122,7 +143,7 @@ public class VermiRuntime : EnemyRuntime, IEnemyBehaviour
         Debug.Log("Using ProjectileAttack");
         DisableMovement();
         
-        animator.SetBool(IsAttacking, true);
+        animator.SetTrigger(IsAttacking);
         animator.SetBool(IsWalking, false);
         yield return null;
         
@@ -134,23 +155,23 @@ public class VermiRuntime : EnemyRuntime, IEnemyBehaviour
             return animator is null ||
                    (info.normalizedTime >= 1f && !animator.IsInTransition(0));
         });
+        
+        animator.SetBool(IsWalking, true);
+        _isUsingAbility = false;
+        
+        EnableMovement();
 
         // actual spawning logic
-        var offset = 1.3f;
+        var offset = 3f;
         
         for (int i = 0; i < _vermi.SpawnAmount; i++)
         {
             var runtime = WaveManager.Instance.SpawnEnemy(_vermi.SpawnEnemy);
             
             runtime.cachedTransform.position = (Vector2)cachedTransform.position + Random.insideUnitCircle * offset;
-            
-            yield return new WaitForSeconds(0.2f);
+
+            yield return Animations.LerpSpriteRendererAlpha(runtime.sr, 0, 1, 0.5f).WaitForCompletion();
+            // yield return new WaitForSeconds(0.2f);
         }
-        
-        animator.SetBool(IsAttacking, false);
-        animator.SetBool(IsWalking, true);
-        _isUsingAbility = false;
-        
-        EnableMovement();
     }
 }

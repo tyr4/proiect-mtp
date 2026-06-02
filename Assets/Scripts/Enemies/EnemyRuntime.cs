@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class EnemyRuntime : MonoBehaviour
@@ -15,12 +16,12 @@ public class EnemyRuntime : MonoBehaviour
     private IEnemyBehaviour _behaviour;
     private ShootingEnemyRuntime _shootingRuntime;
     
-    private float _health;
+    public float Health;
     public float Damage;
     private float _movementSpeed;
     
     private Rigidbody2D _rb;
-    private SpriteRenderer _sr;
+    public SpriteRenderer sr;
     private Material _defaultMaterial;
     protected Animator animator;
     
@@ -42,17 +43,18 @@ public class EnemyRuntime : MonoBehaviour
     
     private static readonly int HasDied = Animator.StringToHash("hasDied");
     public static event Action<Transform, float> OnDamageTaken;
+    public static event Action OnBossDied;
 
     public void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
-        _sr = GetComponentInChildren<SpriteRenderer>();
+        sr = GetComponentInChildren<SpriteRenderer>();
         animator = GetComponentInChildren<Animator>();
         
         _behaviour = GetComponent<IEnemyBehaviour>();
         _shootingRuntime = GetComponent<ShootingEnemyRuntime>();
         
-        _defaultMaterial = _sr.material;
+        _defaultMaterial = sr.material;
         cachedTransform = transform;
 
         DespawnDistanceSquared = DespawnDistance * DespawnDistance;
@@ -61,7 +63,7 @@ public class EnemyRuntime : MonoBehaviour
     public void Initialize(Enemy enemy, float spawnTime, IEnemyProjectileBehaviour spawner = null)
     {
         Data = enemy;
-        _health = Data.Health * GetHealthScalingFactor(spawnTime);
+        Health = Data.Health * GetHealthScalingFactor(spawnTime);
         Damage = Data.Damage * GetDamageScalingFactor(spawnTime);
         _movementSpeed = Data.MovementSpeed;
         
@@ -142,10 +144,10 @@ public class EnemyRuntime : MonoBehaviour
     {
         if (_isDead) return;
         
-        _health -= damage;
+        Health -= damage;
         OnDamageTaken?.Invoke(cachedTransform, damage);
 
-        if (_health <= 0)
+        if (Health <= 0)
         {
             Kill(true);
             // AudioEvents.RequestSFX(AudioManager.Sounds.enemyDead);
@@ -156,7 +158,7 @@ public class EnemyRuntime : MonoBehaviour
         TakeDamageAnimation();
     }
 
-    private void Kill(bool spawnXP)
+    public void Kill(bool spawnXP)
     {
         if (_isDead) return;
         _isDead = true;
@@ -165,26 +167,31 @@ public class EnemyRuntime : MonoBehaviour
         EnemyManager.Instance.Unregister(this);
         
         StartCoroutine(DieAnimation(spawnXP));
+
+        if (Data is Boss)
+        {
+            OnBossDied?.Invoke();
+        }
     }
 
     private void TakeDamageAnimation()
     {
-        _sr.DOKill();
+        sr.DOKill();
         
-        _sr.material = flashMaterial;
+        sr.material = flashMaterial;
 
         DOVirtual.DelayedCall(0.1f, () =>
         {
             if (!_isDead)
             {
-                _sr.material = _defaultMaterial;
+                sr.material = _defaultMaterial;
             }
         }).SetLink(gameObject);
     }
 
     private IEnumerator DieAnimation(bool spawnXP)
     {
-        _sr.material = _defaultMaterial;
+        sr.material = _defaultMaterial;
         _rb.simulated = false;
         
         animator.SetTrigger(HasDied);
@@ -199,8 +206,8 @@ public class EnemyRuntime : MonoBehaviour
                    (info.normalizedTime >= 1f && !animator.IsInTransition(0));
         });
 
-        _sr.DOKill();
-        _sr.DOFade(0f, 0.15f)
+        sr.DOKill();
+        sr.DOFade(0f, 0.15f)
             .SetLink(gameObject)
             .OnComplete(() =>
             {
@@ -215,11 +222,11 @@ public class EnemyRuntime : MonoBehaviour
 
     private void ResetVisual()
     {
-        var c = _sr.color;
+        var c = sr.color;
         c.a = 1f;
-        _sr.color = c;
+        sr.color = c;
 
-        _sr.material = _defaultMaterial;
+        sr.material = _defaultMaterial;
     }
 
     public void DisableMovement()

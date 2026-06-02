@@ -1,5 +1,6 @@
 ﻿using DG.Tweening;
 using DG.Tweening.Core;
+using Unity.Cinemachine;
 using UnityEngine;
 
 public static class Animations
@@ -29,6 +30,22 @@ public static class Animations
         return LerpValue(
             () => panel.alpha, 
             x => panel.alpha = x,
+            start, end, duration);
+    }
+
+    public static Tween LerpSpriteRendererAlpha(SpriteRenderer sr, int start, int end, float duration)
+    {
+        return LerpValue(
+            () => sr.color.a,
+            x => sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, x),
+            start, end, duration);
+    }
+
+    public static Tween LerpAudioSourceVolume(AudioSource source, float start, float end, float duration)
+    {
+        return LerpValue(
+            () => source.volume,
+            x => source.volume = x,
             start, end, duration);
     }
 }

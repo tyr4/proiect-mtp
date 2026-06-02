@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Wave 120s
   m_EditorClassIdentifier: Assembly-CSharp::WaveData
   startTime: 10
-  amount: 0
-  spawnInterval: 0.2
+  amount: 2
+  spawnInterval: 1
   spawnAllAtOnce: 1
   defaultEnemy: {fileID: 11400000, guid: efddc8ce4954b394f9525af41e20f968, type: 2}
-  boss: {fileID: 0}
+  boss: {fileID: 11400000, guid: e3f629bbad60436499380a4fb949372c, type: 2}
   specialEnemies:
   - enemy: {fileID: 11400000, guid: 0a270a905a90f5f4799e569fa6a085d1, type: 2}
     spawnChance: 0.05

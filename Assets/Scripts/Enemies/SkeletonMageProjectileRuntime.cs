@@ -46,9 +46,7 @@ public class SkeletonMageProjectileRuntime : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D other)
     {
-        if (!other.CompareTag("Player")) return;
-        
-        var player = other.GetComponent<Player>();
+        if (!other.TryGetComponent<Player>(out var player)) return;
         
         player.TakeDamage(_runtime.Damage);
     }

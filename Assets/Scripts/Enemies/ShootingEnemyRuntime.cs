@@ -87,6 +87,12 @@ public class ShootingEnemyRuntime : MonoBehaviour
                    (info.normalizedTime >= 1f && !_animator.IsInTransition(0));
         });
 
+        if (_runtime.Health <= 0)
+        {
+            Debug.Log("AM MURIT HELLO");
+            yield break;
+        }
+        
         _spawner?.Shoot(_shootingEnemy, _runtime, _objects, _cachedTransform.position, playerPos);
         
         _animator.SetBool(IsWalking, true);

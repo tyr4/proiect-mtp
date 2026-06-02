@@ -10,7 +10,8 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private Transform playerTransform;
     [SerializeField] private EnemyManager enemyManager;
     [SerializeField] private WaveDataContainer waveContainer;
-
+    [SerializeField] private AudioSource musicAudioSource;
+    
     [SerializeField] private int maxEnemiesAlive;
     [SerializeField] private float spawnRadiusFactor;
     [SerializeField] private bool disableSpawns;
@@ -21,10 +22,15 @@ public class WaveManager : MonoBehaviour
     
     private WaveData _currentWave;
     private WaveData _nextWave;
+    private AudioClip _bossMusic;
     
     private int _currentWaveIndex = 0;
     private bool IsLastWave => _currentWaveIndex >= _waves.Count - 1;
+
     private bool _bossSpawnedThisWave;
+    private bool _bossIsAlive;
+    public EnemyRuntime _bossRuntime;
+    public Boss _currentBoss;
     
     private Camera _camera;
     private float _cameraHeight;
@@ -35,9 +41,12 @@ public class WaveManager : MonoBehaviour
     private float _globalTimer = 0;
     private float _waveTimer = 0;
     private float _clockTimer = 0;
+    private float _clockTimerUpdateFrequency = 0.2f;
+    private float _bossTimer = 0;
     
     public static WaveManager Instance;
-    public static Action<float> OnSecondIncrease;
+    public static Action<float> OnTimeChanged;
+    public static Action<Boss> OnBossSpawned;
 
     private void Awake()
     {
@@ -64,22 +73,34 @@ public class WaveManager : MonoBehaviour
 
         _spawnRadius = _cameraRadius + spawnRadiusFactor;
     }
+
+    private void OnEnable()
+    {
+        EnemyRuntime.OnBossDied += OnBossDied;
+    }
     
+    private void OnDisable()
+    {
+        EnemyRuntime.OnBossDied -= OnBossDied;
+    }
+
     private void Update()
     {
         var dt = Time.deltaTime;
         
-        _globalTimer += dt;
         _waveTimer += dt;
         _clockTimer += dt;
-
+        if (!_bossIsAlive || _bossTimer <= 0) _globalTimer += dt;
+        else HandleBossTimer(dt);
+        
         // ui clock stuff
-        if (_clockTimer >= 1f)
+        if (_clockTimer >= _clockTimerUpdateFrequency)
         {
-            OnSecondIncrease?.Invoke(_globalTimer);
-            _clockTimer -= 1f;
+            var timer = _bossIsAlive ? _bossTimer : _globalTimer;
+            OnTimeChanged?.Invoke(timer);
+            _clockTimer = 0;
         }
-
+        
         // update the wave data if needed
         if (_globalTimer >= _nextWave.startTime && !IsLastWave)
         {
@@ -104,6 +125,10 @@ public class WaveManager : MonoBehaviour
         if (_currentWave.boss && !_bossSpawnedThisWave)
         {
             SpawnBoss(_currentWave.boss);
+            _bossTimer = _currentWave.boss.BossMusic.length;
+            Debug.Log($"boss music length {_bossTimer}");
+            
+            OnBossSpawned?.Invoke(_currentWave.boss);
         }
         
         // spawn the rest of the enemies
@@ -168,16 +193,20 @@ public class WaveManager : MonoBehaviour
     private GameObject SpawnBoss(Boss boss)
     {
         var bossObj = _objectPool.Get(boss, boss.Prefab);
-        var bossData = bossObj.GetComponent<EnemyRuntime>();
-        
-        bossData.Initialize(boss, _globalTimer);
-        bossData.cachedTransform.position = GenerateRandomPosition();
-        
+        _currentBoss = boss;
+        _bossRuntime = bossObj.GetComponent<EnemyRuntime>();
         bossObj.SetActive(true);
-        enemyManager.Register(bossData);
+        
+        _bossRuntime.Initialize(boss, _globalTimer);
+        _bossRuntime.cachedTransform.position = GenerateRandomPosition();
+        
+        enemyManager.Register(_bossRuntime);
 
         _bossSpawnedThisWave = true;
-
+        _bossIsAlive = true;
+        
+        AudioEvents.RequestMusic(boss.BossMusic);
+        
         return bossObj;
     }
 
@@ -233,7 +262,7 @@ public class WaveManager : MonoBehaviour
         _currentWave = _waves[_currentWaveIndex];
         
         _nextWave = _waves[Mathf.Min(_currentWaveIndex + 1, _waves.Count - 1)];
-
+        
         _bossSpawnedThisWave = false;
         
         Debug.Log($"advanced wave to {_currentWave}");
@@ -243,5 +272,24 @@ public class WaveManager : MonoBehaviour
     {
         _globalTimer = value;
         Debug.Log($"set time to {_globalTimer}");
+    }
+
+    private void HandleBossTimer(float dt)
+    {
+        _bossTimer = _currentBoss.BossMusic.length - musicAudioSource.time;
+        
+        if (_bossTimer <= 0 && _bossIsAlive)
+        {
+            _bossRuntime.Kill(true);
+        }
+    }
+
+    private void OnBossDied()
+    {
+        _bossIsAlive = false;
+        _currentBoss = null;
+        _bossRuntime = null;
+        
+        AudioEvents.RequestMusic(AudioManager.Sounds.gameplay);
     }
 }

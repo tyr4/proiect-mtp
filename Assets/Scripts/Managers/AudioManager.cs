@@ -10,6 +10,8 @@ public class AudioManager : MonoBehaviour
     public static AudioManager Instance;
     public static SoundLibrary Sounds => Instance.soundLibrary;
     
+    public AudioSource MusicSource => musicSource;
+    
     private void Awake()
     {
         if (Instance != null)
