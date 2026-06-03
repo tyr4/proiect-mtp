@@ -195,11 +195,11 @@ public class WaveManager : MonoBehaviour
         var bossObj = _objectPool.Get(boss, boss.Prefab);
         _currentBoss = boss;
         _bossRuntime = bossObj.GetComponent<EnemyRuntime>();
-        bossObj.SetActive(true);
         
         _bossRuntime.Initialize(boss, _globalTimer);
         _bossRuntime.cachedTransform.position = GenerateRandomPosition();
         
+        bossObj.SetActive(true);
         enemyManager.Register(_bossRuntime);
 
         _bossSpawnedThisWave = true;

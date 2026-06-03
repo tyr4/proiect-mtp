@@ -31,8 +31,9 @@ public class VermiRuntime : EnemyRuntime, IEnemyBehaviour
     private static readonly int IsWalking = Animator.StringToHash("isWalking");
     private static readonly int IsAttacking = Animator.StringToHash("isAttacking");
 
-    private new void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         _cachedTransform = transform;
     }
     

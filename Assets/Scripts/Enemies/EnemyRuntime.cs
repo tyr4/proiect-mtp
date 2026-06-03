@@ -45,7 +45,7 @@ public class EnemyRuntime : MonoBehaviour
     public static event Action<Transform, float> OnDamageTaken;
     public static event Action OnBossDied;
 
-    public void Awake()
+    protected virtual void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
         sr = GetComponentInChildren<SpriteRenderer>();
