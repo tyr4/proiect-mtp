@@ -9,13 +9,21 @@ public class Player : MonoBehaviour
     [SerializeField] private CircleCollider2D xpMagnetCollider;
     [SerializeField] private Transform passiveEffectsContainer;
     [SerializeField] private Transform visualsTransform;
+    
     [SerializeField] private ParticleSystem walkingParticles;
+    [SerializeField] private ParticleSystem hurtParticles;
+    
+    // debug stuff
+    [SerializeField] private bool disableXp;
     
     public Transform PassiveEffectsContainer => passiveEffectsContainer;
     
     private Rigidbody2D _rb;
     private Animator _animator;
+
+    private Transform _particlesParentTransform;
     private Transform _walkingParticlesTransform;
+    private Transform _hurtParticlesTransform;
     
     private static readonly int IsWalking = Animator.StringToHash("isWalking");
     private static readonly int HasTakenDamage = Animator.StringToHash("hasTakenDamage");
@@ -44,7 +52,12 @@ public class Player : MonoBehaviour
         
         _rb = GetComponent<Rigidbody2D>();
         _animator = GetComponentInChildren<Animator>();
-        _walkingParticlesTransform = walkingParticles.gameObject.transform;
+        
+        _walkingParticlesTransform = walkingParticles.transform;
+        _hurtParticlesTransform = hurtParticles.transform;
+        _particlesParentTransform = _hurtParticlesTransform.parent;
+        
+        hurtParticles.Stop();
     }
 
     private void Start()
@@ -94,8 +107,8 @@ public class Player : MonoBehaviour
         // player and particles scale flipping
         if (input.x != 0)
         { 
-            DirectionCorrectScale(visualsTransform, input, false);
-            DirectionCorrectScale(_walkingParticlesTransform, input, true);
+            DirectionCorrectScale(visualsTransform, input);
+            DirectionCorrectScale(_particlesParentTransform, input, true);
         }
     }
 
@@ -145,10 +158,15 @@ public class Player : MonoBehaviour
     public void HandleEnemyCollision(EnemyRuntime enemy)
     {
         TakeDamage(enemy.Damage);
+        
+        // DirectionCorrectScale(_hurtParticlesTransform, input);
+        hurtParticles.Play();
     }
     
     public void HandleXpPickup(XPDropRuntime xpRuntime)
     {
+        if (disableXp) return;
+        
         _currentXp += xpRuntime.GetXPValue();
         
         AudioEvents.RequestSFX(AudioManager.Sounds.xpPickup);

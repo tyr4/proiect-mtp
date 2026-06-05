@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -39,6 +40,8 @@ public class EnemyRuntime : MonoBehaviour
     private bool _canMove = true;
     
     public Vector2 Velocity => _finalDirection * _movementSpeed;
+    
+    private readonly Dictionary<string, TaskCompletionSource<bool>> _animEvents = new();
     
     private static readonly int HasDied = Animator.StringToHash("hasDied");
     public static event Action<Transform, float> OnDamageTaken;
@@ -239,6 +242,23 @@ public class EnemyRuntime : MonoBehaviour
         if (Distance < DespawnDistanceSquared) return;
 
         Kill(false);
+    }
+    
+    protected void ArmAnimEvent(string key)
+    {
+        _animEvents[key] = new TaskCompletionSource<bool>();
+    }
+
+    protected WaitUntil WaitForAnimEvent(string key)
+    {
+        return new WaitUntil(() => 
+            _animEvents.TryGetValue(key, out var tcs) && tcs.Task.IsCompleted);
+    }
+
+    public void OnAnimEvent(string key)
+    {
+        if (_animEvents.TryGetValue(key, out var tcs))
+            tcs.TrySetResult(true);
     }
     
     private void OnDrawGizmos()

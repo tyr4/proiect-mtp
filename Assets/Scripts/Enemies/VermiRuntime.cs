@@ -4,7 +4,7 @@ using DG.Tweening;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class VermiRuntime : EnemyRuntime, IEnemyBehaviour
+public class VermiRuntime : ShootingEnemyRuntime
 {
     private enum AbilityType
     {
@@ -12,10 +12,9 @@ public class VermiRuntime : EnemyRuntime, IEnemyBehaviour
         SpawnAttack
     }
 
-    [SerializeField] private Transform playerTransform;
+    [SerializeField] private Transform projectileParent;
     
     private Vermi _vermi;
-    private Transform _cachedTransform;
     
     private float _useAbilityTimer;
     private float _globalAbilityCooldown = 5f;
@@ -24,26 +23,21 @@ public class VermiRuntime : EnemyRuntime, IEnemyBehaviour
     private float _spawnAttackTimer;
 
     private List<AbilityType> _available = new();
-    private List<GameObject> _projObjects = new();
-    
     private bool _isUsingAbility;
     
     private static readonly int IsWalking = Animator.StringToHash("isWalking");
     private static readonly int IsAttacking = Animator.StringToHash("isAttacking");
-
-    protected override void Awake()
-    {
-        base.Awake();
-        _cachedTransform = transform;
-    }
     
-    public void Initialize(EnemyRuntime data, Enemy enemy)
+    public override void Initialize(Enemy enemy, float spawnTime, IEnemyProjectileBehaviour spawner = null)
     {
+        base.Initialize(enemy, spawnTime, spawner);
         _vermi = (Vermi)enemy;
     }
     
-    public void Tick(float dt)
+    public override void Tick(float dt, Transform playerPos)
     {
+        base.Tick(dt, playerPos);
+        
         _useAbilityTimer += dt;
         _projectileAttackTimer += dt;
         _spawnAttackTimer += dt;
@@ -125,28 +119,54 @@ public class VermiRuntime : EnemyRuntime, IEnemyBehaviour
         
         EnableMovement();
         
-        // actual spawn logic
-        // _projObjects.Clear();
-        //
-        // for (int i = 0; i < _projObjects.Count; i++)
-        // {
-        //     /* TODO: SWITCH THIS TO SHOOTING ENEMY MANAGER, MAKE VERMI INHERIT FROM SHOOTINGENEMYRUNTIME 
-        //      AND MAKE SHOOTINGENEMYRUNTIME INHERIT FROM ENEMYRUNTIME
-        //     */
-        //     // this now pools from the (players) proj manager :sob:
-        //     var obj = ProjectileManager.Instance.RequestPoolObject(_vermi.Projectile);
-        //     _projObjects.Add(obj);
-        // }
+        // actual spawning logic
+        var offset = 3f;
+        
+        for (int i = 0; i < _vermi.SpawnAmount; i++)
+        {
+            var runtime = WaveManager.Instance.SpawnEnemy(_vermi.SpawnEnemy);
+            
+            runtime.cachedTransform.position = (Vector2)cachedTransform.position + Random.insideUnitCircle * offset;
+
+            yield return Animations.LerpSpriteRendererAlpha(runtime.sr, 0, 1, 0.5f).WaitForCompletion();
+            // yield return new WaitForSeconds(0.2f);
+        }
     }
 
     private IEnumerator ProjectileAttackCoroutine()
     {
         Debug.Log("Using ProjectileAttack");
+        
         DisableMovement();
+        ArmAnimEvent("projectile_attack");
         
         animator.SetTrigger(IsAttacking);
         animator.SetBool(IsWalking, false);
         yield return null;
+        
+        yield return WaitForAnimEvent("projectile_attack");
+        
+        // actual spawn logic
+        Objects = RequestObjects(_vermi.Count);
+        
+        for (int i = 0; i < Objects.Count; i++)
+        {
+            var obj = Objects[i];
+            var playerPos = Player.Instance.transform;
+            var playerDir = (playerPos.position - cachedTransform.position).normalized;
+
+            var velocity = (Vector2)playerDir + 
+                                   Vector2.up * (_vermi.ProjectileFirstYValue + _vermi.ProjectileYStepValue * i);
+            
+            velocity.x *= _vermi.ProjSpeed * (_vermi.ProjectileFirstXValue + _vermi.ProjectileXStepValue * i);
+            
+            if (obj.TryGetComponent<VermiRuntimeProjectile>(out var proj))
+            {
+                proj.Launch(this, projectileParent.position, velocity);
+            }
+
+            yield return new WaitForSeconds(0.1f);
+        }
         
         // wait for the animation to finish
         yield return new WaitUntil(() => 
@@ -161,18 +181,5 @@ public class VermiRuntime : EnemyRuntime, IEnemyBehaviour
         _isUsingAbility = false;
         
         EnableMovement();
-
-        // actual spawning logic
-        var offset = 3f;
-        
-        for (int i = 0; i < _vermi.SpawnAmount; i++)
-        {
-            var runtime = WaveManager.Instance.SpawnEnemy(_vermi.SpawnEnemy);
-            
-            runtime.cachedTransform.position = (Vector2)cachedTransform.position + Random.insideUnitCircle * offset;
-
-            yield return Animations.LerpSpriteRendererAlpha(runtime.sr, 0, 1, 0.5f).WaitForCompletion();
-            // yield return new WaitForSeconds(0.2f);
-        }
     }
 }

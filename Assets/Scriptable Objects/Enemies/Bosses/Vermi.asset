@@ -19,11 +19,19 @@ MonoBehaviour:
   <Health>k__BackingField: 500
   <Damage>k__BackingField: 3
   <MovementSpeed>k__BackingField: 0.2
+  <ProjectilePrefab>k__BackingField: {fileID: 4432432407485936402, guid: 2f8551f163e643641a354bbc0fe36a7d, type: 3}
+  <ProjectileSprite>k__BackingField: {fileID: 0}
+  <ShootingRange>k__BackingField: 0
+  <ArcSpread>k__BackingField: 0
+  <Cooldown>k__BackingField: 0
+  <Count>k__BackingField: 4
+  <ProjDamage>k__BackingField: 3
+  <ProjSpeed>k__BackingField: 2.85
+  <Lifetime>k__BackingField: 5
   <BossMusic>k__BackingField: {fileID: 8300000, guid: fed0c951497460c4c84e8be4333c0515, type: 3}
   <SpawnAttackCooldown>k__BackingField: 15
-  <ProjectileAttackCooldown>k__BackingField: 10
+  <ProjectileAttackCooldown>k__BackingField: 3
+  <ProjectileFirstYValue>k__BackingField: 1
+  <ProjectileYStepValue>k__BackingField: 0.5
   <SpawnEnemy>k__BackingField: {fileID: 11400000, guid: 7a6075c44acd10d4cb1ff9563de1a361, type: 2}
   <SpawnAmount>k__BackingField: 5
-  <ProjectilePrefab>k__BackingField: {fileID: 4432432407485936402, guid: 2f8551f163e643641a354bbc0fe36a7d, type: 3}
-  <ProjectileAmount>k__BackingField: 2
-  <ProjectileSpeed>k__BackingField: 3

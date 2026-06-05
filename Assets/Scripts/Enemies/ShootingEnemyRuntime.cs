@@ -1,13 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class ShootingEnemyRuntime : EnemyRuntime
 {
     private ShootingEnemy _shootingEnemy;
     private IEnemyProjectileBehaviour _spawner;
-    private List<GameObject> _objects = new();
+    protected List<GameObject> Objects = new();
 
     private float _timer;
     private bool _isShooting;
@@ -34,8 +34,8 @@ public class ShootingEnemyRuntime : EnemyRuntime
     public override void Tick(float dt, Transform playerPos)
     {
         base.Tick(dt, playerPos);
-        
-        if (_isShooting) return;
+
+        if (_spawner == null  || _isShooting) return;
         
         _timer += dt;
 
@@ -49,15 +49,9 @@ public class ShootingEnemyRuntime : EnemyRuntime
                 
                 return;
             }
-            
-            _objects.Clear();
 
-            for (int i = 0; i < _shootingEnemy.Count; i++)
-            {
-                var obj = ShootingEnemyManager.Instance.RequestPoolObject(_shootingEnemy);
-                _objects.Add(obj);
-            }
-
+            Objects = RequestObjects(_shootingEnemy.Count);
+                
             StartCoroutine(ShootWithAnimation(playerPos));
             _storedAttack = false;
             _timer = 0;
@@ -87,10 +81,33 @@ public class ShootingEnemyRuntime : EnemyRuntime
             yield break;
         }
         
-        _spawner?.Shoot(_shootingEnemy, _objects, cachedTransform.position, playerPos);
+        _spawner?.Shoot(_shootingEnemy, Objects, cachedTransform.position, playerPos);
         
         animator.SetBool(IsWalking, true);
         EnableMovement();
         _isShooting = false;
     }
+
+    protected List<GameObject> RequestObjects(int count)
+    {
+        Objects.Clear();
+
+        Debug.Log($"REQUESTING {count} OBJECTS PENTRU {_shootingEnemy}");
+        for (int i = 0; i < count; i++)
+        {
+            var obj = ShootingEnemyManager.Instance.RequestPoolObject(_shootingEnemy);
+            Debug.Log($"AM PRIMIT {obj} PENTRU {_shootingEnemy}");
+            Objects.Add(obj);
+        }
+
+        return Objects;
+    }
+
+    // protected void ReturnObjects(ShootingEnemy enemy, List<GameObject> objects)
+    // {
+    //     foreach (var obj in objects)
+    //     {
+    //         ShootingEnemyManager.Instance.ReturnPoolObject(enemy, obj);
+    //     }
+    // }
 }

@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class BowSkeletonRuntime : ShootingEnemyRuntime, IEnemyProjectileBehaviour
 {
-    
     public void Shoot(ShootingEnemy data, List<GameObject> objects, Vector2 origin, Transform playerPos)
     {
         SpawnProjectiles(data, this, objects, origin, playerPos);
