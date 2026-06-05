@@ -10,7 +10,6 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private Transform playerTransform;
     [SerializeField] private EnemyManager enemyManager;
     [SerializeField] private WaveDataContainer waveContainer;
-    [SerializeField] private AudioSource musicAudioSource;
     
     [SerializeField] private int maxEnemiesAlive;
     [SerializeField] private float spawnRadiusFactor;
@@ -23,6 +22,7 @@ public class WaveManager : MonoBehaviour
     private WaveData _currentWave;
     private WaveData _nextWave;
     private AudioClip _bossMusic;
+    private AudioSource _musicAudioSource;
     
     private int _currentWaveIndex = 0;
     private bool IsLastWave => _currentWaveIndex >= _waves.Count - 1;
@@ -72,6 +72,11 @@ public class WaveManager : MonoBehaviour
         _cameraRadius = Mathf.Sqrt(_cameraWidth * _cameraWidth + _cameraHeight * _cameraHeight);
 
         _spawnRadius = _cameraRadius + spawnRadiusFactor;
+    }
+
+    private void Start()
+    {
+        _musicAudioSource = AudioManager.Instance.MusicSource;
     }
 
     private void OnEnable()
@@ -276,7 +281,7 @@ public class WaveManager : MonoBehaviour
 
     private void HandleBossTimer(float dt)
     {
-        _bossTimer = _currentBoss.BossMusic.length - musicAudioSource.time;
+        _bossTimer = _currentBoss.BossMusic.length - _musicAudioSource.time;
         
         if (_bossTimer <= 0 && _bossIsAlive)
         {

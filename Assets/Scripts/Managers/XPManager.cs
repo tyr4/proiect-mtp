@@ -84,8 +84,8 @@ public class XPManager : MonoBehaviour
     {
         if (_xpBuffer < 50f) return 0;
         
-        var value = _xpBuffer * 0.05f; // 5%
-        _xpBuffer *= 0.05f;
+        var value = _xpBuffer * 0.25f; // 25%
+        _xpBuffer *= 0.25f;
 
         return value;
     }

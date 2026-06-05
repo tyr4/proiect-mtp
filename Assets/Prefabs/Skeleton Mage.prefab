@@ -123,8 +123,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4680597277339173389}
-  - component: {fileID: 856548105429929132}
-  - component: {fileID: 7645337809855773553}
   - component: {fileID: 4248205506026077159}
   - component: {fileID: 4694327104572697359}
   - component: {fileID: 8877998404296093236}
@@ -152,35 +150,6 @@ Transform:
   - {fileID: 1302541281668573010}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &856548105429929132
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8561871533528789545}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d77a0ab95234f43b2aef87cb43b3b61, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyRuntime
-  flashMaterial: {fileID: 2100000, guid: 26cf8e072da5f1d468d6a1ef08a1a506, type: 2}
-  cachedTransform: {fileID: 0}
-  Health: 0
-  Damage: 0
-  sr: {fileID: 0}
---- !u!114 &7645337809855773553
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8561871533528789545}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 391e30917e2f4d41afecd79e35601cc7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ShootingEnemyRuntime
 --- !u!114 &4248205506026077159
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -193,6 +162,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc5f25f39aa842c7813b79c9f822bd4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkeletonMageRuntime
+  flashMaterial: {fileID: 2100000, guid: 26cf8e072da5f1d468d6a1ef08a1a506, type: 2}
+  cachedTransform: {fileID: 0}
+  Health: 0
+  Damage: 0
+  sr: {fileID: 0}
 --- !u!50 &4694327104572697359
 Rigidbody2D:
   serializedVersion: 5
@@ -208,7 +182,7 @@ Rigidbody2D:
   m_Mass: 100
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2

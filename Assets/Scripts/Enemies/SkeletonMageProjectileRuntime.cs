@@ -4,7 +4,6 @@ using UnityEngine;
 public class SkeletonMageProjectileRuntime : MonoBehaviour
 {
     private EnemyRuntime _runtime;
-    private ShootingEnemyRuntime _shootingRuntime;
     private SpriteRenderer _sr;
     private Transform _cachedTransform;
     private Vector2 _velocity;
@@ -19,9 +18,10 @@ public class SkeletonMageProjectileRuntime : MonoBehaviour
         _cachedTransform = transform;
     }
 
-    public void Launch(ShootingEnemy data, Vector2 origin, Vector2 velocity, float angleDeg)
+    public void Launch(ShootingEnemy data, EnemyRuntime runtime, Vector2 origin, Vector2 velocity, float angleDeg)
     {
         _data = data;
+        _runtime = runtime;
         _velocity = velocity;
         _lifetime = data.Lifetime;
 
@@ -46,9 +46,10 @@ public class SkeletonMageProjectileRuntime : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D other)
     {
-        if (!other.TryGetComponent<Player>(out var player)) return;
+        if (!other.TryGetComponent<CollisionHitbox>(out var hitbox)) return;
         
-        player.TakeDamage(_runtime.Damage);
+        hitbox.PlayerTakeDamage(_runtime.Damage);
+        ShootingEnemyManager.Instance.ReturnPoolObject(_data, gameObject);
     }
 
     // private void OnDrawGizmos()

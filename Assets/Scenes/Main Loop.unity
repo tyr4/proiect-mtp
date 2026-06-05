@@ -5215,7 +5215,6 @@ MonoBehaviour:
   playerTransform: {fileID: 53738220}
   enemyManager: {fileID: 537728711}
   waveContainer: {fileID: 11400000, guid: f88fbb59c287c244fa823512339169cb, type: 2}
-  musicAudioSource: {fileID: 1083994076}
   maxEnemiesAlive: 300
   spawnRadiusFactor: 1.5
   disableSpawns: 0
@@ -11034,7 +11033,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1083994074}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
@@ -11131,7 +11130,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1083994074}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}

@@ -9,8 +9,6 @@ public class TimeElapsedUI : MonoBehaviour
     [SerializeField] private VertexGradient bossTextGradient;
     [SerializeField] private Color bossGradientBaseColor;
     
-    private bool _isBossAlive;
-    
     private void Awake()
     {
         BuildText(0);
@@ -34,7 +32,7 @@ public class TimeElapsedUI : MonoBehaviour
     
     private void BuildText(float seconds)
     {
-        Debug.Log($"hello? {seconds}");
+        // Debug.Log($"hello? {seconds}");
         var rounded = Mathf.RoundToInt(seconds);
         
         int minutes = rounded / 60;
@@ -45,14 +43,12 @@ public class TimeElapsedUI : MonoBehaviour
 
     private void HandleBossDeath()
     {
-        _isBossAlive = false;
         timeText.colorGradient = new VertexGradient(Color.white);
         timeText.color = Color.white;
     }
 
     private void HandleBossSpawn(Boss boss)
     {
-        _isBossAlive = true;
         SetGradient();
     }
 

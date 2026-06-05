@@ -14,7 +14,6 @@ public class EnemyRuntime : MonoBehaviour
     public Transform cachedTransform;
     
     private IEnemyBehaviour _behaviour;
-    private ShootingEnemyRuntime _shootingRuntime;
     
     public float Health;
     public float Damage;
@@ -27,7 +26,7 @@ public class EnemyRuntime : MonoBehaviour
     
     // dont update the direction every fixedupdate call
     private const float PathfindingRefreshRate = 0.2f;
-    private float _timer;
+    [NonSerialized] private float _timer;
     
     private Vector3 _direction;
     private Vector3 _finalDirection;
@@ -52,7 +51,6 @@ public class EnemyRuntime : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
         
         _behaviour = GetComponent<IEnemyBehaviour>();
-        _shootingRuntime = GetComponent<ShootingEnemyRuntime>();
         
         _defaultMaterial = sr.material;
         cachedTransform = transform;
@@ -60,7 +58,7 @@ public class EnemyRuntime : MonoBehaviour
         DespawnDistanceSquared = DespawnDistance * DespawnDistance;
     }
     
-    public void Initialize(Enemy enemy, float spawnTime, IEnemyProjectileBehaviour spawner = null)
+    public virtual void Initialize(Enemy enemy, float spawnTime, IEnemyProjectileBehaviour spawner = null)
     {
         Data = enemy;
         Health = Data.Health * GetHealthScalingFactor(spawnTime);
@@ -77,11 +75,6 @@ public class EnemyRuntime : MonoBehaviour
         _movementSpeed *= Random.Range(0.8f, 1.1f);
 
         _behaviour?.Initialize(this, enemy);
-
-        if (enemy is ShootingEnemy shootingEnemy)
-        {
-            _shootingRuntime?.Initialize(this, shootingEnemy, spawner);
-        }
     }
 
     private float GetHealthScalingFactor(float spawnTime)
@@ -94,7 +87,7 @@ public class EnemyRuntime : MonoBehaviour
         return Mathf.Max(1, spawnTime / 300);
     }
     
-    public void Tick(float deltaTime, Transform playerTransform)
+    public virtual void Tick(float deltaTime, Transform playerTransform)
     {
         // basic pathfinding global for all enemies
         _timer += deltaTime;
@@ -126,7 +119,6 @@ public class EnemyRuntime : MonoBehaviour
         
         // execute custom logic
         _behaviour?.Tick(deltaTime);
-        _shootingRuntime?.Tick(deltaTime, playerTransform);
     }
     
     private void DirectionCorrectScale(Transform parent, Vector2 input, bool flipY = false)

@@ -18,4 +18,4 @@ MonoBehaviour:
     movementSpeed: 1
   sprite: {fileID: -1398481107835275646, guid: 2c41a119216d92a4486ac3b66880ec04, type: 3}
   animationController: {fileID: 9100000, guid: bc3b4ff0d2533ed498c1fed771f0472b, type: 2}
-  powerup: {fileID: 11400000, guid: e5fc1519f3dbb824c85f0f83fb686cf9, type: 2}
+  powerup: {fileID: 11400000, guid: b114b1d206b7b104c9aed05ead135d19, type: 2}

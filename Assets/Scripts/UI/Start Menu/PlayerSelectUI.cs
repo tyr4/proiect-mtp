@@ -65,7 +65,6 @@ public class PlayerSelectUI : MonoBehaviour
     {
         var state = toggle.GetButtonState();
 
-        Debug.Log($"TOGGLE BUTTON STATE {state}");
         if (state == CustomButton.ButtonState.Selected)
         {
             startButton.EnableButton();

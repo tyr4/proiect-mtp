@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class BowSkeletonRuntimeProjectile : MonoBehaviour
 {
-    private EnemyRuntime _runtime;
     private ShootingEnemyRuntime _shootingRuntime;
     private SpriteRenderer _sr;
     private Transform _cachedTransform;
@@ -28,9 +27,10 @@ public class BowSkeletonRuntimeProjectile : MonoBehaviour
         _filter.layerMask = 1 << LayerMask.NameToLayer("Player");
     }
 
-    public void Launch(ShootingEnemy data, Vector2 origin, Vector2 velocity, float angleDeg)
+    public void Launch(ShootingEnemy data, ShootingEnemyRuntime runtime, Vector2 origin, Vector2 velocity, float angleDeg)
     {
         _data = data;
+        _shootingRuntime = runtime;
         _velocity = velocity;
         _lifetime = data.Lifetime;
 
@@ -57,7 +57,7 @@ public class BowSkeletonRuntimeProjectile : MonoBehaviour
         {
             if (!Hits[0].TryGetComponent<CollisionHitbox>(out var hitbox)) return;
             
-            hitbox.PlayerTakeDamage(_data.ProjDamage);
+            hitbox.PlayerTakeDamage(_shootingRuntime.Damage);
             ShootingEnemyManager.Instance.ReturnPoolObject(_data, gameObject);
         }
     }

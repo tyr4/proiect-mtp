@@ -258,17 +258,14 @@ public class CustomButton : MonoBehaviour,
 
         var state = GetButtonState();
         
-        Debug.Log($"{state}, {gameObject.name}");
         // override any behaviour for hover with this
         if (isColorTint && state == ButtonState.Hovered)
         {
-            Debug.Log("am intrat in hover");
             _currentCoroutine = FadeAnimation.FadeTint(_targetMain, newColor, duration, this);
         }
         
         else if (!isColorTint || (tintClickOverride && state == ButtonState.Selected))
         {
-            Debug.Log("is selected");
             _currentCoroutine = FadeAnimation.FadeColorUI2(_targetMain, _targetMain.color, newColor, duration, this,
                 () => { _currentCoroutine = null; });
         }
@@ -277,7 +274,6 @@ public class CustomButton : MonoBehaviour,
         {
             if (GetButtonState() == ButtonState.Normal)
             {
-                Debug.Log("fadeout");
                 _currentCoroutine = FadeAnimation.FadeTintOut(_targetMain, newColor, duration, this);
                 
             }

@@ -123,9 +123,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6461235773823828601}
-  - component: {fileID: 5868706967877237806}
   - component: {fileID: 3792246937743974712}
-  - component: {fileID: 2323598347709316868}
   - component: {fileID: 2489358182050396633}
   - component: {fileID: 662351656571780988}
   m_Layer: 7
@@ -151,21 +149,6 @@ Transform:
   - {fileID: 9103131561096141945}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5868706967877237806
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2649042638931437101}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d77a0ab95234f43b2aef87cb43b3b61, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyRuntime
-  flashMaterial: {fileID: 2100000, guid: 26cf8e072da5f1d468d6a1ef08a1a506, type: 2}
-  cachedTransform: {fileID: 0}
-  Damage: 0
 --- !u!114 &3792246937743974712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,18 +161,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee9cac3e83de42fdaa75cc9db078369f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BowSkeletonRuntime
---- !u!114 &2323598347709316868
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2649042638931437101}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 391e30917e2f4d41afecd79e35601cc7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ShootingEnemyRuntime
+  flashMaterial: {fileID: 2100000, guid: 26cf8e072da5f1d468d6a1ef08a1a506, type: 2}
+  cachedTransform: {fileID: 0}
+  Health: 0
+  Damage: 0
+  sr: {fileID: 0}
 --- !u!50 &2489358182050396633
 Rigidbody2D:
   serializedVersion: 5

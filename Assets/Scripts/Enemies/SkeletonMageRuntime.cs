@@ -2,26 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkeletonMageRuntime : MonoBehaviour, IEnemyProjectileBehaviour
+public class SkeletonMageRuntime : ShootingEnemyRuntime, IEnemyProjectileBehaviour
 {
-    private Transform _cachedTransform;
-    
-    private void Awake()
+    public void Shoot(ShootingEnemy data, List<GameObject> objects, Vector2 origin, Transform playerPos)
     {
-        _cachedTransform = transform;
-    }
-    
-    public void Shoot(ShootingEnemy data, EnemyRuntime runtime, List<GameObject> objects, Vector2 origin, Transform playerPos)
-    {
-        SpawnProjectiles(data, objects, origin, playerPos);
+        SpawnProjectiles(data, this, objects, origin, playerPos);
     }
 
-    private void SpawnProjectiles(ShootingEnemy data, List<GameObject> objects, Vector2 origin, Transform playerPos)
+    private void SpawnProjectiles(ShootingEnemy data, ShootingEnemyRuntime runtime, List<GameObject> objects, Vector2 origin, Transform playerPos)
     {
         int count = objects.Count;
         var speed = data.ProjSpeed;
         
-        var playerDir = (playerPos.position - _cachedTransform.position).normalized;
+        var playerDir = (playerPos.position - cachedTransform.position).normalized;
         float baseAngle = Mathf.Atan2(playerDir.y, playerDir.x) * Mathf.Rad2Deg;
         float step = count > 1 ? data.ArcSpread / (count - 1) : 0f;
         float startAngle = count > 1 ? -data.ArcSpread / 2f : 0f;
@@ -39,7 +32,7 @@ public class SkeletonMageRuntime : MonoBehaviour, IEnemyProjectileBehaviour
 
             if (obj.TryGetComponent<SkeletonMageProjectileRuntime>(out var proj))
             {
-                proj.Launch(data, origin, direction * speed, finalAngle);
+                proj.Launch(data, runtime, origin, direction * speed, finalAngle);
             }
         }
     }

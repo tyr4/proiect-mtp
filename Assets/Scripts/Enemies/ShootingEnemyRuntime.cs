@@ -1,46 +1,40 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public class ShootingEnemyRuntime : MonoBehaviour
+public class ShootingEnemyRuntime : EnemyRuntime
 {
-    private EnemyRuntime _runtime;
     private ShootingEnemy _shootingEnemy;
     private IEnemyProjectileBehaviour _spawner;
     private List<GameObject> _objects = new();
 
-    private Transform _cachedTransform;
     private float _timer;
     private bool _isShooting;
     private bool _storedAttack;
     
-    private Animator _animator;
     private static readonly int IsWalking = Animator.StringToHash("isWalking");
-    
-    private void Awake()
-    {
-        _cachedTransform = transform;
-        _animator = GetComponentInChildren<Animator>();
-    }
     
     private void OnDisable()
     {
         StopAllCoroutines();
     }
 
-    public void Initialize(EnemyRuntime runtime, ShootingEnemy enemy, IEnemyProjectileBehaviour spawner)
+    public override void Initialize(Enemy enemy, float spawnTime, IEnemyProjectileBehaviour spawner = null)
     {
-        _runtime = runtime;
-        _shootingEnemy = enemy;
+        base.Initialize(enemy, spawnTime, spawner);
+        _shootingEnemy = (ShootingEnemy)enemy;
         _spawner = spawner;
 
         _timer = 0;
         _isShooting = false;
-        _runtime.EnableMovement();
+        EnableMovement();
     }
     
-    public void Tick(float dt, Transform playerPos)
+    public override void Tick(float dt, Transform playerPos)
     {
+        base.Tick(dt, playerPos);
+        
         if (_isShooting) return;
         
         _timer += dt;
@@ -73,30 +67,30 @@ public class ShootingEnemyRuntime : MonoBehaviour
     private IEnumerator ShootWithAnimation(Transform playerPos)
     {
         _isShooting = true;
-        _runtime.DisableMovement();
+        DisableMovement();
         
-        _animator.SetBool(IsWalking, false);
+        animator.SetBool(IsWalking, false);
         yield return null;
         
         // wait for the shoot animation to complete
         yield return new WaitUntil(() => 
         {
-            var info = _animator.GetCurrentAnimatorStateInfo(0);
+            var info = animator.GetCurrentAnimatorStateInfo(0);
             // Debug.Log($"state: {info.fullPathHash}, normalizedTime: {info.normalizedTime}, isTransition: {_animator.IsInTransition(0)}");
-            return _animator is null ||
-                   (info.normalizedTime >= 1f && !_animator.IsInTransition(0));
+            return animator is null ||
+                   (info.normalizedTime >= 1f && !animator.IsInTransition(0));
         });
 
-        if (_runtime.Health <= 0)
+        if (Health <= 0)
         {
             Debug.Log("AM MURIT HELLO");
             yield break;
         }
         
-        _spawner?.Shoot(_shootingEnemy, _runtime, _objects, _cachedTransform.position, playerPos);
+        _spawner?.Shoot(_shootingEnemy, _objects, cachedTransform.position, playerPos);
         
-        _animator.SetBool(IsWalking, true);
-        _runtime.EnableMovement();
+        animator.SetBool(IsWalking, true);
+        EnableMovement();
         _isShooting = false;
     }
 }
