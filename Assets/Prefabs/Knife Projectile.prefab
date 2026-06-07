@@ -1308,8 +1308,8 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0.54909426, g: 0.14048593, b: 0.7264151, a: 0}
-        key1: {r: 0.3341522, g: 0.8113208, b: 0.18752226, a: 1}
+        key0: {r: 0.6509434, g: 0.24900709, b: 0.16273585, a: 0}
+        key1: {r: 0.8018868, g: 0.17021184, b: 0.17646368, a: 1}
         key2: {r: 0.18867922, g: 0.1432894, b: 0.1432894, a: 1}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -4932,7 +4932,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -6954958596313028033, guid: 621121a042249d147a659d355a1d0797, type: 3}
+  m_Sprite: {fileID: 2203371556242419238, guid: bc406be08ab20224a9a89b8c8302e4d3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -4980,7 +4980,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.32, y: 0.32}
+    oldSize: {x: 0.32, y: 0.3}
     newSize: {x: 3.22, y: 0.82}
     adaptiveTilingThreshold: 0.5
     drawMode: 0

@@ -26,11 +26,13 @@ MonoBehaviour:
   <Cooldown>k__BackingField: 0
   <Count>k__BackingField: 4
   <ProjDamage>k__BackingField: 3
-  <ProjSpeed>k__BackingField: 2.85
+  <ProjSpeed>k__BackingField: 1.3
   <Lifetime>k__BackingField: 5
   <BossMusic>k__BackingField: {fileID: 8300000, guid: fed0c951497460c4c84e8be4333c0515, type: 3}
   <SpawnAttackCooldown>k__BackingField: 15
   <ProjectileAttackCooldown>k__BackingField: 3
+  <ProjectileFirstXValue>k__BackingField: 0.2
+  <ProjectileXStepValue>k__BackingField: 0.4
   <ProjectileFirstYValue>k__BackingField: 1
   <ProjectileYStepValue>k__BackingField: 0.5
   <SpawnEnemy>k__BackingField: {fileID: 11400000, guid: 7a6075c44acd10d4cb1ff9563de1a361, type: 2}

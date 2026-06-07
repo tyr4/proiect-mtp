@@ -19,7 +19,8 @@ public class EnemyRuntime : MonoBehaviour
     public float Health;
     public float Damage;
     private float _movementSpeed;
-    
+    private float _maxHealth;
+
     private Rigidbody2D _rb;
     public SpriteRenderer sr;
     private Material _defaultMaterial;
@@ -46,6 +47,7 @@ public class EnemyRuntime : MonoBehaviour
     private static readonly int HasDied = Animator.StringToHash("hasDied");
     public static event Action<Transform, float> OnDamageTaken;
     public static event Action OnBossDied;
+    public static event Action<float, float> OnBossHealthChanged;
 
     protected virtual void Awake()
     {
@@ -67,7 +69,8 @@ public class EnemyRuntime : MonoBehaviour
         Health = Data.Health * GetHealthScalingFactor(spawnTime);
         Damage = Data.Damage * GetDamageScalingFactor(spawnTime);
         _movementSpeed = Data.MovementSpeed;
-        
+        _maxHealth = Health;
+
         _isDead = false;
         _rb.simulated = true;
 
@@ -78,6 +81,8 @@ public class EnemyRuntime : MonoBehaviour
         _movementSpeed *= Random.Range(0.8f, 1.1f);
 
         _behaviour?.Initialize(this, enemy);
+        
+        if (Data is Boss) OnBossHealthChanged?.Invoke(Health, _maxHealth);
     }
 
     private float GetHealthScalingFactor(float spawnTime)
@@ -141,6 +146,8 @@ public class EnemyRuntime : MonoBehaviour
         
         Health -= damage;
         OnDamageTaken?.Invoke(cachedTransform, damage);
+        
+        if (Data is Boss) OnBossHealthChanged?.Invoke(Health, _maxHealth);
 
         if (Health <= 0)
         {
@@ -193,13 +200,7 @@ public class EnemyRuntime : MonoBehaviour
         yield return null;
         
         // wait for the death animation to complete
-        yield return new WaitUntil(() => 
-        {
-            var info = animator.GetCurrentAnimatorStateInfo(0);
-            // Debug.Log($"state: {info.fullPathHash}, normalizedTime: {info.normalizedTime}, isTransition: {_animator.IsInTransition(0)}");
-            return animator is null ||
-                   (info.normalizedTime >= 1f && !animator.IsInTransition(0));
-        });
+        yield return Animations.WaitForAnimationEnd(animator);
 
         sr.DOKill();
         sr.DOFade(0f, 0.15f)

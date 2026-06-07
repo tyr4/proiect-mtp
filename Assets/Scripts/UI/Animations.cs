@@ -5,6 +5,17 @@ using UnityEngine;
 
 public static class Animations
 {
+    public static WaitUntil WaitForAnimationEnd(Animator animator)
+    {
+        return new WaitUntil(() => 
+        {
+            var info = animator.GetCurrentAnimatorStateInfo(0);
+            // Debug.Log($"state: {info.fullPathHash}, normalizedTime: {info.normalizedTime}, isTransition: {_animator.IsInTransition(0)}");
+            return info.normalizedTime >= 1f && !animator.IsInTransition(0);
+        });
+    }
+    
+    
     public static Tween LerpValue(DOGetter<float> getter, DOSetter<float> setter, float startValue, float endValue, float endDuration)
     {
         setter(startValue);

@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections;
 using UnityEngine;
 
 public class VermiRuntimeProjectile : MonoBehaviour
@@ -9,14 +9,20 @@ public class VermiRuntimeProjectile : MonoBehaviour
     private SpriteRenderer _sr;
     private Transform _cachedTransform;
     private Rigidbody2D _rb;
-    
-    private Vector2 _velocity;
+    private Animator _animator;
+
+    private float _gravity;
     private float _lifetime;
+    
+    private static readonly int HasHit = Animator.StringToHash("hasHit");
     
     private void Awake()
     {
         _sr = GetComponent<SpriteRenderer>();
         _rb = GetComponent<Rigidbody2D>();
+        _animator = GetComponent<Animator>();
+
+        _gravity = _rb.gravityScale;
         _cachedTransform = transform;
     }
 
@@ -24,23 +30,26 @@ public class VermiRuntimeProjectile : MonoBehaviour
     {
         _shootingRuntime = runtime;
         _data = (ShootingEnemy)runtime.Data;
-        _velocity = velocity;
         _lifetime = _data.Lifetime;
 
         _cachedTransform.position = origin;
         // _cachedTransform.rotation = Quaternion.Euler(0, 0, angleDeg);
         _sr.sprite = _data.ProjectileSprite;
         
-
         gameObject.SetActive(true);
         
-        Debug.Log(Vector2.right * velocity + " " + velocity);
         _rb.linearVelocity = velocity;
+        _rb.gravityScale = _gravity;
     }
      
     private void FixedUpdate()
     {
-        // _cachedTransform.position += (Vector3)(_velocity * Time.fixedDeltaTime);
+        if (_rb.linearVelocity != Vector2.zero)
+        {
+            var angle = Mathf.Atan2(_rb.linearVelocity.y, -_rb.linearVelocity.x) *  Mathf.Rad2Deg;
+            _cachedTransform.rotation = Quaternion.Euler(0, 0, angle);
+        }
+
         _lifetime -= Time.fixedDeltaTime;
 
         if (_lifetime <= 0f)
@@ -48,15 +57,6 @@ public class VermiRuntimeProjectile : MonoBehaviour
             ShootingEnemyManager.Instance.ReturnPoolObject(_data, gameObject);
             return;
         }
-        
-        // check collision
-        // if (Physics2D.OverlapBox(_cachedTransform.position, _boxSize, _cachedTransform.eulerAngles.z, _filter, Hits) > 0)
-        // {
-        //     if (!Hits[0].TryGetComponent<CollisionHitbox>(out var hitbox)) return;
-        //     
-        //     hitbox.PlayerTakeDamage(_shootingRuntime.Damage);
-        //     ShootingEnemyManager.Instance.ReturnPoolObject(_data, gameObject);
-        // }
     }
 
     public void OnTriggerEnter2D(Collider2D other)
@@ -64,6 +64,20 @@ public class VermiRuntimeProjectile : MonoBehaviour
         if (!other.TryGetComponent<CollisionHitbox>(out var hitbox)) return;
         
         hitbox.PlayerTakeDamage(_shootingRuntime.Damage);
+
+        StartCoroutine(ImpactCoroutine());
+    }
+
+    private IEnumerator ImpactCoroutine()
+    {
+        _animator.SetTrigger(HasHit);
+        _rb.linearVelocity = Vector2.zero;
+        _rb.gravityScale = 0;
+        
+        yield return null;
+        
+        yield return Animations.WaitForAnimationEnd(_animator);
+
         ShootingEnemyManager.Instance.ReturnPoolObject(_data, gameObject);
     }
     
