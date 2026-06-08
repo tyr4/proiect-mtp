@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
-using Sirenix.OdinInspector.Editor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class ChunkManager : MonoBehaviour
 {
-    [SerializeField] private Tilemap sharedTilemap;
+    [SerializeField] private Tilemap groundTilemap;
+    [SerializeField] private Tilemap objectsTilemap;
+
     [SerializeField] private GameObject chunkPrefab;
     [SerializeField] private int chunkSize = 16;
     [SerializeField] private int viewDistance = 2;
@@ -68,7 +69,7 @@ public class ChunkManager : MonoBehaviour
         var worldPos = new Vector3(coord.x * chunkWorldSize, coord.y * chunkWorldSize, 0);
         var chunk = Instantiate(chunkPrefab, worldPos, Quaternion.identity);
         
-        chunk.GetComponent<ChunkGenerator>().GenerateChunk(coord, chunkSize, sharedTilemap);
+        chunk.GetComponent<ChunkGenerator>().GenerateChunk(coord, chunkSize, groundTilemap, objectsTilemap);
         _activeChunks[coord] = chunk;
     }
 
@@ -78,7 +79,10 @@ public class ChunkManager : MonoBehaviour
         {
             for (int y = 0; y < chunkSize; y++)
             {
-                sharedTilemap.SetTile(new Vector3Int(coord.x * chunkSize + x, coord.y * chunkSize + y, 0), null);
+                var position = new Vector3Int(coord.x * chunkSize + x, coord.y * chunkSize + y, 0);
+
+                groundTilemap.SetTile(position, null);
+                objectsTilemap.SetTile(position, null);
             }
         }
         

@@ -627,6 +627,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ChunkGenerator
   grassTile: {fileID: 11400000, guid: 051858bd36b7f374da9e536c8efb3946, type: 2}
   pathTile: {fileID: 11400000, guid: b3ddfaabd13bc4844a35ec89d5ac7a67, type: 2}
-  propPrefabs: []
-  noiseScale: 0.06
+  propPrefabs:
+  - {fileID: 11400000, guid: 8c7ef768de6c35a448af85be6d2b3ce4, type: 2}
+  - {fileID: 11400000, guid: b93312ac6d9218a438eeff054da82213, type: 2}
+  - {fileID: 11400000, guid: e1b04ced6e723294e9195456e74c1e46, type: 2}
+  - {fileID: 11400000, guid: 6492517b7d8029241ab9a23a43c55a7e, type: 2}
+  - {fileID: 11400000, guid: 2a87354a9691c8446adc34ae8c44798f, type: 2}
+  - {fileID: 11400000, guid: 83795c0bd172df448b6dacf025c8a0e3, type: 2}
+  - {fileID: 11400000, guid: eea11941a35160b47a958a35704ed26a, type: 2}
+  - {fileID: 11400000, guid: fd13daefefd486d49af3ee344795da0d, type: 2}
+  noiseScale: 0.198
   pathThreshold: 0.6
+  pathWidth: 3.87
