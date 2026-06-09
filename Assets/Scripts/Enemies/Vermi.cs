@@ -4,6 +4,8 @@
 public class Vermi : Boss
 {
     [field: SerializeField] public float SpawnAttackCooldown { get; private set; }
+    
+    [field: SerializeField] public float ProjectileAngleOffset { get; private set;}
     [field: SerializeField] public float ProjectileAttackCooldown { get; private set; }
     
     [field: SerializeField] public float ProjectileFirstXValue { get; private set; }

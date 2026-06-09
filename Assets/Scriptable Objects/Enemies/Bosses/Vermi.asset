@@ -30,6 +30,7 @@ MonoBehaviour:
   <Lifetime>k__BackingField: 5
   <BossMusic>k__BackingField: {fileID: 8300000, guid: fed0c951497460c4c84e8be4333c0515, type: 3}
   <SpawnAttackCooldown>k__BackingField: 15
+  <ProjectileAngleOffset>k__BackingField: 21.9
   <ProjectileAttackCooldown>k__BackingField: 3
   <ProjectileFirstXValue>k__BackingField: 0.2
   <ProjectileXStepValue>k__BackingField: 0.4

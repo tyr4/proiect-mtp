@@ -113,7 +113,7 @@ public class WaveManager : MonoBehaviour
         }
         
         // spawn wave every spawnInterval seconds
-        if (_waveTimer >= _currentWave.spawnInterval)
+        if (_waveTimer >= _currentWave.spawnInterval || enemyManager.GetActiveEnemiesCount() == 0)
         {
             if (disableSpawns) return;
             

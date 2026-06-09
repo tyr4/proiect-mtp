@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 355c44e370a145af8c789d4cd3011133, type: 3}
+  m_Name: Boomerang
+  m_EditorClassIdentifier: Assembly-CSharp::Boomerang
+  <DisplayName>k__BackingField: bumerang
+  <Description>k__BackingField: boomer haha
+  <Icon>k__BackingField: {fileID: 21300000, guid: 54ab1458b26b10c4eab428ea13062a68, type: 3}
+  <Spawner>k__BackingField: {fileID: -7738309806877907643, guid: e69a1788fab4410458cec82653c55ada, type: 3}
+  <ProjectilePrefab>k__BackingField: {fileID: 5843329760596979151, guid: e9f0fd5276ddbdd4d93d62d520905441, type: 3}
+  <ProjectileSprite>k__BackingField: {fileID: 0}
+  <AlwaysPierce>k__BackingField: 1
+  <PiercesLeft>k__BackingField:
+    tier1: 0
+    tier2: 0
+    tier3: 0
+  <Cooldown>k__BackingField:
+    tier1: 2
+    tier2: 1
+    tier3: 0.35
+  <Damage>k__BackingField:
+    tier1: 1
+    tier2: 2
+    tier3: 3
+  <Speed>k__BackingField:
+    tier1: 0
+    tier2: 0
+    tier3: 0
+  <Count>k__BackingField:
+    tier1: 1
+    tier2: 2
+    tier3: 3
+  <Range>k__BackingField:
+    tier1: 0.08
+    tier2: 0.08
+    tier3: 0.1
+  <ArcWidth>k__BackingField:
+    tier1: 1.85
+    tier2: 2.55
+    tier3: 2.8
+  <ArcSpreadAngle>k__BackingField:
+    tier1: 30
+    tier2: 40
+    tier3: 60
+  <FlightDuration>k__BackingField:
+    tier1: 1.5
+    tier2: 1
+    tier3: 1
+  <SpinSpeed>k__BackingField: 521.8

@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1a46a99cbaf4a9db539c075799c3bfd, type: 3}
+  m_Name: Runes
+  m_EditorClassIdentifier: Assembly-CSharp::Runes
+  <DisplayName>k__BackingField: runes
+  <Description>k__BackingField: cica
+  <Icon>k__BackingField: {fileID: -5027278910410211343, guid: b0557790fac058a41b22d35be9ad59af, type: 3}
+  <EffectPrefab>k__BackingField: {fileID: 3879575964403271643, guid: 0267a0bab2ae05d4790a2367ae481385, type: 3}
+  <TickRate>k__BackingField:
+    tier1: 0
+    tier2: 0
+    tier3: 0
+  <Damage>k__BackingField:
+    tier1: 1
+    tier2: 2
+    tier3: 3
+  <Speed>k__BackingField:
+    tier1: 1
+    tier2: 2
+    tier3: 3
+  <Count>k__BackingField:
+    tier1: 1
+    tier2: 2
+    tier3: 3

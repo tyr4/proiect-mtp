@@ -16,7 +16,6 @@ MonoBehaviour:
   <Description>k__BackingField: why not
   <Icon>k__BackingField: {fileID: -486828711234870258, guid: 513a44fe489e42a4099232137885e9f7, type: 3}
   <EffectPrefab>k__BackingField: {fileID: 5086039738023044954, guid: 9c89a57a749c5a3449f2b6e8ae0403e3, type: 3}
-  <EffectSprite>k__BackingField: {fileID: 5931842347579807508, guid: 880929ea8b90d984f84380f689c99e28, type: 3}
   <TickRate>k__BackingField:
     tier1: 1
     tier2: 1
@@ -31,14 +30,10 @@ MonoBehaviour:
     tier3: 1
   <Count>k__BackingField:
     tier1: 1
-    tier2: 1
-    tier3: 1
+    tier2: 3
+    tier3: 5
   <Radius>k__BackingField: 0.25
   <RotationFactor>k__BackingField:
     tier1: -130
     tier2: -160
     tier3: -200
-  <ProjectileCount>k__BackingField:
-    tier1: 1
-    tier2: 3
-    tier3: 5

@@ -22,7 +22,7 @@ MonoBehaviour:
   <PiercesLeft>k__BackingField:
     tier1: 1
     tier2: 2
-    tier3: 55
+    tier3: 3
   <Cooldown>k__BackingField:
     tier1: 1.5
     tier2: 1

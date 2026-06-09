@@ -4,6 +4,7 @@ using UnityEngine;
 public class VermiRuntimeProjectile : MonoBehaviour
 {
     private ShootingEnemy _data;
+    private Vermi _vermi;
     private ShootingEnemyRuntime _shootingRuntime;
     
     private SpriteRenderer _sr;
@@ -30,6 +31,8 @@ public class VermiRuntimeProjectile : MonoBehaviour
     {
         _shootingRuntime = runtime;
         _data = (ShootingEnemy)runtime.Data;
+        _vermi = (Vermi)_data;
+        
         _lifetime = _data.Lifetime;
 
         _cachedTransform.position = origin;
@@ -47,6 +50,8 @@ public class VermiRuntimeProjectile : MonoBehaviour
         if (_rb.linearVelocity != Vector2.zero)
         {
             var angle = Mathf.Atan2(_rb.linearVelocity.y, -_rb.linearVelocity.x) *  Mathf.Rad2Deg;
+            angle += _vermi.ProjectileAngleOffset * _shootingRuntime.cachedTransform.localScale.x;
+            
             _cachedTransform.rotation = Quaternion.Euler(0, 0, angle);
         }
 

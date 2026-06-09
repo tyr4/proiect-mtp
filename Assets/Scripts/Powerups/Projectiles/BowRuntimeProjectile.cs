@@ -34,7 +34,6 @@ public class BowRuntimeProjectile : MonoBehaviour
     
     public void OnTriggerEnter2D(Collider2D other)
     {
-        // check if the enemy can be hit, mostly avoiding multiple trigger enters
         if (!other.gameObject.TryGetComponent<EnemyRuntime>(out var enemy)) return;
 
         if (_hitState.CanDealDamage())

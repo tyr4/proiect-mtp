@@ -10,12 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 347afa00c56c42889f6b0586943d2970, type: 3}
-  m_Name: Wave 30s
+  m_Name: Wave 120s 3
   m_EditorClassIdentifier: Assembly-CSharp::WaveData
-  startTime: 30
-  amount: 5
-  spawnInterval: 10
+  startTime: 180
+  amount: 80
+  spawnInterval: 0.5
   spawnAllAtOnce: 1
   defaultEnemy: {fileID: 11400000, guid: efddc8ce4954b394f9525af41e20f968, type: 2}
   boss: {fileID: 0}
-  specialEnemies: []
+  specialEnemies:
+  - enemy: {fileID: 11400000, guid: 0a270a905a90f5f4799e569fa6a085d1, type: 2}
+    spawnChance: 0.05
+    maxCount: 10

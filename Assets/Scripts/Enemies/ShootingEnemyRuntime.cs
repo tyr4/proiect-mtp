@@ -92,11 +92,9 @@ public class ShootingEnemyRuntime : EnemyRuntime
     {
         Objects.Clear();
 
-        Debug.Log($"REQUESTING {count} OBJECTS PENTRU {_shootingEnemy}");
         for (int i = 0; i < count; i++)
         {
             var obj = ShootingEnemyManager.Instance.RequestPoolObject(_shootingEnemy);
-            Debug.Log($"AM PRIMIT {obj} PENTRU {_shootingEnemy}");
             Objects.Add(obj);
         }
 

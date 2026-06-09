@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29cf7eab409a4395a0d8571cb76cc5ce, type: 3}
   m_Name: Extra Movement Speed
   m_EditorClassIdentifier: Assembly-CSharp::ExtraMovementSpeedBuff
-  <DisplayName>k__BackingField: talpa iute
+  <DisplayName>k__BackingField: Agility
   <Description>k__BackingField: Gain {value} Movement Speed
   <Icon>k__BackingField: {fileID: 8289031053413721979, guid: 64d52a885c2b08a4fab24ae00c111936, type: 3}
   <valueType>k__BackingField: 2

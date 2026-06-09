@@ -20,6 +20,7 @@ public class ProjectileRuntimeData
         _cooldownTimer = 0f;
     }
 
+    public Projectile GetProjectile() => _projectile;
     public float GetDamage() => _projectile.Damage.GetValue(ownedPowerup.CurrentTier);
     public float GetCooldown() => _projectile.Cooldown.GetValue(ownedPowerup.CurrentTier);
     public float GetSpeed() => _projectile.Speed.GetValue(ownedPowerup.CurrentTier);

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &5086039738023044954
+--- !u!1 &6018084604843618334
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4428644402211423684}
-  - component: {fileID: 5433240025299015225}
+  - component: {fileID: 3752829650219179526}
+  - component: {fileID: -7738309806877907643}
   m_Layer: 0
-  m_Name: Knife
+  m_Name: Boomerang Spawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4428644402211423684
+--- !u!4 &3752829650219179526
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5086039738023044954}
+  m_GameObject: {fileID: 6018084604843618334}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -32,16 +32,15 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5433240025299015225
+--- !u!114 &-7738309806877907643
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5086039738023044954}
+  m_GameObject: {fileID: 6018084604843618334}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23b2d28450934e889cafb9140948eb22, type: 3}
+  m_Script: {fileID: 11500000, guid: b53234831c1c42c28475991a442a7270, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KnifeRuntime
-  projectilePrefab: {fileID: 8532957269870032119, guid: 71d56d74d982c0343b7990265eeb2fa4, type: 3}
+  m_EditorClassIdentifier: Assembly-CSharp::BoomerangRuntime
