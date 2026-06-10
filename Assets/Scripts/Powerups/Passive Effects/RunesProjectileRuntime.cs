@@ -55,7 +55,7 @@ public class RunesProjectileRuntime : MonoBehaviour
        
         _baseVelocity = Random.insideUnitCircle.normalized * _currentSpeed;
         
-        _cachedTransform.SetParent(null);
+        _cachedTransform.SetParent(_cameraTransform);
         _cachedTransform.position = Player.Instance.transform.position;
         _lastCameraPos = _cameraTransform.position;
     }

@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1a46a99cbaf4a9db539c075799c3bfd, type: 3}
   m_Name: Runes
   m_EditorClassIdentifier: Assembly-CSharp::Runes
-  <DisplayName>k__BackingField: runes
-  <Description>k__BackingField: cica
+  <DisplayName>k__BackingField: Runes
+  <Description>k__BackingField: Unleash bouncing projectiles
   <Icon>k__BackingField: {fileID: -5027278910410211343, guid: b0557790fac058a41b22d35be9ad59af, type: 3}
   <EffectPrefab>k__BackingField: {fileID: 3879575964403271643, guid: 0267a0bab2ae05d4790a2367ae481385, type: 3}
   <TickRate>k__BackingField:
@@ -27,8 +27,8 @@ MonoBehaviour:
   <Speed>k__BackingField:
     tier1: 1
     tier2: 2
-    tier3: 3
+    tier3: 2.5
   <Count>k__BackingField:
     tier1: 1
     tier2: 2
-    tier3: 3
+    tier3: 5

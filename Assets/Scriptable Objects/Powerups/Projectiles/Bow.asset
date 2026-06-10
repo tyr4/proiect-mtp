@@ -12,31 +12,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6f0f73cde8041329791937a214eb801, type: 3}
   m_Name: Bow
   m_EditorClassIdentifier: Assembly-CSharp::Sword
-  <DisplayName>k__BackingField: Bow
-  <Description>k__BackingField: dumb bow
-  <Icon>k__BackingField: {fileID: 2450708202969876798, guid: 430a0c8816056434cb9a2f19ecd7c830, type: 3}
+  <DisplayName>k__BackingField: Windripper
+  <Description>k__BackingField: An ancient bow whose arrows always seem to find something
+    worth striking
+  <Icon>k__BackingField: {fileID: -2281458042351831758, guid: b67530a6b9d183f46a6cf00b39fc3300, type: 3}
   <Spawner>k__BackingField: {fileID: 4721126877615018554, guid: d7f9cc8031c42ea4eb1f860e94311e3f, type: 3}
   <ProjectilePrefab>k__BackingField: {fileID: 5843329760596979151, guid: ddc3ccc0f9a80a54d9b479b7898dea69, type: 3}
   <ProjectileSprite>k__BackingField: {fileID: 2367449957533476818, guid: fc9753aadf03b174eb96484031589801, type: 3}
-  <AlwaysPierce>k__BackingField: 0
+  <AlwaysPierce>k__BackingField: 1
   <PiercesLeft>k__BackingField:
+    tier1: 1
+    tier2: 0
+    tier3: 0
+  <Cooldown>k__BackingField:
+    tier1: 3
+    tier2: 1.5
+    tier3: 0.75
+  <Damage>k__BackingField:
     tier1: 1
     tier2: 2
     tier3: 3
-  <Cooldown>k__BackingField:
-    tier1: 1.5
-    tier2: 1
-    tier3: 0.2
-  <Damage>k__BackingField:
-    tier1: 1
-    tier2: 3
-    tier3: 5
   <Speed>k__BackingField:
-    tier1: 1.25
-    tier2: 1.5
-    tier3: 1.75
+    tier1: 2
+    tier2: 3
+    tier3: 3.5
   <Count>k__BackingField:
     tier1: 1
     tier2: 2
     tier3: 3
-  <ArcSpreadDegrees>k__BackingField: 30
+  <ArcSpreadDegrees>k__BackingField: 15

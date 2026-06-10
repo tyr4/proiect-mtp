@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
 public class DebugInfo : MonoBehaviour
 {
+    [SerializeField] private TimeElapsedUI timeElapsedUI;
     [SerializeField] private Projectile projectileSO;
     [SerializeField] private TMP_Text fpsCounter;
     [SerializeField] private TMP_Text enemiesAlive;
@@ -66,5 +68,22 @@ public class DebugInfo : MonoBehaviour
         Debug.Log("am intrat 30 minutes");
         WaveManager.Instance.SetTime(1800);
         Debug.Log("am terminat 30 minutes");
+    }
+
+    public void AddOneMinute()
+    {
+        StartCoroutine(AddMinuteCoroutine());
+    }
+
+    private IEnumerator AddMinuteCoroutine()
+    {
+        for (int i = 0; i <  60; i++)
+        {
+            var newTime = WaveManager.Instance.GetTime() + 1;
+            WaveManager.Instance.SetTime(newTime);
+            
+            timeElapsedUI.BuildText(newTime);
+            yield return new WaitForSeconds(0.02f);
+        }
     }
 }

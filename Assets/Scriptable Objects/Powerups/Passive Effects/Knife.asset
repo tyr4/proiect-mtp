@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5dfc131e9047ef8754872212168526, type: 3}
   m_Name: Knife
   m_EditorClassIdentifier: Assembly-CSharp::Knife
-  <DisplayName>k__BackingField: cutit rotitor
-  <Description>k__BackingField: why not
-  <Icon>k__BackingField: {fileID: -486828711234870258, guid: 513a44fe489e42a4099232137885e9f7, type: 3}
+  <DisplayName>k__BackingField: Hell's Gift
+  <Description>k__BackingField: Swords rotating around your character
+  <Icon>k__BackingField: {fileID: -2124102372771563869, guid: 7e60aafa7c688ac4790b9d91d0310fef, type: 3}
   <EffectPrefab>k__BackingField: {fileID: 5086039738023044954, guid: 9c89a57a749c5a3449f2b6e8ae0403e3, type: 3}
   <TickRate>k__BackingField:
     tier1: 1

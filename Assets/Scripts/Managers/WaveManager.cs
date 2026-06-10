@@ -279,6 +279,8 @@ public class WaveManager : MonoBehaviour
         Debug.Log($"set time to {_globalTimer}");
     }
 
+    public float GetTime() => _globalTimer;
+
     private void HandleBossTimer(float dt)
     {
         _bossTimer = _currentBoss.BossMusic.length - _musicAudioSource.time;

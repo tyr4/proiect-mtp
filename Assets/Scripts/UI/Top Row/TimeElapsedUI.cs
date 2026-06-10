@@ -30,7 +30,7 @@ public class TimeElapsedUI : MonoBehaviour
         EnemyRuntime.OnBossDied -= HandleBossDeath;
     }
     
-    private void BuildText(float seconds)
+    public void BuildText(float seconds)
     {
         // Debug.Log($"hello? {seconds}");
         var rounded = Mathf.RoundToInt(seconds);
