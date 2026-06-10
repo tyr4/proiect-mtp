@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Boomerang
   <DisplayName>k__BackingField: Echo Blade
   <Description>k__BackingField: Returns to you after firing
-  <Icon>k__BackingField: {fileID: 21300000, guid: 54ab1458b26b10c4eab428ea13062a68, type: 3}
+  <Icon>k__BackingField: {fileID: -6381958127786536372, guid: bce324132654ab34b812f7cabd6f1105, type: 3}
   <Spawner>k__BackingField: {fileID: -7738309806877907643, guid: e69a1788fab4410458cec82653c55ada, type: 3}
   <ProjectilePrefab>k__BackingField: {fileID: 5843329760596979151, guid: e9f0fd5276ddbdd4d93d62d520905441, type: 3}
   <ProjectileSprite>k__BackingField: {fileID: 0}
